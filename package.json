@@ -1,0 +1,45 @@
+{
+  "name": "web",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "scripts:dev": "pnpm --filter @quiteer/scripts dev",
+    "scripts:build": "pnpm --filter @quiteer/scripts build",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "rm:node_modules": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' +",
+    "rm:.vite": "find . -name \".vite\" -type d -prune -exec rm -rf '{}' +",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "prepare": "simple-git-hooks",
+    "commit:zh": "qui git-commit -l=zh-cn"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^6.2.0",
+    "@quiteer/scripts": "link:",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.1",
+    "lint-staged": "^16.2.6",
+    "oxc-minify": "^0.96.0",
+    "simple-git-hooks": "^2.13.1",
+    "tsdown": "^0.16.1",
+    "typescript": "~5.9.3",
+    "unocss": "^66.5.5",
+    "vite": "npm:rolldown-vite@7.1.14",
+    "vitepress": "2.0.0-alpha.12"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "npm:rolldown-vite@7.1.14"
+    }
+  },
+  "simple-git-hooks": {
+    "commit-msg": "pnpm qui git-commit-verify",
+    "pre-commit": "pnpm lint-staged && git diff --exit-code"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}

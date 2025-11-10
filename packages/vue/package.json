@@ -1,0 +1,17 @@
+{
+  "name": "@quiteer/vue",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["./src/*"]
+    }
+  },
+  "dependencies": {
+    "@quiteer/is": "workspace:^",
+    "vuedraggable": "4.1.0"
+  }
+}

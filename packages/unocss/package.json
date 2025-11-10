@@ -1,0 +1,13 @@
+{
+  "name": "@quiteer/unocss",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./index.ts",
+    "./uno-preset": "./uno-preset/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["./*/*"]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "@quiteer/test",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/test.mjs"
+    },
+    "./index.css": "./dist/index.css",
+    "./uno.config": "./uno.config.ts"
+  },
+  "main": "dist/test.mjs",
+  "module": "dist/test.mjs",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist/**/*",
+    "uno.config.ts"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build -w"
+  },
+  "devDependencies": {
+    "@iconify/json": "2.2.400",
+    "@iconify/vue": "5.0.0",
+    "@unocss/vite": "^66.5.5",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "naive-ui": "2.43.1",
+    "unocss": "^66.5.5",
+    "unplugin-icons": "^22.5.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vue": "^3.5.24"
+  }
+}

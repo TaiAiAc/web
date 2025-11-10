@@ -1,0 +1,53 @@
+{
+  "name": "@quiteer/scripts",
+  "type": "module",
+  "version": "2.0.0-beta.2",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "bin": {
+      "quiteer": "./dist/index.js",
+      "qui": "./dist/index.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "bin": {
+    "quiteer": "./src/bin.js",
+    "qui": "./src/bin.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "dev": "tsdown -w",
+    "build": "tsdown"
+  },
+  "dependencies": {
+    "bumpp": "10.3.1",
+    "c12": "3.3.1",
+    "cac": "6.7.14",
+    "consola": "3.4.2",
+    "enquirer": "2.4.1",
+    "execa": "9.6.0",
+    "kolorist": "1.8.0",
+    "npm-check-updates": "19.1.2",
+    "rimraf": "6.0.1"
+  },
+  "devDependencies": {
+    "tsdown": "^0.16.1",
+    "tsx": "^4.20.6"
+  }
+}
