@@ -41,6 +41,10 @@ jobs:
         with:
           node-version: 22
           cache: pnpm # 或 pnpm / yarn
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 10
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
