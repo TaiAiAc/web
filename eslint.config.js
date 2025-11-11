@@ -1,6 +1,7 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
+  markdown: true,
   rules: {
     // 限制使用 console：警告级别
     // - 允许的白名单方法：info、warn、error、time、timeEnd

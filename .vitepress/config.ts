@@ -125,10 +125,15 @@ function introduceSidebar() {
       text: '插件',
       items: [
         { text: '插件总览', link: '/plugins/' },
-        { text: '@quiteer/naive-extra', items: [
-          { text: '拓展组件', link: '/plugins/naive-extra/' }
-        ] },
-        { text: '@quiteer/is', link: '/plugins/is' },
+        {
+          text: '@quiteer/naive-extra',
+          items: [
+            { text: '总览', link: '/plugins/naive-extra/' },
+            { text: 'QuiUpload', link: '/plugins/naive-extra/QuiUpload' },
+            { text: 'QuiForm', link: '/plugins/naive-extra/QuiForm' },
+            { text: 'QuiTable', link: '/plugins/naive-extra/QuiTable' }
+          ]
+        },
         {
           text: '@quiteer/directives',
           items: [
@@ -136,7 +141,8 @@ function introduceSidebar() {
             { text: '权限指令(v-permission)', link: '/plugins/directives/permission' },
             { text: '加载指令(v-loading)', link: '/plugins/directives/loading' }
           ]
-        }
+        },
+        { text: '@quiteer/is', link: '/plugins/is' }
       ]
     }
   ]

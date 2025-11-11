@@ -12,7 +12,10 @@ interface FileListItem {
 
 // 使用 /* @vue-ignore */ 避免编译器尝试展开复杂索引类型
 // 以防止“Failed to resolve index type into finite keys”错误
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  isSetFieldsValue: true
+})
+
 const modelValue = defineModel<FileListItem[] | string | undefined>('value')
 
 const isSingle = computed(() => props.max === 1)
@@ -188,5 +191,86 @@ function beforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[
         <NImage v-for="(item, i) in fileList" :key="i" width="100" :src="item.url ?? ''" />
       </NSpace>
     </NImageGroup>
+  </template>
+  <template v-else-if="props.fileType === 'video-view'">
+    <template v-if="!props.disabled">
+      <NUpload
+        v-bind="props"
+        v-model:file-list="fileList"
+        @finish="handleFinish"
+        @remove="handleRemove"
+        @before-upload="beforeUpload"
+        @error="handleError"
+      >
+        <NButton>上传视频</NButton>
+      </NUpload>
+      <NSpace class="mt-12px">
+        <div v-for="(item, i) in fileList" :key="i" style="width: 320px;">
+          <video
+            v-if="item.url"
+            :src="item.url"
+            controls
+            style="width: 100%; border-radius: 8px; background: #000;"
+          />
+          <NText v-else>
+            暂无预览
+          </NText>
+        </div>
+      </NSpace>
+    </template>
+    <NSpace v-else>
+      <div v-for="(item, i) in fileList" :key="i" style="width: 320px;">
+        <video
+          v-if="item.url"
+          :src="item.url"
+          controls
+          style="width: 100%; border-radius: 8px; background: #000;"
+        />
+        <NText v-else>
+          暂无预览
+        </NText>
+      </div>
+    </NSpace>
+  </template>
+
+  <template v-else-if="props.fileType === 'audio-view'">
+    <template v-if="!props.disabled">
+      <NUpload
+        v-bind="props"
+        v-model:file-list="fileList"
+        @finish="handleFinish"
+        @remove="handleRemove"
+        @before-upload="beforeUpload"
+        @error="handleError"
+      >
+        <NButton>上传音频</NButton>
+      </NUpload>
+      <NSpace class="mt-12px">
+        <div v-for="(item, i) in fileList" :key="i" style="width: 320px;">
+          <audio
+            v-if="item.url"
+            :src="item.url"
+            controls
+            style="width: 100%;"
+          />
+          <NText v-else>
+            暂无预览
+          </NText>
+        </div>
+      </NSpace>
+    </template>
+    <NSpace v-else>
+      <div v-for="(item, i) in fileList" :key="i" style="width: 320px;">
+        <audio
+          v-if="item.url"
+          :src="item.url"
+          controls
+          style="width: 100%;"
+        />
+        <NText v-else>
+          暂无预览
+        </NText>
+      </div>
+    </NSpace>
   </template>
 </template>

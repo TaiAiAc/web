@@ -5,5 +5,6 @@ export interface Props extends /* @vue-ignore */ UploadProps {
   fileSize?: number
   /** 传入string返回值为url 不传默认数据为数组形式 */
   dataType?: 'string'
+  /** 是否设置表单字段值 */
   isSetFieldsValue?: boolean
 }
