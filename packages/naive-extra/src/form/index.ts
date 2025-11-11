@@ -1,9 +1,5 @@
-import UploadView from './components/UploadView.vue'
-import AmForm from './index.vue'
+import QuiForm from './index.vue'
 
-export type { CustomSwitchProps, Props as FormProps, FormSchema, UploadConfig } from './types'
+export { QuiForm }
 
-export { AmForm, UploadView }
-
-export { AcceptType } from './types'
-export { useUploadProps } from './uses/useUploadProps'
+export type { CustomSwitchProps, Props as FormProps, FormSchema } from './props'

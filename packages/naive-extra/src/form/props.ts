@@ -1,4 +1,4 @@
-import type { GridItemProps, GridProps, SwitchProps, UploadProps } from 'naive-ui'
+import type { GridItemProps, GridProps, SwitchProps } from 'naive-ui'
 import type { CSSProperties } from 'vue'
 
 export type ComponentType
@@ -71,33 +71,4 @@ export interface Props {
 export interface CustomSwitchProps extends SwitchProps {
   checkedText: string
   uncheckedText: string
-}
-
-export interface UploadConfig extends UploadProps {
-  fileType: 'image-view' | 'video-view' | 'audio-view' | 'file' | 'file-dragger'
-  fileSize?: number
-  /** 传入string返回值为url 不传默认数据为数组形式 */
-  dataType?: 'string'
-}
-
-export enum AcceptType {
-  /**
-   * 图片格式：常见光栅和矢量图像
-   */
-  Image = '.jpg,.jpeg,.png,.gif,.bmp,.webp,.svg',
-
-  /**
-   * 视频格式：常见视频文件类型
-   */
-  Video = '.mp4,.webm,.ogg,.mov,.avi,.wmv,.flv,.mkv',
-
-  /**
-   * 音频格式：常见音频文件类型
-   */
-  Audio = '.mp3,.wav,.ogg,.aac,.flac,.m4a',
-
-  /**
-   * 文档和压缩文件：常用办公文档和压缩包
-   */
-  File = '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.pdf,.zip,.rar,.7z,.tar,.gz'
 }

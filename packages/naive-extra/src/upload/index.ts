@@ -1,10 +1,11 @@
-import { AcceptType } from './enum'
-
 import QuiUpload from './index.vue'
+
+export {
+  QuiUpload
+}
+
+export { AcceptType } from './enum'
 
 export type { Props as UploadProps } from './props'
 
-export {
-  AcceptType,
-  QuiUpload
-}
+export { useUploadProps } from './useUploadProps'

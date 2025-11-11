@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { DataTableColumn, DataTableProps, PaginationProps } from 'naive-ui'
-import type { Props, Settings } from './types'
+import type { Props, Settings } from './props'
 import { NDataTable, NText } from 'naive-ui'
 import { computed, h, onActivated, onMounted, reactive, ref, useAttrs } from 'vue'
-import TableSetting from './components/TableSetting.vue'
+import TableSetting from './TableSetting.vue'
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',

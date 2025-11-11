@@ -1,4 +1,7 @@
-import AmTable from './index.vue'
+import QuiTable from './index.vue'
+import { useColumn } from './useColumn'
+
+export { QuiTable, useColumn }
 
 export type {
   Column as TableColumn,
@@ -8,6 +11,4 @@ export type {
   Props as TableProps,
   Settings as TableSettings,
   TableSize
-} from './types'
-
-export { AmTable }
+} from './props'

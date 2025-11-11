@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExportType, Settings, TableSize } from '../types'
+import type { ExportType, Settings, TableSize } from './props'
 import { computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useColumn } from './useColumn'

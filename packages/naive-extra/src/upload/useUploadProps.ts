@@ -1,9 +1,9 @@
 import type { UploadProps } from 'naive-ui'
-import type { UploadConfig } from '../types'
-import { AcceptType } from '../types'
+import type { Props as QuiUploadProps } from './props'
+import { AcceptType } from './enum'
 
-export function useUploadProps(config: UploadConfig) {
-  const uploadComponentProps: UploadConfig = {
+export function useUploadProps(config: QuiUploadProps) {
+  const uploadComponentProps: QuiUploadProps = {
     ...config,
     defaultUpload: true,
     max: 5,

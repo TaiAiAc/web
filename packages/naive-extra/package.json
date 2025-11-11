@@ -25,14 +25,19 @@
     "build": "vite build",
     "dev": "vite build -w"
   },
+  "dependencies": {
+    "vuedraggable": "^2.24.3"
+  },
   "devDependencies": {
     "@iconify/json": "2.2.405",
     "@iconify/vue": "5.0.0",
-    "@unocss/vite": "^66.5.5",
+    "@unocss/vite": "^66.5.6",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "lodash-es": "^4.17.21",
     "naive-ui": "2.43.1",
-    "unocss": "^66.5.5",
+    "sass": "^1.94.0",
+    "unocss": "^66.5.6",
     "unplugin-icons": "^22.5.0",
     "vite-plugin-dts": "^4.5.4",
     "vue": "^3.5.24"

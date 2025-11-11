@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormProps, FormRules, GridProps, NForm } from 'naive-ui'
-import type { Props } from './types'
+import type { Props } from './props'
 import { isArray, isBoolean, isNullOrUnDef } from '@quiteer/is'
 import { computed, nextTick, onMounted, reactive, ref, toRaw, unref, useAttrs } from 'vue'
 import { getComponent, getComponentProps, handleFormValues } from './helper'

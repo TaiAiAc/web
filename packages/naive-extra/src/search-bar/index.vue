@@ -3,7 +3,7 @@ import type { ButtonProps } from 'naive-ui'
 import type { Props } from './props'
 import { isNullOrUnDef } from '@quiteer/is'
 import { computed, nextTick, ref, toRaw, unref, useAttrs } from 'vue'
-import { AmForm } from '../form'
+import { QuiForm } from '../form'
 
 const props = withDefaults(defineProps<Props>(), {
   title: '搜索',
@@ -37,7 +37,7 @@ const formProps = computed(() => {
   return { ...toRaw(props), ...attrs }
 })
 
-const formRef = ref<InstanceType<typeof AmForm>>()
+const formRef = ref<InstanceType<typeof QuiForm>>()
 const loadingSub = ref(false)
 
 const submitBtnProps = computed((): ButtonProps => {
@@ -132,7 +132,7 @@ defineExpose({
         </NFlex>
       </template>
       <NCollapseItem :title="title" name="search">
-        <AmForm ref="formRef" v-bind="formProps" size="small" @reset="emit('reset')">
+        <QuiForm ref="formRef" v-bind="formProps" size="small" @reset="emit('reset')">
           <template v-for="(_, key, i) in slots" :key="i" #[key]="{ model, field, value }">
             <slot :name="key" :model="model" :field="field" :value="value" />
           </template>
@@ -158,7 +158,7 @@ defineExpose({
               {{ resetButtonText }}
             </NButton>
           </template>
-        </AmForm>
+        </QuiForm>
       </NCollapseItem>
     </NCollapse>
   </NCard>

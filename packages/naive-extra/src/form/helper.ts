@@ -1,4 +1,4 @@
-import type { FormSchema } from './types'
+import type { FormSchema } from './props'
 import { isArray, isBoolean, isFunction, isNullOrUnDef, isObject, isString } from '@quiteer/is'
 import {
   NCascader,
@@ -11,7 +11,7 @@ import {
   NSwitch,
   NTimePicker
 } from 'naive-ui'
-import UploadView from './components/UploadView.vue'
+import { QuiUpload } from '../upload'
 
 // 加工 form values
 export function handleFormValues(values: Recordable) {
@@ -65,7 +65,7 @@ export function getComponent(schema: FormSchema) {
     NCascader,
     NDynamicInput,
     NDynamicTags,
-    NUpload: UploadView
+    NUpload: QuiUpload
   }
 
   return Reflect.get(components, schema.component ?? '')

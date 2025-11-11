@@ -28,7 +28,7 @@ export default defineConfig((config) => {
         // 内联所有类型定义到一个文件
         rollupTypes: false, // 改为 false 避免复杂的类型合并问题
         // 指定正确的入口文件
-        include: ['src'],
+        include: ['src', 'global.d.ts'],
         // 排除外部依赖的类型定义
         exclude: ['node_modules', '**/*.test.ts', '**/*.spec.ts'],
         // 避免打包外部库的类型
