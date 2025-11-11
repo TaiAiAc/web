@@ -36,9 +36,28 @@ export default defineConfig({
       ],
       ...introduceSidebar()
     }
+  },
+  // 关键：在 SSR 阶段将这些依赖打包处理，避免 CJS 命名导出错误
+  vite: {
+    ssr: {
+      noExternal: [
+        'naive-ui',
+        'vueuc',
+        'vooks',
+        'treemate',
+        'evtd'
+      ]
+    },
+    optimizeDeps: {
+      include: ['vue', 'naive-ui', 'vueuc', 'vooks']
+    }
   }
 })
 
+/**
+ * 生成顶部导航配置：
+ * 返回 VitePress 导航栏的菜单结构。
+ */
 function nav() {
   return [
     {
@@ -112,6 +131,10 @@ function nav() {
   ]
 }
 
+/**
+ * 生成侧边栏配置：
+ * 定义介绍与插件文档的侧边栏结构。
+ */
 function introduceSidebar() {
   const commonRoute = [
     {
