@@ -174,6 +174,18 @@ function introduceSidebar() {
             { text: '水印指令(v-watermark)', link: '/plugins/directives/watermark' }
           ]
         },
+        {
+          text: '@quiteer/utils',
+          items: [
+            { text: '工具总览', link: '/plugins/utils/' },
+            { text: '函数工具', link: '/plugins/utils/function' },
+            { text: '数组工具', link: '/plugins/utils/array' },
+            { text: '对象工具', link: '/plugins/utils/object' },
+            { text: '字符串工具', link: '/plugins/utils/string' },
+            { text: '数字工具', link: '/plugins/utils/number' },
+            { text: '类型工具', link: '/plugins/utils/type-utils' }
+          ]
+        },
         { text: '@quiteer/is', link: '/plugins/is' }
       ]
     }

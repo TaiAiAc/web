@@ -28,6 +28,7 @@
     "@quiteer/directives": "workspace:*",
     "@quiteer/naive-extra": "workspace:*",
     "@quiteer/scripts": "workspace:*",
+    "@quiteer/utils": "workspace:*",
     "@types/node": "^24.10.0",
     "eslint": "^9.39.1",
     "lint-staged": "^16.2.6",
