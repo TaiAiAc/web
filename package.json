@@ -4,8 +4,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "work:dev": "pnpm --filter './packages/*' dev",
-    "work:build": "pnpm --filter './packages/*' build",
+    "dev": "pnpm --filter './packages/*' dev",
+    "build": "pnpm --filter './packages/*' build",
+    "naive:dev": "pnpm --filter './packages/naive-extra' dev",
+    "naive:build": "pnpm --filter './packages/naive-extra' build",
     "scripts:dev": "pnpm --filter @quiteer/scripts dev",
     "scripts:build": "pnpm --filter @quiteer/scripts build",
     "docs:dev": "vitepress dev",
