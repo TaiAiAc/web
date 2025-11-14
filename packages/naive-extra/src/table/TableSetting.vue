@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ExportType, Settings, TableSize } from './props'
 import { computed } from 'vue'
-import Draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 import { useColumn } from './useColumn'
 
 const emit = defineEmits<{
@@ -151,9 +151,9 @@ function onMove(e: any) {
             </template>
             <div class="table-toolbar-inner">
               <NCheckboxGroup v-model:value="checkList" @update:value="handleChange">
-                <Draggable
+                <VueDraggable
                   v-model="columnsList"
-                  animation="300"
+                  :animation="300"
                   item-key="key"
                   filter=".no-draggable"
                   :move="onMove"
@@ -203,7 +203,7 @@ function onMove(e: any) {
                       </div>
                     </div>
                   </template>
-                </Draggable>
+                </VueDraggable>
               </NCheckboxGroup>
             </div>
           </NPopover>

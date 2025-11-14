@@ -56,6 +56,7 @@ export default defineConfig((_) => {
         external: [
           'vue',
           'naive-ui',
+          'vue-draggable-plus',
           /^naive-ui\/.*/, // naive-ui 的所有子路径
           /^vue(\/.+)?$/, // vue 的所有子路径
           /^@vue\/.*/ // @vue 命名空间下的所有包

@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@quiteer/is": "workspace:*",
-    "vuedraggable": "next"
+    "vue-draggable-plus": "^0.6.0"
   },
   "devDependencies": {
     "@iconify/json": "2.2.405",
