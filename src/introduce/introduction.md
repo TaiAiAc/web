@@ -21,6 +21,18 @@ pnpm docs:build
 pnpm docs:preview
 ```
 
+## 目录导航
+- [文档首页](/)
+- [项目说明](/introduce/project)
+- [插件总览](/plugins/)
+- [Naive UI 增强](/plugins/naive-extra/index)
+- [指令库](/plugins/directives/index)
+- [Axios 封装](/plugins/axios/index)
+- [工具库](/plugins/utils/index)
+- [Vite 插件集](/plugins/vite-plugin/index)
+- [类型判断](/plugins/is)
+- [Box 网格](/plugins/box/index)
+
 ## 使用组件库（示例）
 ```vue
 <script setup lang="ts">

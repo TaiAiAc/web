@@ -49,6 +49,15 @@ app.mount('#app')
 - 加载遮罩：[v-loading](/plugins/directives/loading)
 - 水印叠加：[v-watermark](/plugins/directives/watermark)
 
+## 参数与修饰符说明
+
+- 权限模式：`v-permission` 支持 `.any`（任意命中）与 `.all`（全部命中）
+- 未授权行为：可使用修饰符控制未授权时的表现
+  - `:remove` 移除元素
+  - `:disable` 置灰并禁用交互
+- 传参形态：支持字符串（单个权限）与数组（多个权限）
+- 全局配置：在 `app.use(Directives, { lazy: { loading, error } })` 中设置懒载默认图
+
 ## v-permission 快速示例
 
 ```vue
