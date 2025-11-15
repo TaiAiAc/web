@@ -15,9 +15,8 @@ const props = defineProps<Props>()
 const attrs = useAttrs()
 
 const uploadProps = computed<UploadProps>(() => {
-  const { style: _, ...rest } = attrs
   return {
-    ...rest,
+    ...attrs,
     isErrorState,
     onFinish: handleFinish,
     onRemove: handleRemove,
