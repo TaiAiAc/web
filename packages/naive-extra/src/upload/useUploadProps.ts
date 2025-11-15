@@ -4,11 +4,10 @@ import { AcceptType } from './enum'
 
 export function useUploadProps(config: QuiUploadProps) {
   const uploadComponentProps: QuiUploadProps = {
-    ...config,
     defaultUpload: true,
-    max: 5,
+    max: 1,
     accept: undefined,
-    isSetFieldsValue: true
+    ...config
   }
 
   const getUploadProps = (option?: UploadProps): UploadProps => {

@@ -85,7 +85,7 @@ function onMove(e: any) {
       <template #trigger>
         <NButton text type="info">
           <template #icon>
-            <icon-ant-design-reload-outlined class="text-5" @click="emit('realod')" />
+            <i class="i-ant-design-reload-outlined text-5" @click="emit('realod')" />
           </template>
         </NButton>
       </template>
@@ -99,7 +99,7 @@ function onMove(e: any) {
           <NDropdown v-model:value="settings.size" trigger="click" :options="sizeOptions" @select="selectSize">
             <NButton text type="info">
               <template #icon>
-                <icon-mdi-arrow-expand-vertical class="text-5" />
+                <i class="i-mdi-arrow-expand-vertical text-5" />
               </template>
             </NButton>
           </NDropdown>
@@ -115,7 +115,7 @@ function onMove(e: any) {
           <NDropdown trigger="click" :options="exportOptions" @select="selectExport">
             <NButton text type="info">
               <template #icon>
-                <icon-mdi-file-excel class="text-5" />
+                <i class="i-mdi-file-excel text-5" />
               </template>
             </NButton>
           </NDropdown>
@@ -132,7 +132,7 @@ function onMove(e: any) {
             <template #trigger>
               <NButton text type="info">
                 <template #icon>
-                  <icon-ic-outline-settings class="text-5" />
+                  <i class="i-ic-outline-settings text-5" />
                 </template>
               </NButton>
             </template>
@@ -167,7 +167,7 @@ function onMove(e: any) {
                       }"
                     >
                       <span class="drag-icon" :class="{ 'drag-icon-hidden': element.draggable === false }">
-                        <icon-nimbus-drag class="text-4" />
+                        <i class="i-nimbus-drag text-4" />
                       </span>
                       <NCheckbox :value="element.key" :label="element.title" />
                       <div class="fixed-item">
@@ -175,8 +175,8 @@ function onMove(e: any) {
                           <template #trigger>
                             <NButton text>
                               <template #icon>
-                                <icon-ph-caret-line-left-bold
-                                  class="text-4"
+                                <i
+                                  class="i-ph-caret-line-left-bold text-4"
                                   :class="{ 'text-cyan-400 ': element.fixed === 'left' }"
                                   @click="fixedColumn(element, 'left')"
                                 />
@@ -190,8 +190,8 @@ function onMove(e: any) {
                           <template #trigger>
                             <NButton text>
                               <template #icon>
-                                <icon-ph-caret-line-right-bold
-                                  class="cursor-pointer text-4"
+                                <i
+                                  class="i-ph-caret-line-right-bold text-4"
                                   :class="{ 'text-cyan-400': element.fixed === 'right' }"
                                   @click="fixedColumn(element, 'right')"
                                 />

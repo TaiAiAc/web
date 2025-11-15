@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { UploadFileInfo } from 'naive-ui'
+import type { UploadFileInfo, UploadProps } from 'naive-ui'
 import type { Props } from './props'
 import { isArray, isString } from '@quiteer/is'
-import { computed, nextTick, ref, watchEffect } from 'vue'
+import { computed, nextTick, ref, useAttrs, watchEffect } from 'vue'
 
 interface FileListItem {
   id: string
@@ -10,10 +10,20 @@ interface FileListItem {
   url: string
 }
 
-// 使用 /* @vue-ignore */ 避免编译器尝试展开复杂索引类型
-// 以防止“Failed to resolve index type into finite keys”错误
-const props = withDefaults(defineProps<Props>(), {
-  isSetFieldsValue: true
+const props = defineProps<Props>()
+
+const attrs = useAttrs()
+
+const uploadProps = computed<UploadProps>(() => {
+  const { style: _, ...rest } = attrs
+  return {
+    ...rest,
+    isErrorState,
+    onFinish: handleFinish,
+    onRemove: handleRemove,
+    onError: handleError,
+    onBeforeUpload: handleBeforeUpload
+  }
 })
 
 const modelValue = defineModel<FileListItem[] | string | undefined>('value')
@@ -41,13 +51,11 @@ function transformList(uri: FileListItem[] | undefined | null): UploadFileInfo[]
 }
 
 watchEffect(() => {
-  if (props.isSetFieldsValue) {
-    if (isString(modelValue.value)) {
-      fileList.value = [{ id: '0', name: '文件', url: modelValue.value, status: 'finished' }]
-    }
-    else if (isArray(modelValue.value)) {
-      fileList.value = transformList(modelValue.value)
-    }
+  if (isString(modelValue.value)) {
+    fileList.value = [{ id: '0', name: '文件', url: modelValue.value, status: 'finished' }]
+  }
+  else if (isArray(modelValue.value)) {
+    fileList.value = transformList(modelValue.value)
   }
 })
 
@@ -60,6 +68,8 @@ function isErrorState(xhr: XMLHttpRequest) {
 // 函数：文件上传完成后的处理
 // 作用：根据配置更新 v-model 的值（字符串或列表），并返回 UploadFileInfo
 function handleFinish({ file, event }: { file: UploadFileInfo, event?: ProgressEvent }) {
+  console.log('handleFinish :>> ', file)
+
   const result = JSON.parse((event?.target as unknown as any)?.response)?.data as {
     url: string
     fileName: string
@@ -87,6 +97,7 @@ function handleFinish({ file, event }: { file: UploadFileInfo, event?: ProgressE
 // 函数：移除文件后的处理
 // 作用：根据是否单文件模式更新 v-model 的列表
 function handleRemove({ index }: { index: number }) {
+  console.log('handleRemove :>> ', index)
   if (isSingle.value) {
     modelValue.value = []
   }
@@ -98,16 +109,18 @@ function handleRemove({ index }: { index: number }) {
 // 函数：上传错误时的处理
 // 作用：打印后端返回的错误信息
 function handleError(options: { file: UploadFileInfo, event?: ProgressEvent }) {
+  console.log('handleError :>> ', options)
   const { event } = options
   // @ts-expect-error Ignore type errors
   const responseText = event?.target?.responseText
-  const msg = JSON.parse(responseText).msg
-  console.error('msg: ', msg)
+  const resObj = JSON.parse(responseText)
+  console.error('resObj: ', resObj)
 }
 
 // 函数：上传前校验
 // 作用：校验类型、大小、文件名合法性，返回是否允许上传
-function beforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[] }) {
+function handleBeforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[] }) {
+  console.log('handleBeforeUpload: ', options)
   const { file } = options
 
   // 校检文件类型
@@ -136,27 +149,22 @@ function beforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[
 
 <template>
   <template v-if="props.fileType === 'file'">
-    <NUpload v-bind="props" v-model:file-list="fileList">
+    <NUpload v-bind="uploadProps" v-model:file-list="fileList">
       <NButton>上传文件</NButton>
     </NUpload>
   </template>
   <template v-else-if="props.fileType === 'dragger-file'">
     <div class="w-full flex-col">
       <NUpload
-        v-bind="props"
+        v-bind="uploadProps"
         v-model:file-list="fileList"
-        :multiple="isSingle"
+        :multiple="!isSingle"
         directory-dnd
         list-type="image"
-        :is-error-state="isErrorState"
-        @finish="handleFinish"
-        @error="handleError"
-        @before-upload="beforeUpload"
-        @remove="handleRemove"
       >
         <NUploadDragger>
           <div class="mb-12px flex-center">
-            <icon-material-symbols:unarchive-outline class="text-58px color-#d8d8db dark:color-#a1a1a2" />
+            <i class="i-material-symbols:upload-file text-58px color-#d8d8db dark:color-#a1a1a2" />
           </div>
           <NText class="text-16px">
             点击或者拖动文件到该区域来上传
@@ -179,13 +187,7 @@ function beforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[
   </template>
   <template v-else-if="props.fileType === 'image-view'">
     <template v-if="!props.disabled">
-      <NUpload
-        v-bind="props"
-        v-model:file-list="fileList"
-        list-type="image-card"
-        @finish="handleFinish"
-        @remove="handleRemove"
-      />
+      <NUpload v-bind="uploadProps" v-model:file-list="fileList" list-type="image-card" />
     </template>
     <NImageGroup v-else>
       <NSpace>
@@ -195,15 +197,7 @@ function beforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[
   </template>
   <template v-else-if="props.fileType === 'video-view'">
     <template v-if="!props.disabled">
-      <NUpload
-        v-bind="props"
-        v-model:file-list="fileList"
-        :show-file-list="false"
-        @finish="handleFinish"
-        @remove="handleRemove"
-        @before-upload="beforeUpload"
-        @error="handleError"
-      >
+      <NUpload v-bind="uploadProps" v-model:file-list="fileList" :show-file-list="false">
         <NButton>上传视频</NButton>
       </NUpload>
       <NSpace class="mt-12px">
@@ -238,13 +232,8 @@ function beforeUpload(options: { file: UploadFileInfo, fileList: UploadFileInfo[
   <template v-else-if="props.fileType === 'audio-view'">
     <template v-if="!props.disabled">
       <NUpload
-        v-bind="props"
-        v-model:file-list="fileList"
+        v-bind="uploadProps" v-model:file-list="fileList"
         :show-file-list="false"
-        @finish="handleFinish"
-        @remove="handleRemove"
-        @before-upload="beforeUpload"
-        @error="handleError"
       >
         <NButton>上传音频</NButton>
       </NUpload>

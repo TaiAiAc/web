@@ -152,13 +152,13 @@ defineExpose({
               @click="handleSubmit"
             >
               <template #icon>
-                <icon-ic-round-search class="text-icon" />
+                <i class="i-ic-round-search text-icon" />
               </template>
               {{ submitButtonText }}
             </NButton>
             <NButton v-if="showResetButton" size="small" secondary v-bind="resetBtnProps" @click="resetFields">
               <template #icon>
-                <icon-ic-round-refresh class="text-icon" />
+                <i class="i-ic-round-refresh text-icon" />
               </template>
               {{ resetButtonText }}
             </NButton>

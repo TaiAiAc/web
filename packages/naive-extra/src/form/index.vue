@@ -230,7 +230,7 @@ defineExpose({
       <!-- 提交 重置 展开 收起 按钮 -->
       <NGi :span="inline ? '' : 24" :suffix="inline ? true : false">
         <NSpace align="center" justify="end" class="h-full">
-          <slot name="action-button" />
+          <slot name="action-button" :model="formModel" />
         </NSpace>
       </NGi>
     </NGrid>

@@ -17,8 +17,8 @@
 
 ## 工具与类型
 - 类型判断：[is](/plugins/is)
-- 常用工具：[utils](/plugins/utils/index)
-- Vite 插件：[vite-plugins](/plugins/vite-plugin/index)
+- 常用工具：[utils](/plugins/utils)
+- Vite 插件：[vite-plugins](/plugins/vite-plugin)
 - 工具类（classer）：[classer](/plugins/utils/classer)
 
 ## 网络层封装

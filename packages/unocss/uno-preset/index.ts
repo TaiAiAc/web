@@ -5,6 +5,11 @@ import type { Preset, PresetUnoTheme } from 'unocss'
 export function quiteerPreset(): Preset<PresetUnoTheme> {
   const preset: Preset<PresetUnoTheme> = {
     name: 'quiteer-preset',
+    rules: [
+      // [/^m-(\d+)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
+      // You can get rich context information from the second argument, such as `theme`, `symbols`, etc.
+      // [/^p-(\d+)$/, (match, ctx) => ({ padding: `${match[1] / 4}rem` })]
+    ],
     shortcuts: [
       {
         'flex-center': 'flex justify-center items-center',
