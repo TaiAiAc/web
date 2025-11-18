@@ -1,6 +1,6 @@
 {
   "name": "@quiteer/box",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "可自定义行列、支持拖拽排序与尺寸调整的网格组件库",
   "author": "",
   "license": "MIT",

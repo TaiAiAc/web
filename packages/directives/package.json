@@ -1,7 +1,7 @@
 {
   "name": "@quiteer/directives",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.2",
   "description": "vue3 directive",
   "author": "quiteer",
   "license": "ISC",

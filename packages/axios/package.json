@@ -1,6 +1,6 @@
 {
   "name": "@quiteer/axios",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "packageManager": "pnpm@10.21.0",
   "description": "Class + Proxy 的 axios TS 封装，含拦截器、撤回、重试与插件",
   "author": "",

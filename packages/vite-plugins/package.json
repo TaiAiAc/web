@@ -1,7 +1,7 @@
 {
   "name": "@quiteer/vite-plugins",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Vite 插件集合，例如移除开发时杂乱 console 的插件",
   "author": "",
   "license": "MIT",
