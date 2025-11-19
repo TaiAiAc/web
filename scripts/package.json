@@ -35,7 +35,8 @@
   "files": ["dist"],
   "scripts": {
     "dev": "tsdown -w",
-    "build": "tsdown"
+    "build": "tsdown",
+    "release": "pnpm publish"
   },
   "dependencies": {
     "bumpp": "10.3.1",

@@ -2,13 +2,14 @@ import type { CliOption } from '../types'
 import process from 'node:process'
 import { loadConfig } from 'c12'
 
-const defaultOptions: CliOption = {
+export const defaultOptions: CliOption = {
   cwd: process.cwd(),
   cleanupDirs: [
     '**/dist',
     '**/node_modules',
     '!node_modules/**'
   ],
+  lang: 'zh-cn',
   ncuCommandArgs: ['--deep', '-u'],
   gitCommitVerifyIgnores: [
     /^((Merge pull request)|(Merge (.*?) into (.*)|(Merge branch (.*)))(?:\r?\n)*$)/m,

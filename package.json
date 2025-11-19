@@ -18,7 +18,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "simple-git-hooks",
-    "commit:zh": "qui git-add && qui git-commit -l=zh-cn"
+    "commit:zh": "qui git-commit --add"
   },
   "dependencies": {
     "naive-ui": "2.43.1"

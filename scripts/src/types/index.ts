@@ -1,3 +1,5 @@
+import type { Lang } from '@/locales'
+
 export interface CliOption {
   /** The project root directory */
   cwd: string
@@ -8,7 +10,7 @@ export interface CliOption {
    *
    * @default
    * ```json
-   * ["** /dist", "** /pnpm-lock.yaml", "** /node_modules", "!node_modules/**"]
+   * ["** /dist", "** /node_modules", "!node_modules/**"]
    * ```
    */
   cleanupDirs: string[]
@@ -18,6 +20,8 @@ export interface CliOption {
    * @default ['--deep', '-u']
    */
   ncuCommandArgs: string[]
+
+  lang: Lang
 
   /** The ignore pattern list of git commit verify */
   gitCommitVerifyIgnores: RegExp[]

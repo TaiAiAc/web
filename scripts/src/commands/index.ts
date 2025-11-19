@@ -1,4 +1,5 @@
 export * from './cleanup'
+export * from './generate-cfg'
 export * from './git-commit'
 export * from './release'
 export * from './update-pkg'
