@@ -2,7 +2,7 @@ import type { Lang } from '../types'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { versionBump } from 'bumpp'
-import { prompt } from 'enquirer'
+import enquirer from 'enquirer'
 import { execCommand } from '../shared'
 import { generateChangelogFiles } from './changelog'
 
@@ -16,6 +16,7 @@ import { generateChangelogFiles } from './changelog'
  * @returns {Promise<void>} 异步任务
  */
 export async function release(tagPrefix?: string): Promise<void> {
+  const { prompt: ask } = enquirer
   const repoRoot = await execCommand('git', ['rev-parse', '--show-toplevel'])
 
   const listRaw = await execCommand('git', ['-C', repoRoot, 'ls-files', '**/package.json'])
@@ -31,7 +32,7 @@ export async function release(tagPrefix?: string): Promise<void> {
     catch {}
   }
 
-  const sel = await prompt<{ selected: string[] }>([
+  const sel = await ask<{ selected: string[] }>([
     { name: 'selected', type: 'multiselect', message: '选择需要提升版本的包（空格选择，回车确认）', choices }
   ])
   const selectedRaw = sel?.selected ?? []
@@ -56,7 +57,7 @@ export async function release(tagPrefix?: string): Promise<void> {
   let prefix = tagPrefix
   if (prefix === undefined) {
     try {
-      const res = await prompt<{ prefix: string }>([
+      const res = await ask<{ prefix: string }>([
         { name: 'prefix', type: 'text', message: '请输入标签前缀（可留空）' }
       ])
       prefix = res?.prefix?.trim() || ''

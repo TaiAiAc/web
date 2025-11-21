@@ -1,7 +1,7 @@
 import type { Lang } from '../types'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { prompt } from 'enquirer'
+import enquirer from 'enquirer'
 import { locales } from '../locales'
 import { execCommand } from '../shared'
 
@@ -18,8 +18,9 @@ interface PromptObject {
  * @returns {Promise<void>} 异步任务
  */
 export async function gitCommitAdd(): Promise<void> {
+  const { prompt: ask } = enquirer
   try {
-    const res = await prompt<{ confirm: boolean }>([
+    const res = await ask<{ confirm: boolean }>([
       {
         name: 'confirm',
         type: 'confirm',
@@ -36,7 +37,7 @@ export async function gitCommitAdd(): Promise<void> {
       if (files.length === 0)
         return
 
-      const sel = await prompt<{ selected: string[] }>([
+      const sel = await ask<{ selected: string[] }>([
         {
           name: 'selected',
           type: 'multiselect',
@@ -68,6 +69,7 @@ export async function gitCommitAdd(): Promise<void> {
  */
 export async function gitCommit(lang: Lang = 'en-us'): Promise<void> {
   try {
+    const { prompt: ask } = enquirer
     const { gitCommitMessages, gitCommitTypes, gitCommitScopes } = locales[lang]
 
     const typesChoices = gitCommitTypes.map(([value, msg]) => {
@@ -81,7 +83,7 @@ export async function gitCommit(lang: Lang = 'en-us'): Promise<void> {
       message: `${value.padEnd(30)} (${msg})`
     }))
 
-    const result = await prompt<PromptObject>([
+    const result = await ask<PromptObject>([
       { name: 'types', type: 'select', message: gitCommitMessages.types, choices: typesChoices },
       { name: 'scopes', type: 'select', message: gitCommitMessages.scopes, choices: scopesChoices },
       { name: 'description', type: 'text', message: gitCommitMessages.description }
