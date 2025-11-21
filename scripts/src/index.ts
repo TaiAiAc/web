@@ -86,12 +86,11 @@ export async function setupCli() {
       await gitCommitVerify(args?.lang, cliOptions.gitCommitVerifyIgnores)
     })
 
-  cli.command('release', `${bgGreen(white('便捷命令'))} ${lightBlue('qui r')}  发布：更新版本、生成变更日志、提交代码`)
+  cli.command('release', `${bgGreen(white('便捷命令'))} ${lightBlue('qui r')}  版本管理：选择包并提升版本，创建自定义前缀标签并生成 changelog`)
     .alias('r')
-    .option('--push', '是否推送代码', { default: cliOptions.release.push })
     .option('--tag-prefix <prefix>', '标签前缀（可选，留空则交互输入）')
-    .action(async (args: CommandArg & { tagPrefix?: string }) => {
-      await release(cliOptions.release.execute, args?.push, args?.tagPrefix)
+    .action(async (args: { tagPrefix?: string }) => {
+      await release(args?.tagPrefix)
     })
 
   cli.command('changelog', `${bgGreen(white('便捷命令'))} ${lightBlue('qui cl')}  生成变更日志 CHANGELOG.md、CHANGELOG_TIMELINE`)
