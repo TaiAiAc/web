@@ -50,7 +50,7 @@ export async function release(execute: string, push = true, tagPrefix?: string):
   }
 
   // 补充：若变更日志文件存在未提交的更改，提交并推送，保证后续 publish 的 git-checks 通过
-  const status = await execCommand('git', ['status', '--porcelain'])
+  const status = await execCommand('git', ['-C', repoRoot, 'status', '--porcelain'])
   if (status.trim()) {
     const files = status.split('\n')
       .map(l => l.trim())
@@ -58,10 +58,10 @@ export async function release(execute: string, push = true, tagPrefix?: string):
       .map(l => l.replace(/^\S+\s+/, ''))
       .filter(f => f.endsWith('CHANGELOG.md') || f.endsWith('CHANGELOG_TIMELINE.md'))
     if (files.length) {
-      await execCommand('git', ['add', ...files])
-      await execCommand('git', ['commit', '-m', 'docs(changelog): update'])
+      await execCommand('git', ['-C', repoRoot, 'add', ...files])
+      await execCommand('git', ['-C', repoRoot, 'commit', '-m', 'docs(changelog): update'])
       if (push)
-        await execCommand('git', ['push'])
+        await execCommand('git', ['-C', repoRoot, 'push'])
     }
   }
 }
