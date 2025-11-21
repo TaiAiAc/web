@@ -20,7 +20,19 @@ export const defaultOptions: CliOption = {
     /^Merge remote-tracking branch(\s*)(.*)/,
     /^Automatic merge(.*)/,
     /^Auto-merged (.*?) into (.*)/
-  ]
+  ],
+  release: {
+    execute: 'qui cl',
+    push: true
+  },
+  changelog: {
+    groupOutput: 'CHANGELOG.md',
+    timelineOutput: 'CHANGELOG_TIMELINE.md',
+    formats: 'both'
+  },
+  gitCommit: {
+    add: true
+  }
 }
 
 export async function loadCliOptions(overrides?: Partial<CliOption>, cwd = process.cwd()) {

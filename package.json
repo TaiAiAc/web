@@ -13,12 +13,12 @@
     "docs:dev": "vitepress dev docs --port 8888",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview",
-    "rm:node_modules": "qui remove node_modules",
-    "rm:.vite": "qui remove .vite",
+    "rm:node_modules": "qui rm node_modules",
+    "rm:.vite": "qui rm .vite",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "simple-git-hooks",
-    "commit:zh": "qui git-commit --add"
+    "commit": "qui gc"
   },
   "dependencies": {
     "naive-ui": "2.43.1"
@@ -45,12 +45,13 @@
   },
   "pnpm": {
     "overrides": {
+      "npm-run-path": "5.1.0",
       "vite": "npm:rolldown-vite@7.2.2"
     }
   },
   "simple-git-hooks": {
-    "commit-msg": "pnpm qui git-commit-verify",
-    "pre-commit": "pnpm lint-staged && git diff --exit-code"
+    "commit-msg": "pnpm qui gv",
+    "pre-commit": "pnpm lint-staged && pnpm qui cl"
   },
   "lint-staged": {
     "*": "eslint --fix"

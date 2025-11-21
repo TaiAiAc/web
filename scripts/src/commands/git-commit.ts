@@ -1,4 +1,4 @@
-import type { Lang } from '../locales'
+import type { Lang } from '../types'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { prompt } from 'enquirer'
@@ -12,95 +12,93 @@ interface PromptObject {
 }
 
 /**
- * 函数：交互式添加变更文件到暂存区
- * 作用：先询问是否添加全部；若否，列出变更文件供多选后执行 git add
+ * 交互式添加变更文件到暂存区
+ * - 先询问是否添加全部；若否，列出变更文件供多选后执行 git add
+ * - 在非交互或输入中断等情况下安全退出，不抛出未处理异常
+ * @returns {Promise<void>} 异步任务
  */
-export async function gitCommitAdd() {
-  const { confirm } = await prompt<{ confirm: boolean }>([
-    {
-      name: 'confirm',
-      type: 'confirm',
-      message: '是否添加所有变更文件到暂存区？'
-    }
-  ])
-
-  if (!confirm) {
-    const stdout = await execCommand('git', ['diff', '--name-only'])
-    const files = stdout.split('\n').filter(Boolean)
-
-    if (files.length === 0)
-      return
-
-    const { selected } = await prompt<{ selected: string[] }>([
+export async function gitCommitAdd(): Promise<void> {
+  try {
+    const res = await prompt<{ confirm: boolean }>([
       {
-        name: 'selected',
-        type: 'multiselect',
-        message: '选择需要添加到暂存区的文件（空格选择，回车确认）',
-        choices: files.map(f => ({ name: f, value: f }))
+        name: 'confirm',
+        type: 'confirm',
+        message: '是否添加所有变更文件到暂存区？'
       }
     ])
 
-    if (!selected?.length)
+    const confirm = !!res?.confirm
+
+    if (!confirm) {
+      const stdout = await execCommand('git', ['diff', '--name-only'])
+      const files = stdout.split('\n').filter(Boolean)
+
+      if (files.length === 0)
+        return
+
+      const sel = await prompt<{ selected: string[] }>([
+        {
+          name: 'selected',
+          type: 'multiselect',
+          message: '选择需要添加到暂存区的文件（空格选择，回车确认）',
+          choices: files.map(f => ({ name: f, value: f }))
+        }
+      ])
+
+      const selected = sel?.selected ?? []
+      if (!selected.length)
+        return
+
+      await execCommand('git', ['add', ...selected], { stdio: 'inherit' })
       return
+    }
 
-    await execCommand('git', ['add', ...selected], { stdio: 'inherit' })
-    return
+    await execCommand('git', ['add', '.'], { stdio: 'inherit' })
   }
+  catch {
 
-  await execCommand('git', ['add', '.'], { stdio: 'inherit' })
+  }
 }
 
 /**
- * Git commit with Conventional Commits standard
- *
- * @param lang
+ * 交互式生成符合 Conventional Commits 的提交信息并执行提交
+ * - 支持取消或非交互环境下安全退出
+ * @param {Lang} lang 交互提示语言
+ * @returns {Promise<void>} 异步任务
  */
-export async function gitCommit(lang: Lang = 'en-us') {
-  const { gitCommitMessages, gitCommitTypes, gitCommitScopes } = locales[lang]
+export async function gitCommit(lang: Lang = 'en-us'): Promise<void> {
+  try {
+    const { gitCommitMessages, gitCommitTypes, gitCommitScopes } = locales[lang]
 
-  const typesChoices = gitCommitTypes.map(([value, msg]) => {
-    const nameWithSuffix = `${value}:`
+    const typesChoices = gitCommitTypes.map(([value, msg]) => {
+      const nameWithSuffix = `${value}:`
+      const message = `${nameWithSuffix.padEnd(12)}${msg}`
+      return { name: value, message }
+    })
 
-    const message = `${nameWithSuffix.padEnd(12)}${msg}`
-
-    return {
+    const scopesChoices = gitCommitScopes.map(([value, msg]) => ({
       name: value,
-      message
-    }
-  })
+      message: `${value.padEnd(30)} (${msg})`
+    }))
 
-  const scopesChoices = gitCommitScopes.map(([value, msg]) => ({
-    name: value,
-    message: `${value.padEnd(30)} (${msg})`
-  }))
+    const result = await prompt<PromptObject>([
+      { name: 'types', type: 'select', message: gitCommitMessages.types, choices: typesChoices },
+      { name: 'scopes', type: 'select', message: gitCommitMessages.scopes, choices: scopesChoices },
+      { name: 'description', type: 'text', message: gitCommitMessages.description }
+    ])
 
-  const result = await prompt<PromptObject>([
-    {
-      name: 'types',
-      type: 'select',
-      message: gitCommitMessages.types,
-      choices: typesChoices
-    },
-    {
-      name: 'scopes',
-      type: 'select',
-      message: gitCommitMessages.scopes,
-      choices: scopesChoices
-    },
-    {
-      name: 'description',
-      type: 'text',
-      message: gitCommitMessages.description
-    }
-  ])
+    if (!result)
+      return
 
-  const breaking = result.description.startsWith('!') ? '!' : ''
+    const breaking = result.description.startsWith('!') ? '!' : ''
+    const description = result.description.replace(/^!/, '').trim()
+    const commitMsg = `${result.types}(${result.scopes})${breaking}: ${description}`
 
-  const description = result.description.replace(/^!/, '').trim()
+    await execCommand('git', ['commit', '-m', commitMsg], { stdio: 'inherit' })
+  }
+  catch {
 
-  const commitMsg = `${result.types}(${result.scopes})${breaking}: ${description}`
-
-  await execCommand('git', ['commit', '-m', commitMsg], { stdio: 'inherit' })
+  }
 }
 
 /** Git commit message verify */

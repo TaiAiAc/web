@@ -1,7 +1,6 @@
-import { access, writeFile } from 'node:fs/promises'
+import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import { prompt } from 'enquirer'
 import { defaultOptions } from '../config'
 
 /**
@@ -11,27 +10,6 @@ import { defaultOptions } from '../config'
 export async function generateConfig() {
   const cwd = process.cwd()
   const configPath = path.join(cwd, 'quiteer.config.ts')
-
-  let exists = true
-  try {
-    await access(configPath)
-  }
-  catch {
-    exists = false
-  }
-
-  if (exists) {
-    const { overwrite } = await prompt<{ overwrite: boolean }>([
-      {
-        name: 'overwrite',
-        type: 'confirm',
-        message: `检测到已存在配置文件 ${path.basename(configPath)}，是否覆盖？`
-      }
-    ])
-
-    if (!overwrite)
-      return
-  }
 
   const regexList = defaultOptions.gitCommitVerifyIgnores
     .map(r => r.toString())
@@ -44,14 +22,31 @@ export async function generateConfig() {
 
   const fileContent = [
     '// 自动生成的 quiteer 配置文件',
+    '// 说明：可在此文件中覆盖默认配置项，所有未定义项将采用默认值',
     '',
     'export default {',
+    '  // 清理命令默认清理的目录（支持 glob）',
     `  cleanupDirs: ${indentJson(defaultOptions.cleanupDirs)},`,
+    '',
+    '  // CLI 提示语言：zh-cn | en-us',
     `  lang: ${JSON.stringify(defaultOptions.lang)},`,
+    '',
+    '  // npm-check-updates 命令参数',
     `  ncuCommandArgs: ${indentJson(defaultOptions.ncuCommandArgs)},`,
+    '',
+    '  // 提交信息校验的忽略规则（正则）',
     '  gitCommitVerifyIgnores: [',
     ...regexList.map((r, idx, arr) => `    ${r}${idx < arr.length - 1 ? ',' : ''}`),
-    '  ]',
+    '  ],',
+    '',
+    '  // 发布配置：执行的发布命令与是否推送',
+    `  release: ${indentJson(defaultOptions.release)},`,
+    '',
+    '  // changelog 配置（仅保留输出文件与样式）',
+    `  changelog: ${indentJson(defaultOptions.changelog)},`,
+    '',
+    '  // git-commit 配置：是否默认添加变更文件到暂存区',
+    `  gitCommit: ${indentJson(defaultOptions.gitCommit)},`,
     '}',
     ''
   ].join('\n')

@@ -1,3 +1,4 @@
+export * from './changelog'
 export * from './cleanup'
 export * from './generate-cfg'
 export * from './git-commit'

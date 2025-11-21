@@ -1,8 +1,11 @@
-import type { Lang } from './locales'
+#!/usr/bin/env node
+
+import type { Lang } from './types'
 import cac from 'cac'
-import { blue, gray, lightGreen } from 'kolorist'
+import { bgGreen, blue, gray, lightBlue, lightCyan, lightGreen, white } from 'kolorist'
 import { version } from '../package.json'
 import { cleanup, generateConfig, gitCommit, gitCommitAdd, gitCommitVerify, release, updatePkg } from './commands'
+import { generateChangelogFiles } from './commands/changelog'
 import { loadCliOptions } from './config'
 
 type CommandArg = Partial<{
@@ -22,19 +25,15 @@ export async function setupCli() {
    */
   const cliOptions = await loadCliOptions()
 
-  const cli = cac(blue('quiteer-scripts'))
+  const cli = cac(blue('quiteer'))
 
-  cli
-    .version(lightGreen(version))
-    .help()
-
-  cli.command('generate-config', '在项目根目录下生成配置文件')
+  cli.command('generate-config', `${bgGreen(white('便捷命令'))} ${lightCyan('qui g')}  在项目根目录下生成配置文件`)
     .alias('g')
     .action(async () => {
       await generateConfig()
     })
 
-  cli.command('remove [path]', '删除单个或者多个文件，多个值用逗号分隔，递归删除')
+  cli.command('remove [path]', `${bgGreen(white('便捷命令'))} ${lightBlue('qui rm')}  删除单个或者多个文件 , 多个值用逗号分隔，递归删除`)
     .alias('rm')
     .action(async (paths: string) => {
       if (paths && paths.includes(',')) {
@@ -48,7 +47,7 @@ export async function setupCli() {
       }
     })
 
-  cli.command('cleanup [path]', '清除目录 node_modules、dist 等')
+  cli.command('cleanup [path]', `${bgGreen(white('便捷命令'))} ${lightBlue('qui c')}  清除目录 node_modules、dist 等`)
     .alias('c')
     .action(async (paths) => {
       if (paths && paths.includes(',')) {
@@ -63,15 +62,15 @@ export async function setupCli() {
       }
     })
 
-  cli.command('update-pkg', '更新 package.json 依赖版本')
+  cli.command('update-pkg', `${bgGreen(white('便捷命令'))} ${lightBlue('qui u')}  更新 package.json 依赖版本`)
     .alias('u')
     .action(async () => {
       await updatePkg(cliOptions.ncuCommandArgs)
     })
 
-  cli.command('git-commit', 'git 提交前后的操作和规范等')
-    .alias('git-c')
-    .option('--add', '添加所有变更文件到暂存区', { default: true })
+  cli.command('git-commit', `${bgGreen(white('便捷命令'))} ${lightBlue('qui gc')}  git 提交前后的操作和规范等`)
+    .alias('gc')
+    .option('--add', '添加所有变更文件到暂存区', { default: cliOptions.gitCommit.add })
     .option('-l ,--lang', '校验提交信息的语言', { default: cliOptions.lang })
     .action(async (args: CommandArg) => {
       if (args?.add) {
@@ -80,22 +79,40 @@ export async function setupCli() {
       await gitCommit(args?.lang)
     })
 
-  cli.command('git-commit-verify', '校验提交信息是否符合 Conventional Commits 标准')
-    .alias('git-v')
+  cli.command('git-commit-verify', `${bgGreen(white('便捷命令'))} ${lightBlue('qui gv')}  校验提交信息是否符合 Conventional Commits 标准`)
+    .alias('gv')
     .option('-l --lang', '校验提交信息的语言', { default: cliOptions.lang })
     .action(async (args: CommandArg) => {
       await gitCommitVerify(args?.lang, cliOptions.gitCommitVerifyIgnores)
     })
 
-  cli.command('release', '发布：更新版本、生成变更日志、提交代码')
+  cli.command('release', `${bgGreen(white('便捷命令'))} ${lightBlue('qui r')}  发布：更新版本、生成变更日志、提交代码`)
     .alias('r')
-    .option('--execute', '执行发布的命令')
-    .option('--push', '是否推送代码', { default: true })
+    .option('--push', '是否推送代码', { default: cliOptions.release.push })
     .action(async (args: CommandArg) => {
-      await release(args?.execute, args?.push)
+      await release(cliOptions.release.execute, args?.push)
     })
 
-  cli.parse()
+  cli.command('changelog', `${bgGreen(white('便捷命令'))} ${lightBlue('qui cl')}  生成变更日志 CHANGELOG.md、CHANGELOG_TIMELINE`)
+    .alias('cl')
+    .option('-f, --format <format>', '输出样式：group|timeline|both', { default: cliOptions.changelog.formats })
+    .option('--group-output <path>', '分组样式输出文件', { default: cliOptions.changelog.groupOutput })
+    .option('--timeline-output <path>', '时间轴样式输出文件', { default: cliOptions.changelog.timelineOutput })
+    .option('-l, --lang <lang>', '输出语言', { default: cliOptions.lang })
+    .action(async (args: { format?: 'group' | 'timeline' | 'both', groupOutput?: string, timelineOutput?: string, lang?: Lang }) => {
+      const cfg = cliOptions.changelog
+      await generateChangelogFiles({
+        lang: args.lang || cliOptions.lang,
+        format: args.format || cfg.formats,
+        groupOutput: args.groupOutput || cfg.groupOutput,
+        timelineOutput: args.timelineOutput || cfg.timelineOutput
+      })
+    })
+
+  cli
+    .version(lightGreen(version))
+    .help()
+    .parse()
 }
 
 setupCli()
