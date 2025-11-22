@@ -51,4 +51,16 @@ export interface CliOption {
 
   /** Default options for git-commit command */
   gitCommit: GitCommitOption
+
+  /** Default options for dir tree command */
+  dirTree: DirTreeOption
+}
+
+export interface DirTreeOption {
+  /** Whether to generate markdown file */
+  md: boolean
+  /** Output markdown file name */
+  output: string
+  /** Ignore directory names */
+  ignore: string[]
 }

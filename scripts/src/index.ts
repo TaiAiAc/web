@@ -4,7 +4,7 @@ import type { Lang } from './types'
 import cac from 'cac'
 import { bgGreen, blue, gray, lightBlue, lightCyan, lightGreen, white } from 'kolorist'
 import { version } from '../package.json'
-import { checkUpdateAndNotify, cleanup, generateConfig, gitCommit, gitCommitAdd, gitCommitVerify, gitRemoteBranches, release, selfUpdate, updatePkg } from './commands'
+import { checkUpdateAndNotify, cleanup, generateConfig, generateDirTree, gitCommit, gitCommitAdd, gitCommitVerify, gitRemoteBranches, release, selfUpdate, updatePkg } from './commands'
 import { generateChangelogFiles } from './commands/changelog'
 import { loadCliOptions } from './config'
 
@@ -74,6 +74,13 @@ export async function setupCli() {
     .alias('su')
     .action(async () => {
       await selfUpdate()
+    })
+
+  cli.command('tree [path]', `${bgGreen(white('便捷命令'))} ${lightBlue('qui t')}  生成当前目录结构（默认控制台输出），可选生成 Markdown`)
+    .alias('t')
+    .option('--md', '是否生成 Markdown 文件', { default: cliOptions.dirTree.md })
+    .action(async (path?: string, args?: { md?: boolean }) => {
+      await generateDirTree(path, { md: !!args?.md, output: cliOptions.dirTree.output, ignore: cliOptions.dirTree.ignore })
     })
 
   cli.command('git-commit', `${bgGreen(white('便捷命令'))} ${lightBlue('qui gc')}  git 提交前后的操作和规范等`)

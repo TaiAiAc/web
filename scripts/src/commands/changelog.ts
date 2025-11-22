@@ -97,19 +97,48 @@ async function getCommitsInRange(range: string): Promise<CommitItem[]> {
 }
 
 /**
- * 读取 package homepage 以生成提交链接
- * @returns 仓库主页 URL
+ * 读取 package homepage（若为 GitHub Pages URL，转换为仓库地址）
+ * @returns 可能的仓库主页 URL
  */
 async function readHomepage(): Promise<string | undefined> {
   try {
     const pkgPath = path.join(process.cwd(), 'scripts', 'package.json')
     const content = await readFile(pkgPath, 'utf8')
     const json = JSON.parse(content)
-    return typeof json.homepage === 'string' ? json.homepage.replace(/\/$/, '') : undefined
+    const home = typeof json.homepage === 'string' ? json.homepage.replace(/\/$/, '') : undefined
+    if (!home)
+      return undefined
+    const m = home.match(/^https:\/\/([\w-]+)\.github\.io\/([\w.-]+)\//)
+    if (m)
+      return `https://github.com/${m[1]}/${m[2]}`
+    return home
   }
   catch {
     return undefined
   }
+}
+
+/**
+ * 获取 Web 版仓库地址（优先使用 git remote，回退到 homepage 推断）
+ * @returns 仓库 Web URL（如 https://github.com/<owner>/<repo>）
+ */
+async function getRepoWebUrl(): Promise<string | undefined> {
+  try {
+    const remote = await execCommand('git', ['remote', 'get-url', 'origin'])
+    if (remote) {
+      if (remote.startsWith('git@github.com:')) {
+        const rest = remote.replace('git@github.com:', '').replace(/\.git$/, '')
+        return `https://github.com/${rest}`
+      }
+      if (remote.startsWith('https://github.com/')) {
+        const rest = remote.replace('https://github.com/', '').replace(/\.git$/, '')
+        return `https://github.com/${rest}`
+      }
+    }
+  }
+  catch {}
+  const home = await readHomepage()
+  return home
 }
 
 async function prependFile(filePath: string, content: string) {
@@ -190,9 +219,18 @@ function formatSection(title: string, date: string, items: CommitItem[], repoUrl
         lines.push(`- ${typeIcon} ${typeLabel} ${scopeFmt ? `${scopeFmt}: ` : ''}${it.description}`)
         lines.push(`  > **🕒  ${time}** · \`➕${it.added}\` / \`➖${it.deleted}\``)
         lines.push(`  > \`👤 ${it.author}\` ${email}${link}`)
-        for (const f of it.filesAdded ?? []) lines.push(`  - ➕ \`${f}\``)
-        for (const f of it.filesModified ?? []) lines.push(`  - ✏️ \`${f}\``)
-        for (const f of it.filesDeleted ?? []) lines.push(`  - 🗑️ ~~~~\`${f}\`~~~~`)
+        for (const f of it.filesAdded ?? []) {
+          const url = repoUrl ? `${repoUrl}/blob/${it.hash}/${f}` : undefined
+          lines.push(url ? `  - ➕ [\`${f}\`](${url})` : `  - ➕ \`${f}\``)
+        }
+        for (const f of it.filesModified ?? []) {
+          const url = repoUrl ? `${repoUrl}/blob/${it.hash}/${f}` : undefined
+          lines.push(url ? `  - ✏️ [\`${f}\`](${url})` : `  - ✏️ \`${f}\``)
+        }
+        for (const f of it.filesDeleted ?? []) {
+          const url = repoUrl ? `${repoUrl}/commit/${it.hash}` : undefined
+          lines.push(url ? `  - 🗑️ [~~\`${f}\`~~](${url})` : `  - 🗑️ ~~\`${f}\`~~`)
+        }
       }
       lines.push('')
     }
@@ -220,9 +258,18 @@ function formatTimeline(items: CommitItem[], repoUrl: string | undefined) {
       lines.push(`- ${typeIcon} ${typeLabel} ${scopeFmt ? `${scopeFmt}: ` : ''}${it.description}`)
       lines.push(`  > **🕒  ${time}** · \`➕${it.added}\` / \`➖${it.deleted}\``)
       lines.push(`  > \`👤 ${it.author}\` ${email}${link}`)
-      for (const f of it.filesAdded ?? []) lines.push(`  - ➕ \`${f}\``)
-      for (const f of it.filesModified ?? []) lines.push(`  - ✏️ \`${f}\``)
-      for (const f of it.filesDeleted ?? []) lines.push(`  - 🗑️ ~~~~\`${f}\`~~~~`)
+      for (const f of it.filesAdded ?? []) {
+        const url = repoUrl ? `${repoUrl}/blob/${it.hash}/${f}` : undefined
+        lines.push(url ? `  - ➕ [\`${f}\`](${url})` : `  - ➕ \`${f}\``)
+      }
+      for (const f of it.filesModified ?? []) {
+        const url = repoUrl ? `${repoUrl}/blob/${it.hash}/${f}` : undefined
+        lines.push(url ? `  - ✏️ [\`${f}\`](${url})` : `  - ✏️ \`${f}\``)
+      }
+      for (const f of it.filesDeleted ?? []) {
+        const url = repoUrl ? `${repoUrl}/commit/${it.hash}` : undefined
+        lines.push(url ? `  - 🗑️ [~~\`${f}\`~~](${url})` : `  - 🗑️ ~~\`${f}\`~~`)
+      }
     }
     lines.push('')
   }
@@ -245,7 +292,7 @@ export async function generateChangelogFiles(options: {
   timelineOutput: string
 }) {
   const repoRoot = await execCommand('git', ['rev-parse', '--show-toplevel'])
-  const homepage = await readHomepage()
+  const homepage = await getRepoWebUrl()
   const root = await getRootCommit()
   const title = '全部历史'
   const date = new Date().toISOString().slice(0, 10)
@@ -273,7 +320,7 @@ export async function generateChangelogFiles(options: {
 export async function generateChangelog(output = 'CHANGELOG.md', lang: Lang = 'zh-cn') {
   const repoRoot = await execCommand('git', ['rev-parse', '--show-toplevel'])
   const outPath = path.join(repoRoot, output)
-  const homepage = await readHomepage()
+  const homepage = await getRepoWebUrl()
 
   const root = await getRootCommit()
   const title = '全部历史'

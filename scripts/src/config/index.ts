@@ -32,6 +32,11 @@ export const defaultOptions: CliOption = {
   },
   gitCommit: {
     add: true
+  },
+  dirTree: {
+    md: false,
+    output: 'DIRECTORY_TREE.md',
+    ignore: ['node_modules', '.git', 'dist', 'out', 'logs']
   }
 }
 

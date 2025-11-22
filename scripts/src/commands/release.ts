@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { versionBump } from 'bumpp'
 import enquirer from 'enquirer'
+import { loadCliOptions } from '../config'
 import { execCommand } from '../shared'
 import { generateChangelogFiles } from './changelog'
 
@@ -72,11 +73,12 @@ export async function release(tagPrefix?: string): Promise<void> {
   if (!exists.trim())
     await execCommand('git', ['tag', '--annotate', '--message', `chore(projects): release ${tagName}`, tagName])
 
-  const lang: Lang = 'zh-cn'
+  const cli = await loadCliOptions()
+  const lang: Lang = cli.lang
   await generateChangelogFiles({
     lang,
-    format: 'both',
-    groupOutput: 'CHANGELOG.md',
-    timelineOutput: 'CHANGELOG_TIMELINE.md'
+    format: cli.changelog.formats,
+    groupOutput: cli.changelog.groupOutput,
+    timelineOutput: cli.changelog.timelineOutput
   })
 }

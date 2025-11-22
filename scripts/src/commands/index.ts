@@ -1,5 +1,6 @@
 export * from './changelog'
 export * from './cleanup'
+export * from './dir-tree'
 export * from './generate-cfg'
 export * from './git-branches'
 export * from './git-commit'
