@@ -15,12 +15,16 @@
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
-    "release": "qui r --tag-prefix is && qui gc && tsdown && pnpm publish"
+    "release": "qui r --tag-prefix is && qui gc && tsdown && pnpm publish --access public"
   }
 }
