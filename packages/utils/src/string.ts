@@ -1,6 +1,19 @@
 /**
- * 函数：首字母大写
- * 作用：将字符串首字符转为大写
+ * 首字母大写
+ *
+ * 将输入字符串的首字符转为大写，其他字符保持不变；输入为空字符串时返回空字符串。
+ *
+ * @param input - 待转换的字符串
+ * @returns 转换后的字符串；若 `input` 为空则返回空字符串
+ *
+ * @example
+ * ```ts
+ * capitalize('hello') // 'Hello'
+ * capitalize('') // ''
+ * ```
+ *
+ * @performance
+ * 时间复杂度 O(1)，空间复杂度 O(1)
  */
 export function capitalize(input: string): string {
   if (!input)
@@ -9,8 +22,18 @@ export function capitalize(input: string): string {
 }
 
 /**
- * 函数：转为 kebab-case
- * 作用：将驼峰或空格分隔字符串转为短横线分隔
+ * 转为 kebab-case
+ *
+ * 将驼峰命名或空格分隔的字符串转换为短横线分隔的 `kebab-case` 小写格式。
+ *
+ * @param input - 输入字符串
+ * @returns 转换为 `kebab-case` 的字符串
+ *
+ * @example
+ * ```ts
+ * kebabCase('HelloWorld') // 'hello-world'
+ * kebabCase('hello world') // 'hello-world'
+ * ```
  */
 export function kebabCase(input: string): string {
   return input
@@ -20,8 +43,18 @@ export function kebabCase(input: string): string {
 }
 
 /**
- * 函数：转为 snake_case
- * 作用：将驼峰或空格分隔字符串转为下划线分隔
+ * 转为 snake_case
+ *
+ * 将驼峰命名或空格分隔的字符串转换为下划线分隔的 `snake_case` 小写格式。
+ *
+ * @param input - 输入字符串
+ * @returns 转换为 `snake_case` 的字符串
+ *
+ * @example
+ * ```ts
+ * snakeCase('HelloWorld') // 'hello_world'
+ * snakeCase('hello world') // 'hello_world'
+ * ```
  */
 export function snakeCase(input: string): string {
   return input
@@ -31,16 +64,32 @@ export function snakeCase(input: string): string {
 }
 
 /**
- * 函数：去除首尾空白
- * 作用：安全地移除字符串首尾空白字符
+ * 去除首尾空白
+ *
+ * 安全移除字符串首尾空白字符，相当于原生 `String.prototype.trim`。
+ *
+ * @param input - 输入字符串
+ * @returns 去除首尾空白后的新字符串
  */
 export function trim(input: string): string {
   return input.trim()
 }
 
 /**
- * 函数：截断字符串
- * 作用：超出长度时以省略号结尾
+ * 截断字符串
+ *
+ * 当字符串长度超出 `maxLength` 时使用 `suffix` 结尾进行截断，默认后缀为 `'...'`。
+ *
+ * @param input - 输入字符串
+ * @param maxLength - 最大长度；应为非负整数
+ * @param suffix - 截断后缀；默认 `'...'`
+ * @returns 若未超长返回原字符串；超长则返回截断后的字符串
+ *
+ * @example
+ * ```ts
+ * truncate('hello world', 5) // 'he...'
+ * truncate('hello', 10) // 'hello'
+ * ```
  */
 export function truncate(input: string, maxLength: number, suffix = '...'): string {
   if (input.length <= maxLength)
@@ -49,8 +98,12 @@ export function truncate(input: string, maxLength: number, suffix = '...'): stri
 }
 
 /**
- * 函数：判断是否为字符串
- * 作用：返回布尔值表示传入参数是否为字符串类型
+ * 判断是否为字符串
+ *
+ * 判断输入是否为原始字符串类型。
+ *
+ * @param value - 任意值
+ * @returns 当 `typeof value === 'string'` 时返回 `true`
  */
 export function isString(value: unknown): value is string {
   return typeof value === 'string'

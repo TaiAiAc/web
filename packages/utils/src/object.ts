@@ -1,14 +1,29 @@
 /**
- * 函数：判断是否为对象（非 null）
- * 作用：返回布尔值表示传入参数是否为对象类型
+ * 判断是否为对象（非 null）
+ *
+ * 判断输入是否为 `object` 且不为 `null`，适用于基本对象与数组、日期等引用类型。
+ *
+ * @param value - 任意值
+ * @returns 当 `value !== null && typeof value === 'object'` 时返回 `true`
  */
 export function isObject(value: unknown): value is Record<string, any> {
   return value !== null && typeof value === 'object'
 }
 
 /**
- * 函数：判断是否为普通对象
- * 作用：用于区分数组、日期等特殊对象，确保为原型为 Object 的对象
+ * 判断是否为普通对象
+ *
+ * 用于区分数组、日期等特殊引用类型，确保对象原型为 `Object.prototype` 或 `null`。
+ *
+ * @param value - 任意值
+ * @returns 当对象的原型为 `Object.prototype` 或 `null` 时返回 `true`
+ *
+ * @example
+ * ```ts
+ * isPlainObject({ a: 1 }) // true
+ * isPlainObject(new Date()) // false
+ * isPlainObject([]) // false
+ * ```
  */
 export function isPlainObject(value: unknown): value is Record<string, any> {
   if (!isObject(value))
@@ -18,8 +33,12 @@ export function isPlainObject(value: unknown): value is Record<string, any> {
 }
 
 /**
- * 函数：判断值是否为空
- * 作用：字符串空、数组长度为 0、对象无自有属性均视为空
+ * 判断值是否为空
+ *
+ * 将 `null/undefined`、空字符串（去除空白后）、空数组、无自有属性的普通对象视为“空”。
+ *
+ * @param value - 任意值
+ * @returns 为空返回 `true`，否则返回 `false`
  */
 export function isEmpty(value: unknown): boolean {
   if (value == null)
@@ -34,8 +53,20 @@ export function isEmpty(value: unknown): boolean {
 }
 
 /**
- * 函数：深拷贝对象
- * 作用：优先使用结构化拷贝，不可用时回退为递归拷贝
+ * 深拷贝对象
+ *
+ * 优先使用原生 `structuredClone` 拷贝复杂结构；在不支持时回退为递归拷贝（处理数组与普通对象）。
+ *
+ * @param value - 任意可拷贝的值
+ * @returns 新拷贝的值；与输入解耦
+ *
+ * @throws {DOMException} 在部分环境下 `structuredClone` 可能抛出不支持的错误
+ *
+ * @remarks
+ * - 回退实现不处理循环引用与 `Map/Set/Date` 等特殊对象；必要时自行扩展
+ *
+ * @security
+ * 深拷贝将打断与源对象的引用关系；确认安全需求后再使用浅/深拷贝
  */
 export function deepClone<T>(value: T): T {
   if (typeof (globalThis as any).structuredClone === 'function')
@@ -50,8 +81,17 @@ export function deepClone<T>(value: T): T {
 }
 
 /**
- * 函数：深合并对象
- * 作用：将多个对象深度合并为新对象
+ * 深合并对象
+ *
+ * 将多个对象深度合并为新对象：普通对象执行递归合并、数组采用拼接、基本类型后写覆盖。
+ *
+ * @param sources - 待合并的对象列表
+ * @returns 合并后的新对象
+ *
+ * @example
+ * ```ts
+ * deepMerge({a:1, b:{c:1}}, {b:{d:2}}) // { a:1, b:{ c:1, d:2 } }
+ * ```
  */
 export function deepMerge<T extends Record<string, any>>(...sources: T[]): T {
   const result: Record<string, any> = {}
@@ -69,8 +109,13 @@ export function deepMerge<T extends Record<string, any>>(...sources: T[]): T {
 }
 
 /**
- * 函数：挑选对象属性
- * 作用：返回仅包含指定键的新对象
+ * 挑选对象属性
+ *
+ * 返回仅包含指定键的新对象；不存在的键将被忽略。
+ *
+ * @param obj - 源对象
+ * @param keys - 需要保留的键列表
+ * @returns 仅包含指定键的新对象
  */
 export function pick<T extends Record<string, any>, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
   const out = {} as Pick<T, K>
@@ -82,8 +127,13 @@ export function pick<T extends Record<string, any>, K extends keyof T>(obj: T, k
 }
 
 /**
- * 函数：排除对象属性
- * 作用：返回排除指定键的新对象
+ * 排除对象属性
+ *
+ * 返回排除指定键的新对象；其余键保持不变。
+ *
+ * @param obj - 源对象
+ * @param keys - 需要排除的键列表
+ * @returns 排除指定键的新对象
  */
 export function omit<T extends Record<string, any>, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
   const out = { ...obj }
@@ -92,8 +142,20 @@ export function omit<T extends Record<string, any>, K extends keyof T>(obj: T, k
 }
 
 /**
- * 函数：通过路径读取对象值
- * 作用：支持 a.b[0].c 风格路径读取，未命中返回默认值
+ * 通过路径读取对象值
+ *
+ * 支持 `a.b[0].c` 风格路径读取；当路径中断或不存在时返回 `defaultValue`。
+ *
+ * @param obj - 源对象
+ * @param path - 路径字符串，支持 `[]` 下标与 `.` 链式访问
+ * @param defaultValue - 未命中时的默认值
+ * @returns 读取到的值或默认值
+ *
+ * @example
+ * ```ts
+ * get({a:{b:[{c:1}]}},'a.b[0].c') // 1
+ * get({}, 'x.y', 0) // 0
+ * ```
  */
 export function get(obj: any, path: string, defaultValue?: any): any {
   const tokens = path.replace(/\[(\d+)\]/g, '.$1').split('.').filter(Boolean)
@@ -107,8 +169,20 @@ export function get(obj: any, path: string, defaultValue?: any): any {
 }
 
 /**
- * 函数：通过路径设置对象值
- * 作用：支持 a.b[0].c 风格路径写入，不存在时自动创建
+ * 通过路径设置对象值
+ *
+ * 支持 `a.b[0].c` 风格路径写入；当中间路径不存在时自动创建对象或数组。
+ *
+ * @param obj - 目标对象
+ * @param path - 路径字符串，支持 `[]` 下标与 `.` 链式访问
+ * @param value - 需要写入的值
+ * @returns 返回原对象的引用（已被修改）
+ *
+ * @example
+ * ```ts
+ * const o: any = {}
+ * set(o, 'a.b[0].c', 1) // o => { a: { b: [ { c: 1 } ] } }
+ * ```
  */
 export function set(obj: any, path: string, value: any): any {
   const tokens = path.replace(/\[(\d+)\]/g, '.$1').split('.').filter(Boolean)
