@@ -36,8 +36,7 @@
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",
-    "release": "qui r --tag-prefix scripts",
-    "build:release": "tsdown && pnpm publish"
+    "release": "qui r --tag-prefix scripts && qui gc && tsdown && pnpm publish"
   },
   "dependencies": {
     "bumpp": "10.3.1",
