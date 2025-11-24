@@ -144,13 +144,10 @@ async function getRepoWebUrl(): Promise<string | undefined> {
 async function prependFile(filePath: string, content: string) {
   try {
     await access(filePath)
-    const prev = await readFile(filePath, 'utf8')
-    const next = [content.trim(), '', prev.trim()].join('\n')
-    await writeFile(filePath, next, 'utf8')
   }
-  catch {
-    await writeFile(filePath, `${content.trim()}\n`, 'utf8')
-  }
+  catch {}
+  const next = `${content.trim()}\n`
+  await writeFile(filePath, next, 'utf8')
 }
 
 /**
