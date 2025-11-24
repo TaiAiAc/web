@@ -13,14 +13,14 @@ interface TimedArrayOptions<T> {
 
 export class TimedArray<T> {
   private array: T[] = []
-  private fixedTimer: NodeJS.Timeout | null = null
-  private randomTimer: NodeJS.Timeout | null = null
+  private fixedTimer: ReturnType<typeof setInterval> | null = null
+  private randomTimer: ReturnType<typeof setTimeout> | null = null
   private readonly options: Required<TimedArrayOptions<T>>
 
   constructor(options: TimedArrayOptions<T>) {
     // 设置默认值
     this.options = {
-      fixedPushValue: undefined,
+      fixedPushValue: undefined as unknown as T,
       enableFixedPop: false,
       fixedInterval: 1000,
       randomIntervalRange: [500, 2000],

@@ -1,20 +1,4 @@
 /**
- * 函数：判断是否为布尔值
- * 作用：返回布尔值表示传入参数是否为布尔类型
- */
-export function isBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean'
-}
-
-/**
- * 函数：判断是否为函数
- * 作用：返回布尔值表示传入参数是否为函数
- */
-export function isFunction<T extends (...args: any[]) => any>(value: unknown): value is T {
-  return typeof value === 'function'
-}
-
-/**
  * 函数：防抖
  * 作用：在等待时间内合并多次调用，仅最后一次执行（可选立即执行）
  */

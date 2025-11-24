@@ -1,12 +1,4 @@
 /**
- * 函数：判断是否为数组
- * 作用：返回布尔值表示传入参数是否为数组
- */
-export function isArray<T = unknown>(value: unknown): value is T[] {
-  return Array.isArray(value)
-}
-
-/**
  * 函数：数组去重
  * 作用：返回不含重复元素的新数组
  */

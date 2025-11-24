@@ -1,8 +1,10 @@
 export * from './array'
+export * from './classes'
 export * from './function'
 export * from './number'
 export * from './object'
-export * from './promise'
+export * from './random'
 export * from './string'
 export * from './time'
+
 export type * from './type-utils'
