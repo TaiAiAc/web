@@ -1,6 +1,53 @@
 ## 变更日志
 
-### 2025-11-24 `✏️ 15+` `➕ 3+` `🗑️ 2+`
+### 2025-11-24 `✏️ 40+` `➕ 4+` `🗑️ 2+`
+- 🔧  **chore** `release`: v0.0.1
+  > **🕒  17:58** · `➕2` / `➖2`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`92bc48b0`](https://github.com/TaiAiAc/web/commit/92bc48b0933f41488384477b7609c206c6168b30))
+  - ✏️ [`packages/utils/package.json`](https://github.com/TaiAiAc/web/blob/92bc48b0933f41488384477b7609c206c6168b30/packages/utils/package.json)
+- 🏗️  **build** `packages`: 完善各个包的package
+  > **🕒  17:47** · `➕34` / `➖6`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`38789c90`](https://github.com/TaiAiAc/web/commit/38789c907b5877f852ccd27758e3b55a6c57ae0d))
+  - ✏️ [`packages/axios/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/axios/package.json)
+  - ✏️ [`packages/box/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/box/package.json)
+  - ✏️ [`packages/directives/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/directives/package.json)
+  - ✏️ [`packages/naive-extra/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/naive-extra/package.json)
+  - ✏️ [`packages/unocss/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/unocss/package.json)
+  - ✏️ [`packages/utils/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/utils/package.json)
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/TaiAiAc/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/vite-plugins/package.json)
+- 🏗️  **build** `packages`: 给各个包添加发布地址
+  > **🕒  17:42** · `➕5` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`85670f88`](https://github.com/TaiAiAc/web/commit/85670f88284e3ef125ff17efb5bf55d02fc154dd))
+  - ✏️ [`packages/is/package.json`](https://github.com/TaiAiAc/web/blob/85670f88284e3ef125ff17efb5bf55d02fc154dd/packages/is/package.json)
+- ✨  **feat** `packages`: is包发布
+  > **🕒  17:37** · `➕236` / `➖90`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`32777297`](https://github.com/TaiAiAc/web/commit/327772970fd29375a45014d22f9b1e90ec96a572))
+  - ➕ [`packages/is/README.md`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/README.md)
+  - ✏️ [`.trae/rules/project_rules.md`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/.trae/rules/project_rules.md)
+  - ✏️ [`docs/plugins/is.md`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/docs/plugins/is.md)
+  - ✏️ [`packages/is/package.json`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/package.json)
+  - ✏️ [`packages/is/src/color.ts`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/src/color.ts)
+  - ✏️ [`packages/is/src/dom.ts`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/src/dom.ts)
+  - ✏️ [`packages/is/src/type.ts`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/src/type.ts)
+  - ✏️ [`packages/is/src/url.ts`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/src/url.ts)
+  - ✏️ [`packages/is/src/vanilla.ts`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/src/vanilla.ts)
+  - ✏️ [`packages/is/src/web.ts`](https://github.com/TaiAiAc/web/blob/327772970fd29375a45014d22f9b1e90ec96a572/packages/is/src/web.ts)
+- 📝  **docs** `packages`: 配置文件的说明
+  > **🕒  14:46** · `➕83` / `➖11`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`c6e8438a`](https://github.com/TaiAiAc/web/commit/c6e8438af104e0f282c7cf9091415681c7b7e66e))
+  - ✏️ [`docs/ci/scripts.md`](https://github.com/TaiAiAc/web/blob/c6e8438af104e0f282c7cf9091415681c7b7e66e/docs/ci/scripts.md)
+  - ✏️ [`packages/quieter/1.md`](https://github.com/TaiAiAc/web/blob/c6e8438af104e0f282c7cf9091415681c7b7e66e/packages/quieter/1.md)
+  - ✏️ [`scripts/src/commands/release.ts`](https://github.com/TaiAiAc/web/blob/c6e8438af104e0f282c7cf9091415681c7b7e66e/scripts/src/commands/release.ts)
+- ⚙️  **ci** `packages`: 整合命令
+  > **🕒  11:17** · `➕1` / `➖2`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`1244cf34`](https://github.com/TaiAiAc/web/commit/1244cf34de3adc7b1a48c0efcd12325617200471))
+  - ✏️ [`scripts/package.json`](https://github.com/TaiAiAc/web/blob/1244cf34de3adc7b1a48c0efcd12325617200471/scripts/package.json)
+- 🐛  **fix** `release`: 解决changelog生成重复的问题
+  > **🕒  11:13** · `➕210` / `➖8612`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`16fceb67`](https://github.com/TaiAiAc/web/commit/16fceb67874499111856f1c3501682d9786d36b8))
+  - ✏️ [`CHANGELOG.md`](https://github.com/TaiAiAc/web/blob/16fceb67874499111856f1c3501682d9786d36b8/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/TaiAiAc/web/blob/16fceb67874499111856f1c3501682d9786d36b8/CHANGELOG_TIMELINE.md)
+  - ✏️ [`scripts/src/commands/changelog.ts`](https://github.com/TaiAiAc/web/blob/16fceb67874499111856f1c3501682d9786d36b8/scripts/src/commands/changelog.ts)
 - 🔧  **chore** `release`: v0.0.10
   > **🕒  11:11** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`f0175f29`](https://github.com/TaiAiAc/web/commit/f0175f29cf2030e539ee7abd6e46ee924cd5b21e))
