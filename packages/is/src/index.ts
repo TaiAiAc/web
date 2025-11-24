@@ -1,5 +1,6 @@
 export * from './color'
 export * from './dom'
 export * from './type'
+export * from './url'
 export * from './vanilla'
 export * from './web'

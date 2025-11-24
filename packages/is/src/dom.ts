@@ -44,7 +44,7 @@ export function isNodeList(el: unknown): el is NodeList {
 
 // 判断是否是元素节点列表
 export function isElementNodeList(el: unknown): el is NodeListOf<HTMLElement> {
-  return isNodeList(el) && [...el].every(isElementNode)
+  return isNodeList(el) && Array.from(el).every(isElementNode)
 }
 
 // 是否是多媒体元素
