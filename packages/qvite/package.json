@@ -1,5 +1,6 @@
 {
   "name": "qvite",
+  "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@10.20.0",
   "description": "在 vite 的基础上增强的前端架构 cli",
@@ -9,7 +10,26 @@
     "vite",
     "cli"
   ],
-  "main": "index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "bin": {
+    "qvite": "./dist/bin/qvite.mjs"
+  },
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",

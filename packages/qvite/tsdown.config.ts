@@ -2,18 +2,18 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig([
   {
-    name: 'electronup-api',
+    name: 'qvite-api',
     outDir: 'dist/client',
     entry: ['index.ts'],
-    format: ['esm', 'cjs'],
+    platform: 'node',
     minify: false,
     dts: true
   },
   {
-    name: 'electronup-cli',
+    name: 'qvite-cli',
     outDir: 'dist/bin',
-    format: 'cjs',
+    platform: 'node',
     minify: false,
-    entry: { electronup: 'cli.ts' }
+    entry: { qvite: 'cli.ts' }
   }
 ])

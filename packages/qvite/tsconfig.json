@@ -1,5 +1,4 @@
 {
-  "extends": "@quiteer/ts-config/tsconfig.node.json",
   "compilerOptions": {
     "target": "esnext", // 目标语言的版本
     "lib": ["ESNext"],
