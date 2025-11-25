@@ -1,6 +1,16 @@
 ## 变更日志
 
-### 2025-11-25 `✏️ 26+` `➕ 13+` `🗑️ 0+`
+### 2025-11-25 `✏️ 30+` `➕ 13+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.9
+  > **🕒  17:51** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`193dabcd`](https://github.com/TaiAiAc/web/commit/193dabcd3a405a5d02dc213d39a06711afeffea3))
+  - ✏️ [`packages/directives/package.json`](https://github.com/TaiAiAc/web/blob/193dabcd3a405a5d02dc213d39a06711afeffea3/packages/directives/package.json)
+- ✨  **feat** `release`: 增加导出
+  > **🕒  17:33** · `➕768` / `➖744`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`396cb939`](https://github.com/TaiAiAc/web/commit/396cb939d3b1eb4e57b34e37d28c7014a183543f))
+  - ✏️ [`CHANGELOG.md`](https://github.com/TaiAiAc/web/blob/396cb939d3b1eb4e57b34e37d28c7014a183543f/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/TaiAiAc/web/blob/396cb939d3b1eb4e57b34e37d28c7014a183543f/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/directives/index.ts`](https://github.com/TaiAiAc/web/blob/396cb939d3b1eb4e57b34e37d28c7014a183543f/packages/directives/index.ts)
 - 🔧  **chore** `release`: v0.0.8
   > **🕒  17:32** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`6078be13`](https://github.com/TaiAiAc/web/commit/6078be1324c66b6f18b3686e7b58d67f01c0323c))

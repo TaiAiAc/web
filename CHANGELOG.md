@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-11-25 `✏️ 7+` `➕ 0+` `🗑️ 0+`
+#### 2025-11-25 `✏️ 8+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.9
+  > **🕒  17:51** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`193dabcd`](https://github.com/TaiAiAc/web/commit/193dabcd3a405a5d02dc213d39a06711afeffea3))
+  - ✏️ [`packages/directives/package.json`](https://github.com/TaiAiAc/web/blob/193dabcd3a405a5d02dc213d39a06711afeffea3/packages/directives/package.json)
 - 🔧  **chore** `release`: v0.0.8
   > **🕒  17:32** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`6078be13`](https://github.com/TaiAiAc/web/commit/6078be1324c66b6f18b3686e7b58d67f01c0323c))
@@ -191,7 +195,13 @@
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/TaiAiAc/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
 
 ### 新功能
-#### 2025-11-25 `✏️ 11+` `➕ 13+` `🗑️ 0+`
+#### 2025-11-25 `✏️ 14+` `➕ 13+` `🗑️ 0+`
+- ✨  **feat** `release`: 增加导出
+  > **🕒  17:33** · `➕768` / `➖744`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`396cb939`](https://github.com/TaiAiAc/web/commit/396cb939d3b1eb4e57b34e37d28c7014a183543f))
+  - ✏️ [`CHANGELOG.md`](https://github.com/TaiAiAc/web/blob/396cb939d3b1eb4e57b34e37d28c7014a183543f/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/TaiAiAc/web/blob/396cb939d3b1eb4e57b34e37d28c7014a183543f/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/directives/index.ts`](https://github.com/TaiAiAc/web/blob/396cb939d3b1eb4e57b34e37d28c7014a183543f/packages/directives/index.ts)
 - ✨  **feat** `release`: 增加api
   > **🕒  17:29** · `➕701` / `➖606`
   > `👤 Quiteer`  <p602985@yeah.net> ([`dfd7fe13`](https://github.com/TaiAiAc/web/commit/dfd7fe13bd51b96f76700746c8b30f0b406fc3f6))

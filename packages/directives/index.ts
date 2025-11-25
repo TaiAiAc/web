@@ -4,6 +4,7 @@ import type { CopyOptions } from './src/copy'
 import type { DebounceOptions } from './src/debounce'
 import type { LazyOptions } from './src/lazy'
 import type { LoadingOptions } from './src/loading'
+import type { PermissionOptions } from './src/permission'
 import type { ThrottleOptions } from './src/throttle'
 import type { WatermarkValue } from './src/watermark'
 import clickOutside from './src/clickOutside'
@@ -201,6 +202,20 @@ export interface IntersectingDirectiveType extends BaseDirectiveType<(isIntersec
  */
 export interface ClickOutsideDirectiveType extends BaseDirectiveType<ClickOutsideValue> {}
 
+/**
+ * 权限指令类型
+ * @example
+ * // 字符串：单一权限码
+ * v-permission="'sys:user:add'"
+ *
+ * // 数组：多个权限码
+ * v-permission="['sys:user:add','sys:user:edit']"
+ *
+ * // 对象：组合配置（codes/mode/effect）
+ * v-permission="{ codes: ['sys:user:add'], mode: 'any', effect: 'disable' }"
+ */
+export interface PermissionDirectiveType extends BaseDirectiveType<string | string[] | PermissionOptions> {}
+
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
     vCopy: CopyDirectiveType
@@ -212,6 +227,7 @@ declare module '@vue/runtime-core' {
     vEllipsis: EllipsisDirectiveType
     vIntersecting: IntersectingDirectiveType
     vClickOutside: ClickOutsideDirectiveType
+    vPermission: PermissionDirectiveType
   }
 
   export interface GlobalDirectives {
@@ -224,6 +240,7 @@ declare module '@vue/runtime-core' {
     ellipsis: EllipsisDirectiveType
     intersecting: IntersectingDirectiveType
     clickOutside: ClickOutsideDirectiveType
+    permission: PermissionDirectiveType
   }
 }
 
