@@ -1,6 +1,21 @@
 ## 变更日志
 
-### 2025-11-25 `✏️ 14+` `➕ 13+` `🗑️ 0+`
+### 2025-11-25 `✏️ 20+` `➕ 13+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.7
+  > **🕒  17:27** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`9dc95e51`](https://github.com/TaiAiAc/web/commit/9dc95e519c5c5163b7f79286fa8fbebf0b21e09c))
+  - ✏️ [`packages/directives/package.json`](https://github.com/TaiAiAc/web/blob/9dc95e519c5c5163b7f79286fa8fbebf0b21e09c/packages/directives/package.json)
+- 🐛  **fix** `deps`: 修改构建配置
+  > **🕒  17:07** · `➕26` / `➖7`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`909727e5`](https://github.com/TaiAiAc/web/commit/909727e5eefdfd37b682ff46d661633dfb100ed9))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/TaiAiAc/web/blob/909727e5eefdfd37b682ff46d661633dfb100ed9/packages/qvite/package.json)
+  - ✏️ [`packages/qvite/tsconfig.json`](https://github.com/TaiAiAc/web/blob/909727e5eefdfd37b682ff46d661633dfb100ed9/packages/qvite/tsconfig.json)
+  - ✏️ [`packages/qvite/tsdown.config.ts`](https://github.com/TaiAiAc/web/blob/909727e5eefdfd37b682ff46d661633dfb100ed9/packages/qvite/tsdown.config.ts)
+- 📝  **docs** `release`: 发包
+  > **🕒  16:20** · `➕292` / `➖132`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`a6e19557`](https://github.com/TaiAiAc/web/commit/a6e19557af2406c738d5c803faf94176217d6cf8))
+  - ✏️ [`CHANGELOG.md`](https://github.com/TaiAiAc/web/blob/a6e19557af2406c738d5c803faf94176217d6cf8/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/TaiAiAc/web/blob/a6e19557af2406c738d5c803faf94176217d6cf8/CHANGELOG_TIMELINE.md)
 - 🔧  **chore** `release`: v0.0.6
   > **🕒  16:17** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`324bb9e2`](https://github.com/TaiAiAc/web/commit/324bb9e2f686e392200a81b0e9e6f6b45d12a2a1))

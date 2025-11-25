@@ -9,7 +9,7 @@ pnpm add @quiteer/directives
 ```
 
 ```ts
-import Directives, { installPermissions } from '@quiteer/directives'
+import Directives, { installPermissions, providePermissions } from '@quiteer/directives'
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -34,7 +34,7 @@ setupPermissions()
 app.mount('#app')
 ```
 
-> 文档站点中在 `/.vitepress/theme/index.ts` 已示范注册与注入权限集合。
+> 文档站点中在 `/.vitepress/theme/index.ts` 已示范注册与注入权限集合。也可在根组件/布局组件的 `setup()` 中使用 `providePermissions([...])` 进行组合式注入，仅对子树生效。
 
 ## 主要指令
 

@@ -1,5 +1,5 @@
 import type { App, Directive } from 'vue'
-import { getCurrentInstance, inject } from 'vue'
+import { getCurrentInstance, inject, provide } from 'vue'
 
 /**
  * 注入 Key，用于在应用层通过 provide 注入权限集合
@@ -29,6 +29,29 @@ export function installPermissions(app: App, perms: Iterable<string>) {
   const set = new Set(perms)
   app.provide(PermissionsKey, set)
   ;(app.config.globalProperties as any).$permissions = set
+}
+
+/**
+ * 组合式注入权限集合
+ *
+ * 在组件的 `setup()` 中调用，通过 Composition API 的 `provide` 注入权限集合，作用域为当前组件的子树。
+ *
+ * @param perms - 权限码集合（字符串可迭代）
+ *
+ * @example
+ * ```ts
+ * // 在根组件或布局组件中调用
+ * import { providePermissions } from '@quiteer/directives'
+ * providePermissions(['sys:user:add','sys:user:edit'])
+ * ```
+ *
+ * @remarks
+ * - 与 `installPermissions(app, perms)` 不同：此方式不需要 `app`，但仅对子树生效
+ * - 指令内部优先使用 `inject` 获取，故两种注入方式均可被识别
+ */
+export function providePermissions(perms: Iterable<string>) {
+  const set = new Set(perms)
+  provide(PermissionsKey, set)
 }
 
 /**
@@ -134,6 +157,7 @@ function applyEffect(el: HTMLElement, effect: PermissionOptions['effect']) {
   }
   // disable：尽可能禁用交互并设置可访问性标记
   el.setAttribute('aria-disabled', 'true')
+  el.setAttribute('disabled', 'true')
   ;(el as any).disabled = true
   el.style.pointerEvents = 'none'
   el.style.cursor = 'not-allowed'
@@ -147,6 +171,7 @@ function applyEffect(el: HTMLElement, effect: PermissionOptions['effect']) {
 function restoreEffect(el: HTMLElement) {
   el.style.display = ''
   el.removeAttribute('aria-disabled')
+  el.removeAttribute('disabled')
   if ((el as any).disabled)
     (el as any).disabled = false
   el.style.pointerEvents = ''
