@@ -1,4 +1,5 @@
 import type { App, Directive } from 'vue'
+import { getCurrentInstance, inject } from 'vue'
 
 /**
  * 注入 Key，用于在应用层通过 provide 注入权限集合
@@ -25,17 +26,50 @@ export type PermissionValue = string | string[] | PermissionOptions
  * @param perms 权限码集合（字符串可迭代）
  */
 export function installPermissions(app: App, perms: Iterable<string>) {
-  app.provide(PermissionsKey, new Set(perms))
+  const set = new Set(perms)
+  app.provide(PermissionsKey, set)
+  ;(app.config.globalProperties as any).$permissions = set
 }
 
 /**
- * 从指令绑定的组件实例中获取已注入的权限集合
- * @param instance 指令绑定所在组件实例
+ * 获取已注入的权限集合（优先使用 Composition API 的 `inject`）
+ *
+ * 在指令钩子执行期间，当前组件实例处于激活状态，优先调用 `inject(PermissionsKey)` 获取权限集合；
+ * 若由于上下文差异导致 `inject` 返回空，则回退到实例的 `provides` 以及全局属性 `$permissions`。
+ *
+ * @param instance - 指令绑定所在组件实例
+ * @returns 注入的权限集合 `Set<string>`，若未注入则返回 `undefined`
+ *
+ * @example
+ * ```ts
+ * const set = getPermissionSet(binding.instance)
+ * ```
+ *
+ * @remarks
+ * - 权限集合需通过应用层调用 `installPermissions(app, perms)` 注入
+ * - 使用 `Symbol.for` 确保跨模块唯一键
+ *
+ * @security
+ * - 权限码应来自受信任的服务端返回，避免客户端伪造
  */
 function getPermissionSet(instance: any): Set<string> | undefined {
-  const provides = instance?.appContext?.provides
-  const set = provides?.[PermissionsKey as unknown as string] || provides?.[PermissionsKey as symbol]
-  return set as Set<string> | undefined
+  const injected = inject<Set<string> | undefined>(PermissionsKey as any, undefined)
+  if (injected)
+    return injected
+
+  const internal = instance?.$ ?? getCurrentInstance()
+  const provides
+    = internal?.appContext?.provides
+      ?? internal?.provides
+      ?? instance?.appContext?.provides
+      ?? instance?.provides
+      ?? internal?.root?.appContext?.provides
+      ?? internal?.root?.provides
+  const byProvide = provides?.[PermissionsKey as any]
+  if (byProvide)
+    return byProvide as Set<string>
+  const globalSet = internal?.appContext?.config?.globalProperties?.$permissions
+  return globalSet as Set<string> | undefined
 }
 
 /**
@@ -133,7 +167,7 @@ const directive: Directive<HTMLElement, PermissionValue> = {
   mounted(el, binding) {
     const set = getPermissionSet(binding.instance)
     const opts = normalizeOptions(binding)
-    if (!hasAuth(set, opts.codes, opts.mode))
+    if (opts.mode && !hasAuth(set, opts.codes, opts.mode))
       applyEffect(el, opts.effect)
     else
       restoreEffect(el)
@@ -141,7 +175,7 @@ const directive: Directive<HTMLElement, PermissionValue> = {
   updated(el, binding) {
     const set = getPermissionSet(binding.instance)
     const opts = normalizeOptions(binding)
-    if (!hasAuth(set, opts.codes, opts.mode))
+    if (opts.mode && !hasAuth(set, opts.codes, opts.mode))
       applyEffect(el, opts.effect)
     else
       restoreEffect(el)

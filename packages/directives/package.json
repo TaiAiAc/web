@@ -1,7 +1,7 @@
 {
   "name": "@quiteer/directives",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "vue3 directive",
   "author": "quiteer",
   "license": "ISC",
@@ -10,7 +10,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "keywords": ["vue3"],
+  "keywords": ["vue3", "directives"],
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -27,9 +27,9 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsdown --watch",
+    "dev": "tsdown -w",
     "build": "tsdown",
-    "release": "npm publish"
+    "release": "qui r --tag-prefix directives && qui gc && tsdown && pnpm publish"
   },
   "peerDependencies": {
     "vue": ">= 3"
