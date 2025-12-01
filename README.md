@@ -3,5 +3,5 @@
 
 ## 文档地址
 
-- [@quiteer/web 文档](https://taiaiac.github.io/web/)
+- [@quiteer/web 文档](https://quiteerjs.github.io/web/)
 

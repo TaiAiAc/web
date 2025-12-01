@@ -5,7 +5,7 @@
   "description": "Vite 插件集合，例如移除开发时杂乱 console 的插件",
   "author": "",
   "license": "MIT",
-  "homepage": "https://taiaiac.github.io/web/plugins/vite-plugin/",
+  "homepage": "https://quiteerjs.github.io/web/plugins/vite-plugin/",
   "keywords": [
     "vite",
     "plugin"

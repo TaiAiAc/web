@@ -4,7 +4,7 @@
   "description": "可自定义行列、支持拖拽排序与尺寸调整的网格组件库",
   "author": "",
   "license": "MIT",
-  "homepage": "https://taiaiac.github.io/web/plugins/box/",
+  "homepage": "https://quiteerjs.github.io/web/plugins/box/",
   "keywords": [
     "grid",
     "drag",

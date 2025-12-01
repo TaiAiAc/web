@@ -1,6 +1,7 @@
 # @quiteer/is
+> 面向 Web 与通用场景的类型判断集合，按模块组织导出：`type`、`dom`、`color`、`url`、`vanilla`、`web`。
+> [文档](https://quiteerjs.github.io/web/plugins/is.html)
 
-面向 Web 与通用场景的类型判断集合，按模块组织导出：`type`、`dom`、`color`、`url`、`vanilla`、`web`。
 
 ## 安装
 
@@ -51,9 +52,3 @@ function setPlaceholder(el: unknown, url: string) {
   }
 }
 ```
-
-## 文档
-
-- 详细 API 与使用说明请访问：
-
-- https://taiaiac.github.io/web/plugins/is.html

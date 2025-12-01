@@ -1,6 +1,6 @@
 # @quiteer/utils
-
-零依赖、原生 TypeScript/JavaScript 实现的常用工具集合，按模块组织导出：`string`、`number`、`array`、`object`、`function`、`random`、`time`、`type-utils`。
+> 零依赖、原生 TypeScript/JavaScript 实现的常用工具集合，按模块组织导出：`string`、`number`、`array`、`object`、`function`、`random`、`time`、`type-utils`。
+> [文档](https://quiteerjs.github.io/web/plugins/utils)
 
 ## 安装
 
@@ -66,7 +66,4 @@ const color = randomColor()
 const timestamp = formatTimestamp(new Date())
 ```
 
-## 文档
 
-- 完整 API 与详细说明：
-- https://taiaiac.github.io/web/plugins/utils/

@@ -2,7 +2,7 @@
   "name": "@quiteer/is",
   "version": "0.0.1",
   "description": "",
-  "homepage": "https://taiaiac.github.io/web/plugins/is.html",
+  "homepage": "https://quiteerjs.github.io/web/plugins/is.html",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",

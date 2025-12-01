@@ -25,7 +25,7 @@ export default defineConfig({
       next: '下一页'
     },
     nav: nav(),
-    socialLinks: [{ icon: 'github', link: 'https://github.com/TaiAiAc/web' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/quiteerjs/web' }],
     sidebar: {
       '/about/': [
         {
@@ -123,7 +123,7 @@ function nav() {
         },
         {
           text: '@quiteer/directives',
-          link: 'https://github.com/TaiAiAc/quiteer-vue-directives'
+          link: 'https://github.com/quiteerjs/quiteer-vue-directives'
         }
       ]
     }

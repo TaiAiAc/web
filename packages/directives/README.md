@@ -1,6 +1,8 @@
 # @quiteer/directives
+> 一个基于 Vue 3 的自定义指令集合，提供了一系列实用的指令来增强您的 Vue 应用程序。
+> [文档](https://quiteerjs.github.io/web/plugins/directives/)
 
-一个基于 Vue 3 的自定义指令集合，提供了一系列实用的指令来增强您的 Vue 应用程序。
+
 
 ## API 文档
 
