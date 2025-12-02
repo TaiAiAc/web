@@ -88,8 +88,23 @@ interface ImportMetaEnv {
   readonly VITE_TESTURL: string
   readonly VITE_TITLE: string
   readonly VITE_UPLOADURL: string
+  // 以下为 Vite 基础字段，便于在不依赖 vite/client 的情况下获得提示
+  readonly BASE_URL: string
+  readonly MODE: string
+  readonly DEV: boolean
+  readonly PROD: boolean
+  readonly SSR: boolean
 }
 interface ImportMeta { readonly env: ImportMetaEnv }
+```
+
+- 不安装 `vite` 的类型方式：在 `tsconfig.node.json` 的 `types` 中添加 "@quiteer/vite/client"，即可获得基础的 `import.meta.env` 提示；项目自定义的 `VITE_*` 键仍建议在本地 `env.d.ts` 中声明。
+
+```json
+{
+  "compilerOptions": { "types": ["node", "@quiteer/vite/client"] },
+  "include": ["qvite.config.ts", "env.d.ts"]
+}
 ```
 
 ## 命令行

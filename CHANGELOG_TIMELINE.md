@@ -1,6 +1,17 @@
 ## 变更日志
 
-### 2025-12-02 `✏️ 36+` `➕ 4+` `🗑️ 6+`
+### 2025-12-02 `✏️ 41+` `➕ 4+` `🗑️ 6+`
+- 🔧  **chore** `release`: v0.0.3
+  > **🕒  19:18** · `➕11` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`dd177ae`](https://github.com/QuiteerJs/web/commit/dd177ae3e3f41304e2cb14b3e2779305a288db86))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/dd177ae3e3f41304e2cb14b3e2779305a288db86/packages/qvite/package.json)
+- 🐛  **fix** `release`: qvite发布后安装失败的bug
+  > **🕒  18:43** · `➕281` / `➖232`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`a0b594b`](https://github.com/QuiteerJs/web/commit/a0b594bc3ebe10a93372184931cf1e6fec8ee2f3))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/a0b594bc3ebe10a93372184931cf1e6fec8ee2f3/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/a0b594bc3ebe10a93372184931cf1e6fec8ee2f3/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/qvite/tsdown.config.ts`](https://github.com/QuiteerJs/web/blob/a0b594bc3ebe10a93372184931cf1e6fec8ee2f3/packages/qvite/tsdown.config.ts)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/a0b594bc3ebe10a93372184931cf1e6fec8ee2f3/pnpm-lock.yaml)
 - 🔧  **chore** `release`: v0.0.2
   > **🕒  18:43** · `➕3` / `➖2`
   > `👤 Quiteer`  <p602985@yeah.net> ([`f0c27db`](https://github.com/QuiteerJs/web/commit/f0c27db54c01d9b20b6ec2f13278291606d36b53))
