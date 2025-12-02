@@ -1,7 +1,7 @@
 {
   "name": "@quiteer/vite",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "packageManager": "pnpm@10.20.0",
   "description": "在 vite 的基础上增强的前端架构 cli",
   "author": "quiteer",
@@ -16,6 +16,9 @@
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.mjs"
+    },
+    "./client": {
+      "types": "./client.d.ts"
     }
   },
   "main": "./dist/index.mjs",
@@ -23,6 +26,9 @@
   "types": "./dist/index.d.mts",
   "typesVersions": {
     "*": {
+      "client": [
+        "./client.d.ts"
+      ],
       "*": [
         "./src/*"
       ]
@@ -31,6 +37,10 @@
   "bin": {
     "qvite": "./dist/bin/qvite.mjs"
   },
+  "files": [
+    "client.d.ts",
+    "dist"
+  ],
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",
