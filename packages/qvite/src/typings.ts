@@ -1,4 +1,4 @@
-import type { Components, createSvgIconsPlugin, envTypesPlugin, fileChangeLoggerPlugin, FileSystemIconLoader, Icons, IconsResolver, mockRouterPlugin, NaiveUiResolver, Progress, removeConsolePlugin, UnoCSS, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
+import type { EnvConfigPluginOptions, fileChangeLoggerPlugin, mockRouterPlugin, Progress, removeConsolePlugin, UnoCSS, VirtualHtmlOptions, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
 import type { UserConfig } from 'tsdown'
 import type { UserConfig as ViteUserConfig } from 'vite'
 
@@ -10,27 +10,27 @@ export interface QvitePlugins {
   VueJsx?: PluginOptions<typeof VueJsx>
   Progress?: PluginOptions<typeof Progress>
   VueDevTools?: PluginOptions<typeof VueDevTools>
-  Icons?: PluginOptions<typeof Icons>
-  Components?: PluginOptions<typeof Components>
-  SvgIcons?: PluginOptions<typeof createSvgIconsPlugin>
   RemoveConsole?: PluginOptions<typeof removeConsolePlugin>
   MockRouter?: PluginOptions<typeof mockRouterPlugin>
-  EnvTypes?: PluginOptions<typeof envTypesPlugin>
   FileChangeLogger?: PluginOptions<typeof fileChangeLoggerPlugin>
-  FileSystemIconLoader?: PluginOptions<typeof FileSystemIconLoader>
-  IconsResolver?: PluginOptions<typeof IconsResolver>
-  NaiveUiResolver?: PluginOptions<typeof NaiveUiResolver>
 }
 
 export interface QviteConfig {
   vite?: ViteUserConfig
   tsdown?: UserConfig | UserConfig[]
   plugins?: QvitePlugins
+  html?: VirtualHtmlOptions
+  env?: EnvConfigPluginOptions
 }
 
-export interface ConfigEnv {
-  command: 'build' | 'serve'
-  mode: 'development' | 'production' | 'test' | 'staging' | 'production' | string
+export type Mode = 'development' | 'production' | 'test' | 'staging' | 'production' | string
+
+export type Command = 'build' | 'serve'
+
+export interface ConfigEnv<T = Record<string, string>> {
+  command: Command
+  mode: Mode
+  env: T
   root: string
 }
 

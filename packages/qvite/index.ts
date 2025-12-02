@@ -4,6 +4,8 @@ import type { QviteConfig, QviteConfigExport, QviteConfigFnObject } from './src/
 import { defineConfig as tsdownDefineConfig } from 'tsdown'
 import { defineConfig as viteDefineConfig } from 'vite'
 
+export type * from './src/typings'
+
 /**
  * `qvite` 配置声明函数（类型辅助）
  *

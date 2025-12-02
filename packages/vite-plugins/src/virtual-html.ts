@@ -92,6 +92,29 @@ export interface HtmlVirtualConfig {
   headAttrs?: Record<string, string | boolean | number | null | undefined>
   bodyAttrs?: Record<string, string | boolean | number | null | undefined>
   title?: string
+  script?: {
+    src: string
+    type?: string
+    async?: boolean
+    defer?: boolean
+    crossorigin?: 'anonymous' | 'use-credentials'
+    integrity?: string
+    referrerpolicy?: string
+    nonce?: string
+    fetchpriority?: 'high' | 'low' | 'auto'
+    attrs?: Record<string, string | boolean | number | null | undefined>
+    position?: 'head' | 'body-prepend' | 'body-append'
+  }
+  style?: {
+    src: string
+    rel?: 'stylesheet'
+    media?: string
+    crossorigin?: 'anonymous' | 'use-credentials'
+    integrity?: string
+    referrerpolicy?: string
+    attrs?: Record<string, string | boolean | number | null | undefined>
+    position?: 'head' | 'body-prepend' | 'body-append'
+  }
   tags?: HtmlTagDescriptor[]
   entry?: string
   appRoot?: { tag?: string, id?: string, attrs?: Record<string, string | boolean | number | null | undefined> }
@@ -153,13 +176,13 @@ const DEFAULT_VIRTUAL_HTML_CONFIG: HtmlVirtualConfig = {
  * @returns 合并后的配置
  */
 function mergeVirtualConfig(base: HtmlVirtualConfig, override: HtmlVirtualConfig = {}): HtmlVirtualConfig {
-  const htmlAttrs = { ...(base.htmlAttrs ?? {}), ...(override.htmlAttrs ?? {}) }
-  const headAttrs = { ...(base.headAttrs ?? {}), ...(override.headAttrs ?? {}) }
-  const bodyAttrs = { ...(base.bodyAttrs ?? {}), ...(override.bodyAttrs ?? {}) }
+  const htmlAttrs = { ...base.htmlAttrs, ...override.htmlAttrs }
+  const headAttrs = { ...base.headAttrs, ...override.headAttrs }
+  const bodyAttrs = { ...base.bodyAttrs, ...override.bodyAttrs }
   const appRoot = {
     tag: override.appRoot?.tag ?? base.appRoot?.tag,
     id: override.appRoot?.id ?? base.appRoot?.id,
-    attrs: { ...(base.appRoot?.attrs ?? {}), ...(override.appRoot?.attrs ?? {}) }
+    attrs: { ...base.appRoot?.attrs, ...override.appRoot?.attrs }
   }
   return {
     title: override.title ?? base.title,
@@ -168,6 +191,8 @@ function mergeVirtualConfig(base: HtmlVirtualConfig, override: HtmlVirtualConfig
     headAttrs,
     bodyAttrs,
     tags: override.tags ?? base.tags,
+    script: override.script ?? base.script,
+    style: override.style ?? base.style,
     appRoot
   }
 }
@@ -234,6 +259,99 @@ function renderTag(d: HtmlTagDescriptor): string {
 }
 
 /**
+ * 将脚本配置转换为 HtmlTagDescriptor
+ *
+ * 基于 `HtmlVirtualConfig.script` 生成 `<script>` 标签描述，支持 `type/async/defer/crossorigin/integrity/referrerpolicy/nonce/fetchpriority` 等属性，
+ * 并允许通过 `attrs` 进行自定义属性扩展。未显式指定 `position` 时默认注入到 `body-append`。
+ *
+ * @param script - 脚本配置对象，包含 `src` 与可选属性
+ * @returns 返回可用于渲染的标签描述对象
+ * @throws {TypeError} 当 `src` 为空字符串时可能导致资源加载失败
+ *
+ * @example
+ * ```ts
+ * toScriptTag({ src: '/vendor/analytics.js', async: true })
+ * ```
+ *
+ * @remarks
+ * - 若需 `type="module"`，可通过 `type: 'module'` 指定
+ * - 通过 `attrs` 可添加任意自定义属性（例如 `data-*`）
+ *
+ * @security
+ * 请确保外部脚本来源可信，必要时使用 `integrity` 与 `crossorigin`
+ *
+ * @performance
+ * 仅进行属性对象拼接，时间复杂度 O(1)
+ */
+function toScriptTag(script: NonNullable<HtmlVirtualConfig['script']>): HtmlTagDescriptor {
+  const baseAttrs: Record<string, string | boolean | number> = { src: script.src }
+  if (script.type)
+    baseAttrs.type = script.type
+  if (script.async)
+    baseAttrs.async = true
+  if (script.defer)
+    baseAttrs.defer = true
+  if (script.crossorigin)
+    baseAttrs.crossorigin = script.crossorigin
+  if (script.integrity)
+    baseAttrs.integrity = script.integrity
+  if (script.referrerpolicy)
+    baseAttrs.referrerpolicy = script.referrerpolicy
+  if (script.nonce)
+    baseAttrs.nonce = script.nonce
+  if (script.fetchpriority)
+    baseAttrs.fetchpriority = script.fetchpriority
+  return {
+    tag: 'script',
+    attrs: { ...baseAttrs, ...script.attrs },
+    position: script.position ?? 'body-append'
+  }
+}
+
+/**
+ * 将样式配置转换为 HtmlTagDescriptor
+ *
+ * 基于 `HtmlVirtualConfig.style` 生成外链样式描述，采用 `<link rel="stylesheet" href="...">` 形式；
+ * 支持 `media/crossorigin/integrity/referrerpolicy` 等常见属性，并允许通过 `attrs` 扩展。未显式指定 `position` 时默认注入到 `head`。
+ *
+ * @param style - 样式配置对象，包含 `src` 与可选属性
+ * @returns 返回可用于渲染的标签描述对象
+ * @throws {TypeError} 当 `src` 为空字符串时可能导致资源加载失败
+ *
+ * @example
+ * ```ts
+ * toStyleTag({ src: '/styles/main.css', media: 'screen' })
+ * ```
+ *
+ * @remarks
+ * - 采用 `<link rel="stylesheet">` 更符合 HTML 规范与浏览器加载行为
+ * - 若需内联样式，可直接通过 `tags` 传入 `{ tag: 'style', children: '...' }`
+ *
+ * @security
+ * 请确保外部样式来源可信，必要时使用 `integrity` 与 `crossorigin`
+ *
+ * @performance
+ * 仅进行属性对象拼接，时间复杂度 O(1)
+ */
+function toStyleTag(style: NonNullable<HtmlVirtualConfig['style']>): HtmlTagDescriptor {
+  const baseAttrs: Record<string, string | boolean | number> = { rel: style.rel ?? 'stylesheet', href: style.src }
+  if (style.media)
+    baseAttrs.media = style.media
+  if (style.crossorigin)
+    baseAttrs.crossorigin = style.crossorigin
+  if (style.integrity)
+    baseAttrs.integrity = style.integrity
+  if (style.referrerpolicy)
+    baseAttrs.referrerpolicy = style.referrerpolicy
+  return {
+    tag: 'link',
+    attrs: { ...baseAttrs, ...style.attrs },
+    selfClosing: true,
+    position: style.position ?? 'head'
+  }
+}
+
+/**
  * 函数：renderHtmlDocument
  *
  * 根据配置对象生成完整的 HTML 文档字符串，包含 head/body 结构与入口脚本。
@@ -263,15 +381,37 @@ function renderHtmlDocument(cfg: HtmlVirtualConfig): string {
     !hasViewport ? renderTag({ tag: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } }) : ''
   ].join('')
 
-  const headTags = (cfg.tags ?? [])
-    .filter(t => (t.position ?? 'head') === 'head')
-    .map(renderTag)
-    .join('')
+  const extraHead: HtmlTagDescriptor[] = []
+  const extraBodyPrepend: HtmlTagDescriptor[] = []
+  const extraBodyAppend: HtmlTagDescriptor[] = []
+  if (cfg.style) {
+    const s = toStyleTag(cfg.style)
+    const pos = s.position ?? 'head'
+    if (pos === 'head')
+      extraHead.push(s)
+    else if (pos === 'body-prepend')
+      extraBodyPrepend.push(s)
+    else extraBodyAppend.push(s)
+  }
+  if (cfg.script) {
+    const s = toScriptTag(cfg.script)
+    const pos = s.position ?? 'body-append'
+    if (pos === 'head')
+      extraHead.push(s)
+    else if (pos === 'body-prepend')
+      extraBodyPrepend.push(s)
+    else extraBodyAppend.push(s)
+  }
 
-  const bodyPrepend = (cfg.tags ?? [])
-    .filter(t => t.position === 'body-prepend')
-    .map(renderTag)
-    .join('')
+  const headTags = [
+    ...(cfg.tags ?? []).filter(t => (t.position ?? 'head') === 'head').map(renderTag),
+    ...extraHead.map(renderTag)
+  ].join('')
+
+  const bodyPrepend = [
+    ...(cfg.tags ?? []).filter(t => t.position === 'body-prepend').map(renderTag),
+    ...extraBodyPrepend.map(renderTag)
+  ].join('')
 
   const appRootTag = cfg.appRoot?.tag ?? 'div'
   const appRootId = cfg.appRoot?.id ?? 'app'
@@ -280,11 +420,13 @@ function renderHtmlDocument(cfg: HtmlVirtualConfig): string {
   const entrySrc = cfg.entry ?? '/src/main.ts'
   const entry = renderTag({ tag: 'script', attrs: { type: 'module', src: entrySrc } })
 
-  const bodyAppend = (cfg.tags ?? [])
-    // eslint-disable-next-line style/no-mixed-operators
-    .filter(t => (t.position === 'body-append') || t.position === undefined && ['script'].includes(t.tag))
-    .map(renderTag)
-    .join('')
+  const bodyAppend = [
+    ...(cfg.tags ?? [])
+      // eslint-disable-next-line style/no-mixed-operators
+      .filter(t => (t.position === 'body-append') || t.position === undefined && ['script'].includes(t.tag))
+      .map(renderTag),
+    ...extraBodyAppend.map(renderTag)
+  ].join('')
 
   return `<!DOCTYPE html><html${htmlAttrs}><head${headAttrs}>${title}${headPreset}${headTags}</head><body${bodyAttrs}>${bodyPrepend}${appRoot}${entry}${bodyAppend}</body></html>`
 }

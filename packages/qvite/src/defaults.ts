@@ -8,19 +8,18 @@ export const defaultOptions = {
     VueDevTools: [{}],
     VueJsx: [{}],
     Progress: [{}],
-    EnvTypes: [{}],
     FileChangeLogger: [{}],
     RemoveConsole: [{}],
-    MockRouter: [{}],
-    Icons: false,
-    SvgIcons: false,
-    Components: false,
-    FileSystemIconLoader: false,
-    IconsResolver: false,
-    NaiveUiResolver: false
+    MockRouter: [{}]
+  },
+  html: {
+
+  },
+  env: {
+    obfuscate: false,
+    requiredKeys: ['desc']
   },
   vite: {
-    envPrefix: 'QVITE_',
     server: {
       port: 3000,
       strictPort: false

@@ -8,8 +8,7 @@
   },
   "scripts": {
     "dev": "qvite",
-    "build": "qvite build",
-    "preview": "vite preview"
+    "build": "qvite build"
   },
   "dependencies": {
     "pinia": "^3.0.3",

@@ -47,7 +47,6 @@ cli
   .option('-m , --mode <mode>', '[development | production | test | staging | ...] 环境模式 ', { default: 'production' })
   .action(async (configFile: string = 'qvite.config.ts', options: BuildOptions) => {
     const { mode, minify } = options
-    console.log('mode: ', mode)
 
     store.set('command', 'build')
     store.set('config', configFile)

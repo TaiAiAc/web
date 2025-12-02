@@ -1,8 +1,10 @@
-import type { QviteConfig, QviteConfigFn } from './typings'
+import type { Command, Mode, QviteConfig, QviteConfigFn } from './typings'
 import { join } from 'node:path'
 import { isFunction } from '@quiteer/is'
 import { parserConfig } from '@quiteer/parser-config'
+import { deepMerge } from '@quiteer/utils'
 import { pathExists } from 'fs-extra'
+import { loadEnv } from 'vite'
 import { store } from './store'
 
 const NOT_FOUND = '找不到 qvite.config.ts | qvite.config.js | qvite.config.json , 请在根目录下添加配置文件 , 或显式的指定配置文件路径（相对于根目录）'
@@ -27,12 +29,18 @@ async function configPath(filePath: string) {
 export async function getConfig(filePath: string): Promise<QviteConfig> {
   const path = await configPath(filePath)
 
+  const command = store.get<Command>('command')!
+  const mode = store.get<Mode>('mode')!
+  const modeEnv = loadEnv(mode, root, store.get<string[]>('prefixes')!)
+  const defaultEnv = loadEnv('', root, store.get<string[]>('prefixes')!)
+
+  const env = deepMerge({}, defaultEnv, modeEnv)
   try {
     const option: QviteConfig = await parserConfig(path, 'qvite.config')
 
     if (isFunction(option)) {
       const configFn = option as QviteConfigFn
-      return configFn({ command: store.get('command')!, mode: store.get('mode')!, root })
+      return configFn({ command, mode, env, root })
     }
 
     return option
