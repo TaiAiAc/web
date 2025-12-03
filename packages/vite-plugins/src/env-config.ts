@@ -178,15 +178,24 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   /**
    * 函数：toEnvKey
    *
-   * 将普通键转换为符合前缀的环境变量名，如 baseURL -> VITE_BASEURL。
+   * 将普通键转换为符合前缀的环境变量名，如 baseURL -> VITE_BASE_URL。
    * 非字母数字以 _ 连接并转大写。
    *
    * @param key - 配置键名
    * @returns 环境变量名
    */
   function toEnvKey(key: string): string {
-    const norm = key.replace(/[^a-z0-9]+/gi, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '')
-    return `${includePrefixes[0] ?? 'VITE_'}${norm.toUpperCase()}`
+    const withUnderscore = key
+      // camelCase → snake_case (baseURL -> base_URL, testUrl -> test_Url)
+      .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+      // non-alphanumeric → _
+      .replace(/[^a-z0-9]+/gi, '_')
+      // collapse underscores
+      .replace(/_+/g, '_')
+      // trim underscores
+      .replace(/^_+|_+$/g, '')
+
+    return `${includePrefixes[0] ?? 'VITE_'}${withUnderscore.toUpperCase()}`
   }
 
   /**
