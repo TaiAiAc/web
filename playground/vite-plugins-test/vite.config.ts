@@ -1,4 +1,3 @@
-import type { VirtualHtmlOptions } from '@quiteer/vite-plugins'
 import { envConfigPlugin, envTypesPlugin, fileChangeLoggerPlugin, mockRouterPlugin, Progress, removeConsolePlugin, virtualHtmlPlugin } from '@quiteer/vite-plugins'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
@@ -13,7 +12,17 @@ export default defineConfig(() => ({
      *
      * `VirtualHtmlOptions` 为插件选项类型，能提供 IDE 自动补全与校验
      */
-    virtualHtmlPlugin({ configFile: 'html.config.ts', fallbackWhenIndexExists: true } satisfies VirtualHtmlOptions),
+    virtualHtmlPlugin({
+      configFile: 'html.config.ts',
+      fallbackWhenIndexExists: true,
+      pages: {
+        '/nested/index.html': {
+          title: 'Nested Page',
+          entry: '/src/nested/main.ts',
+          style: { src: '/src/style.css', position: 'head' }
+        }
+      }
+    }),
     fileChangeLoggerPlugin(),
     mockRouterPlugin(),
     envTypesPlugin(),

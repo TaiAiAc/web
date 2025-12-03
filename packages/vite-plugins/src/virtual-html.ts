@@ -150,6 +150,17 @@ export interface HtmlVirtualPluginOptions {
   configFile?: string
   config?: HtmlVirtualConfig
   fallbackWhenIndexExists?: boolean
+  /**
+   * 多页面配置映射
+   *
+   * 使用路由路径（以 `/` 开头）作为键，例如：`/index.html`、`/nested/index.html`
+   * 值为针对该页面的覆盖配置；未提供时继承默认配置。
+   *
+   * @remarks
+   * - 对于以 `/nested/` 结尾的访问，内部会转换为 `/nested/index.html`
+   * - 若未显式提供 `/index.html`，将使用默认配置作为主页
+   */
+  pages?: Record<string, HtmlVirtualConfig | undefined>
 }
 
 const DEFAULT_VIRTUAL_HTML_CONFIG: HtmlVirtualConfig = {
@@ -195,6 +206,88 @@ function mergeVirtualConfig(base: HtmlVirtualConfig, override: HtmlVirtualConfig
     style: override.style ?? base.style,
     appRoot
   }
+}
+
+/**
+ * 函数：normalizePagePath
+ *
+ * 标准化页面路径键，确保使用以 `/` 开头且包含 `index.html` 的形式，并派生可兼容的同义键。
+ *
+ * @param key - 输入键，例如 `/`, `/index.html`, `/nested`, `/nested/`, `/nested/index.html`
+ * @returns 规范化后的主键与同义键列表
+ *
+ * @example
+ * ```ts
+ * normalizePagePath('/nested/') // { primary: '/nested/index.html', aliases: ['/nested/', '/nested'] }
+ * ```
+ *
+ * @remarks
+ * - 仅处理 HTML 页面，不影响静态资源请求
+ *
+ * @security
+ * - 路径为内部使用，不参与用户输入渲染
+ *
+ * @performance
+ * - 字符串处理，开销极小
+ */
+function normalizePagePath(key: string): { primary: string, aliases: string[] } {
+  let k = key.trim()
+  if (!k.startsWith('/'))
+    k = `/${k}`
+  const aliases: string[] = []
+  if (k.endsWith('/')) {
+    aliases.push(k, k.slice(0, -1))
+    k = `${k}index.html`
+  }
+  else if (!k.endsWith('index.html')) {
+    // 处理 `/nested` 这类缺少 index.html 的情况
+    aliases.push(k, `${k}/`)
+    k = `${k}/index.html`
+  }
+  return { primary: k, aliases }
+}
+
+/**
+ * 函数：resolvePageConfigs
+ *
+ * 解析多页面配置，返回规范化路径到配置对象的映射；若未提供 pages，则仅返回主页配置。
+ *
+ * @param root - 项目根目录
+ * @param options - 插件选项
+ * @returns 规范化后的页面配置映射
+ *
+ * @example
+ * ```ts
+ * const pages = await resolvePageConfigs(root, { pages: { '/nested/index.html': { title: 'Nested' } } })
+ * ```
+ *
+ * @remarks
+ * - 每个页面均在默认配置基础上进行浅合并
+ *
+ * @security
+ * - 配置仅用于生成静态 HTML，不包含敏感信息
+ *
+ * @performance
+ * - O(n) 遍历 pages 键并合并配置
+ */
+async function resolvePageConfigs(root: string, options: HtmlVirtualPluginOptions): Promise<Record<string, HtmlVirtualConfig>> {
+  const base = await resolveHtmlConfig(root, options)
+  const map: Record<string, HtmlVirtualConfig> = {}
+  // 主页兜底
+  const home = normalizePagePath('/index.html')
+  map[home.primary] = base
+  for (const alias of home.aliases)
+    map[alias] = base
+  if (!options.pages)
+    return map
+  for (const [rawKey, override] of Object.entries(options.pages)) {
+    const { primary, aliases } = normalizePagePath(rawKey)
+    const merged = mergeVirtualConfig(base, override ?? {})
+    map[primary] = merged
+    for (const a of aliases)
+      map[a] = merged
+  }
+  return map
 }
 
 /**
@@ -507,6 +600,7 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
   let outDir: string = 'dist'
   let lastHtml: string | null = null
   let activeForBuild = false
+  let buildPages: string[] = []
 
   return {
     name: 'quiteer-virtual-html',
@@ -537,17 +631,32 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
         return
       if (realIndexExists && !options.fallbackWhenIndexExists)
         return
-      const cfg = await resolveHtmlConfig(localRoot, options)
-      const localTmpIndex = path.join(localRoot, 'node_modules', '.quiteer', 'index.html')
-      const html = renderHtmlDocument(cfg)
-      await fs.mkdir(path.dirname(localTmpIndex), { recursive: true })
-      await fs.writeFile(localTmpIndex, html, 'utf8')
-      lastHtml = html
+      // 多页面：优先使用 pages；否则回退单页
+      const pagesMap = await resolvePageConfigs(localRoot, options)
+      const tmpRoot = path.join(localRoot, 'node_modules', '.quiteer')
+      const inputs: Record<string, string> = {}
+      buildPages = []
+      await fs.mkdir(tmpRoot, { recursive: true })
+      for (const [pagePath, cfg] of Object.entries(pagesMap)) {
+        if (!pagePath.endsWith('index.html'))
+          continue
+        const tmpAbs = path.join(tmpRoot, pagePath.replace(/^\//, ''))
+        await fs.mkdir(path.dirname(tmpAbs), { recursive: true })
+        const html = renderHtmlDocument(cfg)
+        await fs.writeFile(tmpAbs, html, 'utf8')
+        lastHtml = html
+        // 名称按目录名或 index 命名（仅用于 Rollup input，对输出结构无影响）
+        const name = pagePath === '/index.html'
+          ? 'index'
+          : pagePath.replace(/\/$|^\//g, '').replace(/\/index\.html$/, '').split('/').pop() || 'page'
+        inputs[name] = tmpAbs
+        buildPages.push(pagePath)
+      }
       activeForBuild = true
       return {
         build: {
           rollupOptions: {
-            input: { index: localTmpIndex }
+            input: inputs
           }
         }
       }
@@ -557,19 +666,23 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
       server.middlewares.use(async (req, res, next) => {
         const url = req.url ?? '/'
         const u = new URL(url, 'http://localhost')
-        if (u.pathname !== '/' && u.pathname !== '/index.html')
-          return next()
+        // 支持多页面：将 `/nested/` 归一为 `/nested/index.html`
+        const norm = normalizePagePath(u.pathname).primary
+        // 若存在真实 index.html 且不回退，交给 Vite 默认处理
         if (hasRealIndex && !options.fallbackWhenIndexExists)
           return next()
         try {
-          const cfg = await resolveHtmlConfig(rootDir, options)
+          const pages = await resolvePageConfigs(rootDir, options)
+          const cfg = pages[norm]
+          if (!cfg)
+            return next()
           const html = renderHtmlDocument(cfg)
-          const transformed = await server.transformIndexHtml(u.pathname, html)
+          const transformed = await server.transformIndexHtml(norm, html)
           res.statusCode = 200
           res.setHeader('Content-Type', 'text/html; charset=utf-8')
           res.end(transformed)
           // eslint-disable-next-line no-console
-          console.log(`${bold(cyan('[html]'))} 使用虚拟 index.html ${gray(u.pathname)} ${green('OK')}`)
+          console.log(`${bold(cyan('[html]'))} 使用虚拟 html ${gray(norm)} ${green('OK')}`)
         }
         catch (e) {
           server.config.logger.error(red(`[virtual-html] ${(e as Error).message}`))
@@ -580,21 +693,25 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
     async closeBundle() {
       if (!activeForBuild)
         return
-      const target = path.join(rootDir, outDir, 'index.html')
-      await fs.mkdir(path.dirname(target), { recursive: true })
-      const nestedTmp = path.join(rootDir, outDir, 'node_modules', '.quiteer')
-      const nestedHtml = path.join(nestedTmp, 'index.html')
-      try {
-        const built = await fs.readFile(nestedHtml, 'utf8')
-        await fs.writeFile(target, built, 'utf8')
-      }
-      catch {
-        if (lastHtml)
-          await fs.writeFile(target, lastHtml, 'utf8')
+      const tmpBuiltRoot = path.join(rootDir, outDir, 'node_modules', '.quiteer')
+      // 复制每个页面的构建结果到 dist 对应路径
+      for (const page of buildPages) {
+        const src = path.join(tmpBuiltRoot, page.replace(/^\//, ''))
+        const dest = path.join(rootDir, outDir, page.replace(/^\//, ''))
+        await fs.mkdir(path.dirname(dest), { recursive: true })
+        try {
+          const built = await fs.readFile(src, 'utf8')
+          await fs.writeFile(dest, built, 'utf8')
+        }
+        catch {
+          if (lastHtml && page === '/index.html') {
+            await fs.writeFile(dest, lastHtml, 'utf8')
+          }
+        }
       }
       // 清理嵌套临时目录
       try {
-        await fs.rm(nestedTmp, { recursive: true, force: true })
+        await fs.rm(tmpBuiltRoot, { recursive: true, force: true })
       }
       catch {}
       const nestedNM = path.join(rootDir, outDir, 'node_modules')
