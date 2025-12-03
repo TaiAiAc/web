@@ -5,7 +5,7 @@
   "packageManager": "pnpm@10.20.0",
   "description": "在 vite 的基础上增强的前端架构 cli",
   "author": "quiteer",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://quiteerjs.github.io/web/cli/qvite.html",
   "keywords": [
     "vite",

@@ -7,8 +7,7 @@ interface ViteTypeOptions {
   // strictImportMetaEnv: unknown
 }
 
-type ImportMetaEnvFallbackKey
-  = 'strictImportMetaEnv' extends keyof ViteTypeOptions ? never : string
+type ImportMetaEnvFallbackKey = 'strictImportMetaEnv' extends keyof ViteTypeOptions ? never : string
 
 interface ImportMetaEnv extends Record<ImportMetaEnvFallbackKey, any> {
   BASE_URL: string
@@ -25,5 +24,5 @@ interface ImportMeta {
 
   readonly env: ImportMetaEnv
 
-  glob: import('./importGlob.js').ImportGlobFunction
+  glob: import('vite').ImportGlobFunction
 }

@@ -4,7 +4,7 @@
   "version": "0.0.14",
   "description": "vue3 directive",
   "author": "quiteer",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://quiteerjs.github.io/web/plugins/directives/",
   "publishConfig": {
     "access": "public",
