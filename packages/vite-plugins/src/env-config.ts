@@ -10,9 +10,9 @@ type EnvValue = string | { value: string, obfuscate?: boolean }
 type EnvItem<RequiredKeys extends PropertyKey = never> = { desc: EnvValue } & Record<RequiredKeys, EnvValue> & Record<string, EnvValue>
 
 type EnvName = 'development' | 'production' | 'test' | 'staging' | 'release'
-export type EnvConfig<RequiredKeys extends PropertyKey = never, EnvNames extends string = never> = {
+export type EnvConfig<RequiredKeys extends PropertyKey = never, EnvNames extends string = EnvName> = {
   default: { desc: EnvValue } & Partial<Omit<EnvItem<RequiredKeys>, 'desc'>>
-} & { [K in EnvName | EnvNames]: EnvItem<RequiredKeys> }
+} & { [K in EnvNames]: EnvItem<RequiredKeys> }
 
 export interface EnvConfigPluginOptions {
   /** 根目录，默认使用 Vite 的 root */

@@ -2,7 +2,7 @@
   "name": "@quiteer/scripts",
   "type": "module",
   "version": "0.0.11",
-  "homepage": "https://quiteerjs.github.io/web/ci/scripts.html",
+  "homepage": "https://quiteerjs.github.io/web/cli/scripts.html",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",

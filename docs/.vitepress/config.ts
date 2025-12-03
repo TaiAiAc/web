@@ -33,6 +33,16 @@ export default defineConfig({
           items: [{ text: '文档配置', link: '/about/' }]
         }
       ],
+      '/cli/': [
+        {
+          text: 'CLI',
+          items: [
+            { text: '一些脚本工具', link: '/cli/' },
+            { text: 'scripts', link: '/cli/scripts' },
+            { text: 'qvite', link: '/cli/qvite' }
+          ]
+        }
+      ],
       ...introduceSidebar()
     }
   },
@@ -63,6 +73,12 @@ function nav() {
       text: '指引',
       link: '/introduce/project',
       activeMatch: '/introduce|main|renderer|config|builder/'
+    },
+    {
+      text: 'CLI',
+      link: '/cli/',
+      activeMatch: '/cli/'
+
     },
     {
       text: '关于',
@@ -214,20 +230,12 @@ function introduceSidebar() {
         },
         { text: '@quiteer/is', link: '/plugins/is' }
       ]
-    },
-    {
-      text: 'ci',
-      items: [
-        { text: '一些脚本工具', link: '/ci/' },
-        { text: 'scripts', link: '/ci/scripts' },
-        { text: 'qvite', link: '/ci/qvite' }
-      ]
     }
+
   ]
 
   return {
     '/introduce/': commonRoute,
-    '/plugins/': commonRoute,
-    '/ci/': commonRoute
+    '/plugins/': commonRoute
   }
 }

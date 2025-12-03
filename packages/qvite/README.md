@@ -1,7 +1,7 @@
 # @quiteer/vite
 
 > `@quiteer/vite` 是在 Vite 基础上增强的前端构建与开发 CLI，内置插件编排、环境变量注入与 HTML 虚拟插入等能力，并支持与 `tsdown` 联动进行前后端/工具产物的构建统一。
-> 文档地址：[qvite 文档](https://quiteerjs.github.io/web/ci/qvite.html)
+> 文档地址：[qvite 文档](https://quiteerjs.github.io/web/cli/qvite.html)
 
 ## 特性
 

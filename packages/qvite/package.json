@@ -6,7 +6,7 @@
   "description": "在 vite 的基础上增强的前端架构 cli",
   "author": "quiteer",
   "license": "ISC",
-  "homepage": "https://quiteerjs.github.io/web/ci/qvite.html",
+  "homepage": "https://quiteerjs.github.io/web/cli/qvite.html",
   "keywords": [
     "vite",
     "cli"

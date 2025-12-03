@@ -1,6 +1,6 @@
 # @quiteer/scripts
 > 简化多包仓库的版本管理与变更日志生成，提供便捷的 CLI 命令。
-> [文档](https://quiteerjs.github.io/web/ci/scripts.html)
+> [文档](https://quiteerjs.github.io/web/cli/scripts.html)
 
 ## 安装
 
