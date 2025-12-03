@@ -65,7 +65,7 @@ export function isRgbaColor(val: unknown): val is string {
 
 /** @description: 是否为颜色名称 */
 export function isColorName(val: unknown): val is string {
-  return isColor(val) && /^[a-z]+$/i.test(val)
+  return isString(val) && /^[a-z]+$/i.test(val)
 }
 
 /** @description: 是否为颜色字符串 */

@@ -7,6 +7,19 @@
 - 风险可控：仅输出符合前缀（默认 `VITE_`）的变量；支持“必填项”校验，缺失时明确提醒并中止构建。
 - 混淆支持：提供 Base64 混淆以弱化肉眼读取；支持字段级与全局策略，避免 URL 等“直接使用型”字段受影响。
 
+## 快速开始
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import { envConfigPlugin } from '@quiteer/vite-plugins'
+
+export default defineConfig(() => ({
+  plugins: [
+    envConfigPlugin({ requiredKeys: ['baseURL', 'apiURL'] })
+  ]
+}))
+```
+
 ## 使用方法
 ```ts
 // vite.config.ts
@@ -138,6 +151,25 @@ export default {
 - 弱化敏感字段的直观可读性（Base64），在前端使用前可选择性还原或直接跳过混淆。
 - 对关键配置强制校验，避免遗漏导致的运行期问题。
 
+## 命名转换规则
+- 变量键名会按“驼峰/分词”转换为大写下划线：`baseURL -> BASE_URL`、`testUrl -> TEST_URL`。
+- 最终导出到 `import.meta.env` 时拼接前缀：默认 `VITE_`，即 `VITE_BASE_URL`。
+- 非字母数字字符会被规范为 `_`，多余下划线会折叠并去除首尾。
+- 可通过 `includePrefixes` 显式设置前缀集合；仅使用第一个前缀生成。
+
+## 与 Vite `loadEnv` 配合
+```ts
+import { defineConfig, loadEnv } from 'vite'
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'VITE_')
+  return {
+    plugins: [envConfigPlugin()],
+    server: { proxy: { '/api': env.VITE_API_URL } }
+  }
+})
+```
+
 ## 运行机制与细节
 - 合并策略：`{ ...default, ...env[mode] }`，后者覆盖同名键。
 - 前缀过滤：仅生成符合 `includePrefixes` 的键（默认 `VITE_`）。
@@ -164,12 +196,16 @@ const testUrl = import.meta.env.VITE_TEST_URL
 ## 性能与安全
 - 生成流程轻量：文件读写与类型推断均为 O(n) 操作。
 - 安全实践：前缀白名单与必填项校验能减少误注入与缺失风险；避免在前端存放真正机密。
-// 自定义环境集合示例（中文环境名）
+
+## 进阶示例：自定义环境集合（中文环境名）
+```ts
 export default {
   default: { desc: '通用' },
   环境1: { desc: '环境1', baseURL: 'https://env1', apiURL: '/api', uploadURL: '/files', gisJs: '/gis', gisCss: '/gis', title: 'e1' },
   环境2: { desc: '环境2', baseURL: 'https://env2', apiURL: '/api', uploadURL: '/files', gisJs: '/gis', gisCss: '/gis', title: 'e2' }
 } satisfies EnvConfig<'环境1'|'环境2', 'baseURL'|'apiURL'>
+```
+
 ## IDE 代码提示与类型用法
 ```ts
 import type { EnvConfig } from '@quiteer/vite-plugins'
@@ -208,3 +244,41 @@ export default {
 - 使用 `satisfies` 能获得更精准的 IDE 提示与错误定位：
   - 缺少必填键会类型报错
   - 写入未声明的环境名会类型报错（仅限传入的 `EnvNames` 与内置集合）
+
+## 常见问题（FAQ）
+- 如何还原混淆值？建议不进行还原，URL/直用型字段应跳过混淆；若确需还原，可在 Node 端或浏览器端解码：
+```ts
+/**
+ * 还原 Base64 混淆值
+ * 
+ * 对受控场景的混淆字符串进行还原；生产环境中不建议对 URL 等直用型字段使用混淆。
+ * 
+ * @param v - Base64 字符串
+ * @returns 还原后的普通字符串
+ * @throws {TypeError} 当入参不是字符串或格式非法时抛出
+ * 
+ * @example
+ * ```ts
+ * decodeBase64Env('aHR0cHM6Ly9hcGkuZXhhbXBsZS5jb20=') // 'https://api.example.com'
+ * ```
+ * 
+ * @remarks
+ * - 浏览器环境可使用 `atob`；Node 环境使用 `Buffer`
+ * 
+ * @security
+ * 混淆非加密，请勿用于机密信息
+ * 
+ * @performance
+ * O(n) 字符处理
+ */
+export function decodeBase64Env(v: string): string {
+  if (typeof v !== 'string')
+    throw new TypeError('invalid base64 value')
+  if (typeof window !== 'undefined' && typeof window.atob === 'function')
+    return decodeURIComponent(escape(window.atob(v)))
+  return Buffer.from(v, 'base64').toString('utf8')
+}
+```
+- `requiredKeys` 与 `default` 段：`default` 可包含额外键；必填校验仅针对当前环境段（合并后）。
+- 生成的文件位置：默认写入根目录的 `.env.local` 与 `.env.{mode}.local`，类型文件写入 `env.d.ts`（可通过 `typesOutput` 自定义）。
+- 多包/工作区：插件会在 `root` 下查找 `env.config.ts`，若未找到将广搜一次；也可通过 `configFile` 显式指定。
