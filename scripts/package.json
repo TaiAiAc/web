@@ -1,7 +1,7 @@
 {
   "name": "@quiteer/scripts",
   "type": "module",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "homepage": "https://quiteerjs.github.io/web/cli/scripts.html",
   "publishConfig": {
     "access": "public",
@@ -36,7 +36,7 @@
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",
-    "release": "qui r --tag-prefix scripts && qui gc && tsdown && pnpm publish"
+    "release": "qui r --tag-prefix scripts && tsdown && pnpm publish"
   },
   "dependencies": {
     "bumpp": "10.3.1",
