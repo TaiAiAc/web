@@ -115,9 +115,9 @@ export default {
 - 建议：URL/直接使用型字段设置 `obfuscate: false` 或加入 `obfuscateSkipKeys`。
 
 ## 严格键约束（推荐）
-- 为了在类型层面约束“必填键”，可使用泛型：
+- 为了在类型层面约束“必填键”，可使用泛型（参数顺序为：`RequiredKeys`，`EnvNames`）：
   - `EnvConfig<RequiredKeys>`：默认五个环境；环境段仅允许 `desc` 与 `RequiredKeys`，其它键将报错；`default` 段可包含任意额外键
-  - `EnvConfig<EnvNames, RequiredKeys>`：在默认内置集合基础上加入自定义环境名；同样对环境段进行严格约束
+  - `EnvConfig<RequiredKeys, EnvNames>`：在默认内置集合基础上加入自定义环境名；同样对环境段进行严格约束
   - 示例：
 ```ts
 // 约束必填键集合（EnvNames 可省略，默认五个环境）；default 段可包含其他键
@@ -203,7 +203,7 @@ export default {
   default: { desc: '通用' },
   环境1: { desc: '环境1', baseURL: 'https://env1', apiURL: '/api', uploadURL: '/files', gisJs: '/gis', gisCss: '/gis', title: 'e1' },
   环境2: { desc: '环境2', baseURL: 'https://env2', apiURL: '/api', uploadURL: '/files', gisJs: '/gis', gisCss: '/gis', title: 'e2' }
-} satisfies EnvConfig<'环境1'|'环境2', 'baseURL'|'apiURL'>
+} satisfies EnvConfig<'baseURL'|'apiURL','环境1'|'环境2'>
 ```
 
 ## IDE 代码提示与类型用法
@@ -225,7 +225,7 @@ export default {
   default: { desc: '通用' },
   环境1: { desc: '环境1', baseURL: 'https://env1', apiURL: '/api' },
   环境2: { desc: '环境2', baseURL: 'https://env2', apiURL: '/api' }
-} satisfies EnvConfig<'环境1'|'环境2','baseURL'|'apiURL'>
+} satisfies EnvConfig<'baseURL'|'apiURL','环境1'|'环境2'>
 
 // 字段值对象形态：支持按字段控制混淆
 export default {

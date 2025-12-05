@@ -11,12 +11,19 @@ type EnvValue = string | { value: string, obfuscate?: boolean }
 
 type EnvName = 'development' | 'production' | 'test' | 'staging' | 'release'
 
+/**
+ * 严格环境段类型：仅允许 `desc` 与声明的 `Keys`，多余键会在字面量赋值时报错
+ */
+type StrictEnvSection<Keys extends string> = {
+  desc: EnvValue
+} & { [K in Keys]-?: EnvValue }
+
 export type EnvConfig<Keys extends string = never, EnvNames extends string = EnvName> = {
   /** default 段允许任意扩展键，且 Keys 为可选 */
   default: { desc: EnvValue } & Partial<Record<Keys, EnvValue>> & Record<string, EnvValue>
 } & {
   /** 具体环境段严格限制：只能包含 desc 与 Keys，不允许多余键 */
-  [K in EnvNames]: ({ desc: EnvValue } & Record<Keys, EnvValue>) & Record<Exclude<string, Keys | 'desc'>, never>
+  [K in EnvNames]: StrictEnvSection<Keys>
 }
 
 export interface EnvConfigPluginOptions {

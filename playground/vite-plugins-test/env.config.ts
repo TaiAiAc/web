@@ -17,10 +17,8 @@ export default {
       obfuscate: true
     },
     apiURL: '/api',
-    uploadURL: '/files',
     gisJs: '/gis',
-    gisCss: '/gis',
-    title: 'xxx'
+    gisCss: '/gis'
   },
   production: {
     desc: '生产环境变量',

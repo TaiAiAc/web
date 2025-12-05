@@ -1,6 +1,18 @@
 ## 变更日志
 
-### 2025-12-04 `✏️ 23+` `➕ 0+` `🗑️ 0+`
+### 2025-12-05 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.10
+  > **🕒  18:22** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`39602c5`](https://github.com/QuiteerJs/web/commit/39602c5e9ab7137aa3e983f2d1ca5352f0822d07))
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/39602c5e9ab7137aa3e983f2d1ca5352f0822d07/packages/vite-plugins/package.json)
+
+### 2025-12-04 `✏️ 26+` `➕ 0+` `🗑️ 0+`
+- ⚙️  **ci** `release`: 优化版本发布命令
+  > **🕒  15:47** · `➕177` / `➖155`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`102bd75`](https://github.com/QuiteerJs/web/commit/102bd753700c528cd831929d6923d4bd54d0ec85))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/102bd753700c528cd831929d6923d4bd54d0ec85/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/102bd753700c528cd831929d6923d4bd54d0ec85/CHANGELOG_TIMELINE.md)
+  - ✏️ [`scripts/src/commands/release.ts`](https://github.com/QuiteerJs/web/blob/102bd753700c528cd831929d6923d4bd54d0ec85/scripts/src/commands/release.ts)
 - 🔧  **chore** `release`: v0.0.12
   > **🕒  15:46** · `➕2` / `➖2`
   > `👤 Quiteer`  <p602985@yeah.net> ([`1d51aee`](https://github.com/QuiteerJs/web/commit/1d51aee0ef7cccd9a15a307195c0a1f2394d94ab))
