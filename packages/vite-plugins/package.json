@@ -28,7 +28,7 @@
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",
-    "release": "qui r --tag-prefix vite-plugins && qui gc && tsdown && pnpm publish"
+    "release": "qui r --tag-prefix vite-plugins && tsdown && pnpm publish"
   },
   "publishConfig": {
     "access": "public",
