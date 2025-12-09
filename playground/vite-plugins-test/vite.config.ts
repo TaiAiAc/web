@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { bootstrapEnv, envConfigPlugin, envTypesPlugin, fileChangeLoggerPlugin, mockRouterPlugin, Progress, removeConsolePlugin, virtualHtmlPlugin } from '@quiteer/vite-plugins'
+import { bootstrapEnv, envConfigPlugin, fileChangeLoggerPlugin, mockRouterPlugin, Progress, removeConsolePlugin, virtualHtmlPlugin } from '@quiteer/vite-plugins'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, loadEnv } from 'vite'
 
@@ -30,8 +30,8 @@ export default defineConfig(async ({ mode }) => {
       }),
       fileChangeLoggerPlugin(),
       mockRouterPlugin(),
-      envTypesPlugin(),
-      envConfigPlugin({ disableTypes: true, obfuscate: false, requiredKeys: ['desc'] }),
+      // envTypesPlugin(),
+      envConfigPlugin({ obfuscate: false, requiredKeys: ['desc'] }),
       removeConsolePlugin({ processVue: false })
     ]
   })

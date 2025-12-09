@@ -66,3 +66,80 @@ export function mergeByMode(cfg: EnvConfigShape, mode: string): Record<string, u
   const specific = { ...cfg[mode] }
   return { ...base, ...specific }
 }
+
+export type EnvPrimitiveType = 'boolean' | 'number' | 'string'
+
+/**
+ * 推断基础类型（boolean/number/string）
+ *
+ * 根据所有出现的字符串值集合进行判断，若全部为 `true|false` 推断为 boolean；
+ * 若全部符合数字正则推断为 number；否则为 string。
+ *
+ * @param values - 字符串值集合，来自 .env 或配置对象的值序列
+ * @returns 推断出的基础类型
+ * @throws {Error} 不会抛错，始终返回三类之一
+ *
+ * @example
+ * ```ts
+ * inferPrimitiveType(['true','false']) // 'boolean'
+ * inferPrimitiveType(['123','0']) // 'number'
+ * inferPrimitiveType(['abc','123x']) // 'string'
+ * ```
+ *
+ * @remarks
+ * - 空集合或空字符串将被视为 string
+ *
+ * @security
+ * 无安全风险，纯类型推断
+ *
+ * @performance
+ * O(n) 遍历判断
+ */
+export function inferPrimitiveType(values: string[]): EnvPrimitiveType {
+  const trimmed = values.map(v => String(v).trim()).filter(v => v.length > 0)
+  if (trimmed.length === 0)
+    return 'string'
+  const isBool = trimmed.every(v => v === 'true' || v === 'false')
+  if (isBool)
+    return 'boolean'
+  const isNum = trimmed.every(v => /^-?\d+(?:\.\d+)?$/.test(v))
+  if (isNum)
+    return 'number'
+  return 'string'
+}
+
+/**
+ * 生成 ImportMetaEnv 的 d.ts 文本
+ *
+ * 接收已准备好的类型映射并输出标准的 `ImportMetaEnv` 与 `ImportMeta` 接口声明。
+ *
+ * @param typeMap - 键到类型的映射，键应为最终导出的环境变量名（如 `VITE_BASE_URL`）
+ * @returns d.ts 文本内容
+ * @throws {Error} 不会抛错
+ *
+ * @example
+ * ```ts
+ * const tm = new Map<string, EnvPrimitiveType>([["VITE_BASE_URL","string"]])
+ * const dts = generateEnvDtsFromTypeMap(tm)
+ * ```
+ *
+ * @remarks
+ * - 会按键名排序输出，便于稳定 diff
+ *
+ * @security
+ * 无安全风险
+ *
+ * @performance
+ * O(n) 拼接字符串
+ */
+export function generateEnvDtsFromTypeMap(typeMap: Map<string, string>): string {
+  const lines: string[] = []
+  lines.push('interface ImportMetaEnv {')
+  for (const [key, t] of Array.from(typeMap.entries()).sort(([a], [b]) => a.localeCompare(b)))
+    lines.push(`  readonly ${key}: ${t}`)
+  lines.push('}')
+  lines.push('interface ImportMeta {')
+  lines.push('  readonly env: ImportMetaEnv')
+  lines.push('}')
+  return `${lines.join('\n')}\n`
+}

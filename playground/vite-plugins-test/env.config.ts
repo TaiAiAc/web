@@ -18,7 +18,9 @@ export default {
     },
     apiURL: '/api',
     gisJs: '/gis',
-    gisCss: '/gis'
+    gisCss: '/gis',
+    test: 'false',
+    test1: true
   },
   production: {
     desc: '生产环境变量',

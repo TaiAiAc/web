@@ -99,12 +99,12 @@ export default {
 - `envFileTemplate?: string`：环境文件名模板，默认 `'.env.{mode}.local'`。
 - `defaultEnvFile?: string`：默认段文件名，默认 `'.env.local'`。
 - `includePrefixes?: string[]`：变量前缀白名单，默认取 `envPrefix` 或 `['VITE_']`。
-- `inferTypes?: boolean`：类型推断（boolean/number/string），默认 `true`。
 - `requiredKeys?: string[]`：必填项校验，缺失时开发模式报错，构建阶段中止。
 - `obfuscate?: boolean`：全局混淆开关（Base64），默认 `false`。
 - `obfuscateSkipKeys?: string[]`：跳过混淆的原始键名（如 `'testUrl'`）。
 - `disableTypes?: boolean`：禁用类型文件生成，默认 `false`。
 - `typesOutput?: string`：类型输出文件路径，默认 `'env.d.ts'`。
+- `literalUnions?: boolean`：是否为类型生成“联合字面量”精确值，默认 `true`。开启后会从 `default` 与所有环境段聚合每个键的取值并去重，生成如 `'通用环境变量'|'开发环境变量'|'生产环境变量'` 的类型；若某键无可聚合值则回退为 `string`。
 
 ## 字段级策略（EnvConfigOption）
 - 写法：字符串或对象 `{ value?: string; obfuscate?: boolean }`
@@ -144,6 +144,23 @@ export default {
 ```
 
 > 说明：在上述严格约束中，非 default 段写入 `title` 将产生类型错误；这有助于保证不同环境的键集合一致与可预期。
+
+## 联合字面量类型（更精确的 IDE 提示）
+- 行为：当 `literalUnions: true`（默认）时，类型文件会基于 `env.config.ts` 中 `default` 与各环境段的值生成更精确的“联合字面量类型”。
+- 收集规则：
+  - 对象形态值取其 `value` 字段；空值与空字符串忽略；重复值去重并排序保证稳定输出。
+  - 与混淆无关：类型收集使用原始配置值，不受 `obfuscate` 影响。
+- 示例效果：
+```ts
+// env.d.ts（片段）
+interface ImportMetaEnv {
+  readonly VITE_DESC: '通用环境变量' | '开发环境变量' | '生产环境变量'
+  readonly VITE_BASE_URL: string // 多环境下 URL 不同，通常保持 string
+}
+interface ImportMeta { readonly env: ImportMetaEnv }
+```
+- 关闭方式：如需保持所有键为 `string`，在插件中设置 `literalUnions: false`。
+- 适用场景：对枚举型或少量可选值的字段（如 `desc`、`modeName`）提供更强的补全与校验；对高度动态的键（如 URL）建议保持 `string`。
 
 ## 应用场景
 - 多环境配置集中管理：`default` 提供通用配置，各环境覆盖差异。

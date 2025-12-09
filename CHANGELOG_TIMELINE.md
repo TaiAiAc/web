@@ -1,6 +1,20 @@
 ## 变更日志
 
-### 2025-12-05 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+### 2025-12-09 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.11
+  > **🕒  18:44** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`e2c49df`](https://github.com/QuiteerJs/web/commit/e2c49df3d868ecfa2100e6a8c80352e49e466295))
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/e2c49df3d868ecfa2100e6a8c80352e49e466295/packages/vite-plugins/package.json)
+
+### 2025-12-05 `✏️ 6+` `➕ 0+` `🗑️ 0+`
+- 🐛  **fix** `release`: 修复类型提示的bug
+  > **🕒  18:23** · `➕109` / `➖78`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`cf05e53`](https://github.com/QuiteerJs/web/commit/cf05e530b739e156c9282ae26875addc2523755f))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/cf05e530b739e156c9282ae26875addc2523755f/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/cf05e530b739e156c9282ae26875addc2523755f/CHANGELOG_TIMELINE.md)
+  - ✏️ [`docs/plugins/vite-plugin/env-config.md`](https://github.com/QuiteerJs/web/blob/cf05e530b739e156c9282ae26875addc2523755f/docs/plugins/vite-plugin/env-config.md)
+  - ✏️ [`packages/vite-plugins/src/env-config.ts`](https://github.com/QuiteerJs/web/blob/cf05e530b739e156c9282ae26875addc2523755f/packages/vite-plugins/src/env-config.ts)
+  - ✏️ [`playground/vite-plugins-test/env.config.ts`](https://github.com/QuiteerJs/web/blob/cf05e530b739e156c9282ae26875addc2523755f/playground/vite-plugins-test/env.config.ts)
 - 🔧  **chore** `release`: v0.0.10
   > **🕒  18:22** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`39602c5`](https://github.com/QuiteerJs/web/commit/39602c5e9ab7137aa3e983f2d1ca5352f0822d07))

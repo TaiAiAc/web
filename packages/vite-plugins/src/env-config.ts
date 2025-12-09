@@ -1,11 +1,12 @@
 import type { Plugin } from 'vite'
+import type { EnvConfigShape } from './shared/env-shared'
 import { Buffer } from 'node:buffer'
 import path from 'node:path'
 import process from 'node:process'
 import fg from 'fast-glob'
-import { bold, cyan, gray, green, red, yellow } from 'kolorist'
 
-import { mergeByMode, parseConfigModule, resolveEnvConfigPath, toEnvKey, writeIfChanged } from './shared/env-shared'
+import { bold, cyan, gray, green, red, yellow } from 'kolorist'
+import { generateEnvDtsFromTypeMap, mergeByMode, parseConfigModule, resolveEnvConfigPath, toEnvKey, writeIfChanged } from './shared/env-shared'
 
 type EnvValue = string | { value: string, obfuscate?: boolean }
 
@@ -39,8 +40,6 @@ export interface EnvConfigPluginOptions {
   defaultEnvFile?: string
   /** 变量前缀白名单，默认 ['VITE_'] */
   includePrefixes?: string[]
-  /** 是否推断基础类型（boolean/number/string），默认 true */
-  inferTypes?: boolean
   /** 必填项校验，缺失将报错 */
   requiredKeys?: string[]
   /** 是否启用混淆（Base64），默认 false */
@@ -51,6 +50,8 @@ export interface EnvConfigPluginOptions {
   typesOutput?: string
   /** 是否禁用类型文件生成，默认 false */
   disableTypes?: boolean
+  /** 是否生成联合字面量类型（从所有环境收集），默认 true */
+  literalUnions?: boolean
 }
 
 /**
@@ -89,7 +90,6 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   let resolvedMode = options.targetEnv
   const resolvedConfigPath = options.configFile
   let includePrefixes = options.includePrefixes ?? ['VITE_']
-  const infer = options.inferTypes ?? true
   const required = options.requiredKeys ?? []
   const obfuscate = options.obfuscate ?? false
   const obfuscateSkipKeys = options.obfuscateSkipKeys ?? []
@@ -97,6 +97,7 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   let envFileTemplate = options.envFileTemplate ?? '.env.{mode}.local'
   let defaultEnvFile = options.defaultEnvFile ?? '.env.local'
   const disableTypes = options.disableTypes ?? false
+  const literalUnions = options.literalUnions ?? true
 
   /**
    * 函数：resolveEnvConfigPath
@@ -145,27 +146,6 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
    * @returns 环境变量名
    */
   const toKey = (key: string) => toEnvKey(includePrefixes, key)
-
-  /**
-   * 函数：inferType
-   *
-   * 推断值的基础类型：boolean/number/string。
-   *
-   * @param values - 值集合
-   * @returns 推断类型
-   */
-  function inferType(values: string[]): 'boolean' | 'number' | 'string' {
-    const trimmed = values.map(v => String(v).trim()).filter(v => v.length > 0)
-    if (trimmed.length === 0)
-      return 'string'
-    const isBool = trimmed.every(v => v === 'true' || v === 'false')
-    if (isBool)
-      return 'boolean'
-    const isNum = trimmed.every(v => /^-?\d+(?:\.\d+)?$/.test(v))
-    if (isNum)
-      return 'number'
-    return 'string'
-  }
 
   /**
    * 函数：obfuscateValue
@@ -228,26 +208,37 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
    * @param obj - 合并后的配置对象
    * @returns d.ts 文本
    */
-  function generateTypes(obj: Record<string, unknown>): string {
-    const lines: string[] = []
-    lines.push('interface ImportMetaEnv {')
-    const entries = Object.entries(obj)
-    for (const [k, v] of entries.sort(([a], [b]) => a.localeCompare(b))) {
-      const key = toKey(k)
-      let raw = ''
-      if (v == null)
-        raw = ''
-      else if (typeof v === 'object' && v !== null)
-        raw = String((v as any).value ?? '')
-      else raw = String(v)
-      const t = infer ? inferType([raw]) : 'string'
-      lines.push(`  readonly ${key}: ${t}`)
+  function generateUnionTypesFromFullConfig(full: EnvConfigShape): string {
+    const typeMap = new Map<string, string>()
+    const collect: Record<string, Set<string>> = {}
+    const sections = Object.keys(full)
+    for (const sec of sections) {
+      const obj = (full as Record<string, Record<string, unknown>>)[sec]
+      if (!obj)
+        continue
+      for (const [k, v] of Object.entries(obj)) {
+        const set = collect[k] ?? new Set<string>()
+        let raw = ''
+        if (v == null) {
+          raw = ''
+        }
+        else if (typeof v === 'object') {
+          raw = String((v as any).value ?? '')
+        }
+        else {
+          raw = String(v)
+        }
+        if (raw !== '')
+          set.add(JSON.stringify(raw))
+        collect[k] = set
+      }
     }
-    lines.push('}')
-    lines.push('interface ImportMeta {')
-    lines.push('  readonly env: ImportMetaEnv')
-    lines.push('}')
-    return `${lines.join('\n')}\n`
+    for (const [k, set] of Object.entries(collect)) {
+      const key = toKey(k)
+      const union = set.size > 0 ? Array.from(set).sort().join(' | ') : 'string'
+      typeMap.set(key, union)
+    }
+    return generateEnvDtsFromTypeMap(typeMap)
   }
 
   /**
@@ -284,8 +275,10 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
     await writeOut(envFileDefault, envTextDefault)
 
     if (!disableTypes) {
-      const dtsText = generateTypes(merged)
-      const dtsFile = typesOut ?? path.join(resolvedRoot, 'env.quiteer.d.ts')
+      const dtsText = literalUnions
+        ? generateUnionTypesFromFullConfig(full)
+        : generateEnvDtsFromTypeMap(new Map(Object.keys(merged).map(k => [toKey(k), 'string'])))
+      const dtsFile = typesOut ?? path.join(resolvedRoot, 'env.d.ts')
       await writeOut(dtsFile, dtsText)
       // eslint-disable-next-line no-console
       console.log(`${bold(cyan('[env-config]'))} 生成 ${green(path.relative(resolvedRoot, envFileDefault))} 与 ${green(path.relative(resolvedRoot, envFileMerged))}，类型 ${green(path.relative(resolvedRoot, dtsFile))} ${gray(`(${Object.keys(merged).length} keys, obfuscate=${obfuscate})`)}`)

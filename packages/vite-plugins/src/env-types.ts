@@ -4,6 +4,7 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import fg from 'fast-glob'
 import { bold, cyan, gray, green } from 'kolorist'
+import { generateEnvDtsFromTypeMap, writeIfChanged } from './shared/env-shared'
 
 export interface EnvTypesOptions {
   /** 项目根目录，默认使用 Vite 的 root */
@@ -14,8 +15,8 @@ export interface EnvTypesOptions {
   includePrefixes?: string[]
   /** 输出文件路径，默认在根目录生成 env.d.ts */
   outputFile?: string
-  /** 是否进行原始类型推断（boolean/number/string），默认 true */
-  inferTypes?: boolean
+  /** 是否生成联合字面量类型（跨多个 .env 文件聚合），默认 true */
+  literalUnions?: boolean
 }
 
 /**
@@ -27,7 +28,7 @@ export function envTypesPlugin(options: EnvTypesOptions = {}): Plugin {
   let prefixes: string[] = options.includePrefixes ?? ['VITE_']
   const patterns = options.envFilePatterns ?? ['.env', '.env.*', '.env.*.local', '.env.local']
   let output = options.outputFile
-  const infer = options.inferTypes ?? true
+  const literalUnions = options.literalUnions ?? true
 
   /**
    * 函数：判断是否为允许的前缀
@@ -48,56 +49,18 @@ export function envTypesPlugin(options: EnvTypesOptions = {}): Plugin {
   }
 
   /**
-   * 函数：推断变量的基础类型
-   * 作用：根据所有出现的值集合得出 boolean/number/string 三类中的一种
-   */
-  function inferType(values: string[]): 'boolean' | 'number' | 'string' {
-    const trimmed = values.map(v => String(v).trim()).filter(v => v.length > 0)
-    if (trimmed.length === 0)
-      return 'string'
-
-    const isBool = trimmed.every(v => v === 'true' || v === 'false')
-    if (isBool)
-      return 'boolean'
-
-    const isNum = trimmed.every(v => /^-?\d+(?:\.\d+)?$/.test(v))
-    if (isNum)
-      return 'number'
-
-    return 'string'
-  }
-
-  /**
    * 函数：生成 env.d.ts 内容
    * 作用：将推断的类型映射到 ImportMetaEnv 与 ImportMeta 接口
    */
-  function generateDts(typeMap: Map<string, 'boolean' | 'number' | 'string'>): string {
-    const lines: string[] = []
-    lines.push('interface ImportMetaEnv {')
-    for (const [key, t] of Array.from(typeMap.entries()).sort()) {
-      lines.push(`  readonly ${key}: ${t}`)
-    }
-    lines.push('}')
-    lines.push('interface ImportMeta {')
-    lines.push('  readonly env: ImportMetaEnv')
-    lines.push('}')
-    return `${lines.join('\n')}\n`
+  function generateDts(typeMap: Map<string, string>): string {
+    return generateEnvDtsFromTypeMap(typeMap)
   }
 
   /**
    * 函数：写文件（内容相同时跳过）
    * 作用：避免不必要的写入导致编辑器抖动
    */
-  async function writeIfChanged(file: string, content: string): Promise<void> {
-    try {
-      const prev = await fs.readFile(file, 'utf8')
-      if (prev === content)
-        return
-    }
-    catch {}
-    await fs.mkdir(path.dirname(file), { recursive: true })
-    await fs.writeFile(file, content, 'utf8')
-  }
+  const writeChanged = writeIfChanged
 
   /**
    * 函数：执行扫描并生成类型文件
@@ -119,13 +82,20 @@ export function envTypesPlugin(options: EnvTypesOptions = {}): Plugin {
         acc.set(k, arr)
       }
     }
-    const typeMap = new Map<string, 'boolean' | 'number' | 'string'>()
+    const typeMap = new Map<string, string>()
     for (const [k, values] of acc.entries()) {
-      typeMap.set(k, infer ? inferType(values) : 'string')
+      if (literalUnions) {
+        const uniq = Array.from(new Set(values.filter(v => v.length > 0).map(v => JSON.stringify(String(v)))))
+        const union = uniq.length > 0 ? uniq.sort().join(' | ') : 'string'
+        typeMap.set(k, union)
+      }
+      else {
+        typeMap.set(k, 'string')
+      }
     }
     const outFile = output ?? path.join(cwd, 'env.d.ts')
     const dts = generateDts(typeMap)
-    await writeIfChanged(outFile, dts)
+    await writeChanged(outFile, dts)
     // 美化输出：提示已生成类型文件
     // eslint-disable-next-line no-console
     console.log(`${bold(cyan('[env]'))} 生成类型 ${green(path.relative(cwd, outFile))} ${gray(`(${typeMap.size} keys)`)}`)
