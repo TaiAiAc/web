@@ -44,7 +44,7 @@
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",
-    "release": "qui r --tag-prefix qvite && qui gc && tsdown && pnpm publish"
+    "release": "qui r --tag-prefix qvite && tsdown && pnpm publish"
   },
   "publishConfig": {
     "access": "public",

@@ -25,6 +25,6 @@
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
-    "release": "qui r --tag-prefix is && qui gc && tsdown && pnpm publish --access public"
+    "release": "qui r --tag-prefix is && tsdown && pnpm publish --access public"
   }
 }

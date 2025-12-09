@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "tsdown -w",
     "build": "tsdown",
-    "release": "qui r --tag-prefix directives && qui gc && tsdown && pnpm publish"
+    "release": "qui r --tag-prefix directives && tsdown && pnpm publish"
   },
   "peerDependencies": {
     "vue": ">= 3"

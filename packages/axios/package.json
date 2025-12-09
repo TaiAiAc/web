@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
-    "release": "qui r --tag-prefix axios && qui gc && tsdown && pnpm publish"
+    "release": "qui r --tag-prefix axios && tsdown && pnpm publish"
   },
   "dependencies": {
     "axios": "^1.13.2"
