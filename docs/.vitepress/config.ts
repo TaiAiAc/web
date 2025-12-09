@@ -78,7 +78,6 @@ function nav() {
       text: 'CLI',
       link: '/cli/',
       activeMatch: '/cli/'
-
     },
     {
       text: '关于',

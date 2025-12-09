@@ -3,6 +3,7 @@
 ## 概述
 - 本仓库聚合 Web 相关的可复用封装与指令，提供统一文档与演示
 - 主要包：
+  - `@quiteer/vite`：vite 之上的项目配置与插件集合
   - `@quiteer/naive-extra`：Naive UI 增强组件（表单、搜索栏、表格、上传、布局、按钮等）
   - `@quiteer/directives`：常用 Vue 指令集合（权限、复制、防抖、节流、点击外部、懒载、加载、水印、文本省略、交叉观察）
   - `@quiteer/axios`：网络层封装（插件链、撤回、重试、缓存、日志、契约返回）
@@ -16,19 +17,6 @@
 - 包管理器：`pnpm`
 - 运行环境：macOS
 - 依赖核心：`vue@3`、`naive-ui`、`vitepress`、`unocss`
-
-## 仓库结构
-```
-packages/
-  naive-extra/          # Naive UI 相关增强组件库
-  directives/           # Vue 自定义指令集合
-  ...
-src/
-  plugins/              # 文档中的插件说明与演示
-  introduce/            # 项目介绍与快速上手
-  about/                # 文档配置说明
-.vitepress/             # 文档站点配置与主题
-```
 
 ## 组件与指令一览
 - `naive-extra`
@@ -50,6 +38,8 @@ src/
 - TypeScript：`https://www.typescriptlang.org/`
 
 ## 文档链接索引
+- [qvite](/cli/qvite)
+- [命令行工具](/cli/scripts)
 - [插件总览](/plugins/)
 - [Naive Extra](/plugins/naive-extra/index)
 - [指令库](/plugins/directives/index)
