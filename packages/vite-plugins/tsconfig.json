@@ -16,6 +16,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "extra/obfuscation.ts"],
   "exclude": ["node_modules", "dist"]
 }

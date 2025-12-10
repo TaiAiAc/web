@@ -8,7 +8,10 @@ export default {
       value: '通用环境变量',
       obfuscate: true
     },
-    testUrl: 'https://quiteerjs.github.io/web/'
+    testUrl: {
+      value: 'https://quiteerjs.github.io/web/',
+      obfuscate: true
+    }
   },
   development: {
     desc: '开发环境变量',

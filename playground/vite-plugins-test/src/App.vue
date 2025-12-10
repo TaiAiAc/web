@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { decodeBase64Env } from '@quiteer/vite-plugins/obfuscation'
 import { onMounted, ref } from 'vue'
 
 const envStr = JSON.stringify(import.meta.env, null, 2)
 
-const testUrl = import.meta.env.VITE_TEST_URL
+const testUrl = decodeBase64Env(import.meta.env.VITE_TEST_URL)
+const baseUrl = decodeBase64Env(import.meta.env.VITE_BASE_URL)
+console.log('import.meta.env.VITE_BASE_URL: ', import.meta.env.VITE_BASE_URL)
+
+console.log('decodeBase64Env(import.meta.env.VITE_BASE_URL): ', baseUrl)
 
 function runConsoleTests(): void {
   console.log('standalone')

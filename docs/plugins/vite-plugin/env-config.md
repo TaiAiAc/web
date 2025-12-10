@@ -303,39 +303,15 @@ export default {
   - 写入未声明的环境名会类型报错（仅限传入的 `EnvNames` 与内置集合）
 
 ## 常见问题（FAQ）
-- 如何还原混淆值？建议不进行还原，URL/直用型字段应跳过混淆；若确需还原，可在 Node 端或浏览器端解码：
+
+- 如何还原混淆值？建议不进行还原，URL/直用型字段应跳过混淆；若确需还原，可直接使用包内提供的工具函数：
 ```ts
-/**
- * 还原 Base64 混淆值
- * 
- * 对受控场景的混淆字符串进行还原；生产环境中不建议对 URL 等直用型字段使用混淆。
- * 
- * @param v - Base64 字符串
- * @returns 还原后的普通字符串
- * @throws {TypeError} 当入参不是字符串或格式非法时抛出
- * 
- * @example
- * ```ts
- * decodeBase64Env('aHR0cHM6Ly9hcGkuZXhhbXBsZS5jb20=') // 'https://api.example.com'
- * ```
- * 
- * @remarks
- * - 浏览器环境可使用 `atob`；Node 环境使用 `Buffer`
- * 
- * @security
- * 混淆非加密，请勿用于机密信息
- * 
- * @performance
- * O(n) 字符处理
- */
-export function decodeBase64Env(v: string): string {
-  if (typeof v !== 'string')
-    throw new TypeError('invalid base64 value')
-  if (typeof window !== 'undefined' && typeof window.atob === 'function')
-    return decodeURIComponent(escape(window.atob(v)))
-  return Buffer.from(v, 'base64').toString('utf8')
-}
+import { decodeBase64Env } from '@quiteer/vite-plugins/obfuscation'
+
+// 还原 Base64 混淆后的环境变量值（UTF-8）
+decodeBase64Env(import.meta.env.VITE_BASE_URL)
 ```
+
 - `requiredKeys` 与 `default` 段：`default` 可包含额外键；必填校验仅针对当前环境段（合并后）。
 - 生成的文件位置：默认写入根目录的 `.env.local` 与 `.env.{mode}.local`，类型文件写入 `env.d.ts`（可通过 `typesOutput` 自定义）。
 - 多包/工作区：插件会在 `root` 下查找 `env.config.ts`，若未找到将广搜一次；也可通过 `configFile` 显式指定。
