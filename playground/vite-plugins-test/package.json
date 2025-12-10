@@ -6,6 +6,10 @@
   "scripts": {
     "dev": "vite --port 8088",
     "build": " vite build",
+    "build:development": " vite build --mode development",
+    "build:test": " vite build --mode test",
+    "build:staging": " vite build --mode staging",
+    "build:release": " vite build --mode release",
     "preview": "vite preview"
   },
   "dependencies": {

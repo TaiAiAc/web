@@ -1,6 +1,40 @@
 ## 变更日志
 
-### 2025-12-09 `✏️ 18+` `➕ 0+` `🗑️ 0+`
+### 2025-12-10 `✏️ 14+` `➕ 4+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.12
+  > **🕒  12:15** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`9cb8392`](https://github.com/QuiteerJs/web/commit/9cb83922160c5f159f9cd84df2c05aaee57d6789))
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/9cb83922160c5f159f9cd84df2c05aaee57d6789/packages/vite-plugins/package.json)
+- 🧹  **optimize** `packages`: 一些示例和 axios 优化
+  > **🕒  09:51** · `➕225` / `➖42`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`8d86a99`](https://github.com/QuiteerJs/web/commit/8d86a99689d94ab7480715716bedcc43e262ac86))
+  - ➕ [`playground/qvite-test/mock/test/hello.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/mock/test/hello.json)
+  - ➕ [`playground/qvite-test/src/Axios.demo.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/Axios.demo.vue)
+  - ➕ [`playground/qvite-test/src/servers/index.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/servers/index.ts)
+  - ➕ [`playground/vite-plugins-test/mock/hello.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/mock/hello.json)
+  - ✏️ [`packages/axios/src/methods.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/methods.ts)
+  - ✏️ [`packages/axios/src/types.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/types.ts)
+  - ✏️ [`packages/axios/src/utils.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/utils.ts)
+  - ✏️ [`playground/qvite-test/env.d.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/env.d.ts)
+  - ✏️ [`playground/qvite-test/package.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/package.json)
+  - ✏️ [`playground/qvite-test/qvite.config.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/qvite.config.ts)
+  - ✏️ [`playground/qvite-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/App.vue)
+  - ✏️ [`playground/qvite-test/tsconfig.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/tsconfig.json)
+  - ✏️ [`playground/vite-plugins-test/html.config.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/html.config.ts)
+  - ✏️ [`playground/vite-plugins-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/App.vue)
+  - ✏️ [`playground/vite-plugins-test/src/main.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/main.ts)
+  - ✏️ [`playground/vite-plugins-test/src/style.css`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/style.css)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/pnpm-lock.yaml)
+
+### 2025-12-09 `✏️ 23+` `➕ 0+` `🗑️ 0+`
+- ✨  **feat** `release`: 内置插件更新
+  > **🕒  19:46** · `➕1257` / `➖1205`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`9ac043c`](https://github.com/QuiteerJs/web/commit/9ac043c11d6a31eb43c04b2c1fb09ef53897db9e))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/9ac043c11d6a31eb43c04b2c1fb09ef53897db9e/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/9ac043c11d6a31eb43c04b2c1fb09ef53897db9e/CHANGELOG_TIMELINE.md)
+  - ✏️ [`docs/.vitepress/config.ts`](https://github.com/QuiteerJs/web/blob/9ac043c11d6a31eb43c04b2c1fb09ef53897db9e/docs/.vitepress/config.ts)
+  - ✏️ [`docs/cli/scripts.md`](https://github.com/QuiteerJs/web/blob/9ac043c11d6a31eb43c04b2c1fb09ef53897db9e/docs/cli/scripts.md)
+  - ✏️ [`docs/introduce/project.md`](https://github.com/QuiteerJs/web/blob/9ac043c11d6a31eb43c04b2c1fb09ef53897db9e/docs/introduce/project.md)
 - 🔧  **chore** `release`: v0.0.7
   > **🕒  19:46** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`218e184`](https://github.com/QuiteerJs/web/commit/218e1846e2ec341837995835f0d204096985065e))

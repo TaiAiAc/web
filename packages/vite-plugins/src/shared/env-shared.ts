@@ -14,6 +14,42 @@ export function toEnvKey(prefixes: string[], key: string): string {
   return `${prefixes[0] ?? 'VITE_'}${norm}`
 }
 
+/**
+ * 从环境变量名反推原始键名
+ *
+ * 将如 `VITE_BASE_URL` 转换为 `baseUrl`；若不匹配任何前缀则返回 `null`。
+ *
+ * @param prefixes - 允许的环境变量前缀集合（如 `['VITE_']`）
+ * @param envKey - 环境变量名（如 `VITE_BASE_URL`）
+ * @returns 去前缀并按下划线转为驼峰的原始键名
+ *
+ * @example
+ * ```ts
+ * fromEnvKey(['VITE_'],'VITE_API_URL') // 'apiUrl'
+ * ```
+ *
+ * @remarks
+ * - 仅处理大写下划线形式；其他形式将按拆分并小写后组合
+ *
+ * @security
+ * 无安全风险
+ *
+ * @performance
+ * 字符串处理，成本极低
+ */
+export function fromEnvKey(prefixes: string[], envKey: string): string | null {
+  const pfx = prefixes.find(p => envKey.startsWith(p))
+  if (!pfx)
+    return null
+  const rest = envKey.slice(pfx.length).replace(/^_+|_+$/g, '')
+  if (!rest)
+    return null
+  const parts = rest.split('_').filter(Boolean).map(s => s.toLowerCase())
+  const head = parts[0]
+  const tail = parts.slice(1).map(s => s.charAt(0).toUpperCase() + s.slice(1))
+  return head + tail.join('')
+}
+
 export async function writeIfChanged(file: string, content: string): Promise<void> {
   try {
     const prev = await fs.readFile(file, 'utf8')
@@ -40,9 +76,6 @@ export async function resolveEnvConfigPath(root: string, explicit?: string): Pro
     return direct
   }
   catch {}
-  const { configFile } = await loadConfig({ name: 'env', cwd: root, configFile: direct }) as any
-  if (configFile)
-    return configFile as string
   return null
 }
 

@@ -1,12 +1,14 @@
 import type { Plugin } from 'vite'
 import type { EnvConfigShape } from './shared/env-shared'
 import { Buffer } from 'node:buffer'
+import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
-import fg from 'fast-glob'
 
+import dotenv from 'dotenv'
+import fg from 'fast-glob'
 import { bold, cyan, gray, green, red, yellow } from 'kolorist'
-import { generateEnvDtsFromTypeMap, mergeByMode, parseConfigModule, resolveEnvConfigPath, toEnvKey, writeIfChanged } from './shared/env-shared'
+import { fromEnvKey, generateEnvDtsFromTypeMap, mergeByMode, parseConfigModule, resolveEnvConfigPath, toEnvKey, writeIfChanged } from './shared/env-shared'
 
 type EnvValue = string | { value: string, obfuscate?: boolean }
 
@@ -40,7 +42,7 @@ export interface EnvConfigPluginOptions {
   defaultEnvFile?: string
   /** 变量前缀白名单，默认 ['VITE_'] */
   includePrefixes?: string[]
-  /** 必填项校验，缺失将报错 */
+  /** 必填项校验，缺失将报错，默认 ['desc'] */
   requiredKeys?: string[]
   /** 是否启用混淆（Base64），默认 false */
   obfuscate?: boolean
@@ -79,9 +81,6 @@ export interface EnvConfigPluginOptions {
  * - 配置文件对象需为 `export default { default: {}, development: {}, ... }`
  * - 写入的 .env 文件默认位于项目根目录，文件名遵循模板
  *
- * @security
- * - 若启用 AES 加密，必须提供稳定的 `secretKey`，并避免将其提交到代码仓库
- *
  * @performance
  * - 文件读取/写入及类型生成均为轻量操作；监听模式下按需触发
  */
@@ -90,7 +89,7 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   let resolvedMode = options.targetEnv
   const resolvedConfigPath = options.configFile
   let includePrefixes = options.includePrefixes ?? ['VITE_']
-  const required = options.requiredKeys ?? []
+  const required = options.requiredKeys ?? ['desc']
   const obfuscate = options.obfuscate ?? false
   const obfuscateSkipKeys = options.obfuscateSkipKeys ?? []
   let typesOut = options.typesOutput
@@ -98,6 +97,8 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   let defaultEnvFile = options.defaultEnvFile ?? '.env.local'
   const disableTypes = options.disableTypes ?? false
   const literalUnions = options.literalUnions ?? true
+  const envPatterns = ['.env', '.env.*', '.env.*.local', '.env.local']
+  let skipEnvOnce = false
 
   /**
    * 函数：resolveEnvConfigPath
@@ -112,8 +113,7 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
     const fromShared = await resolveEnvConfigPath(root, resolvedConfigPath)
     if (fromShared)
       return fromShared
-    const matches = await fg('**/env.config.ts', { cwd: root, dot: true, absolute: true, onlyFiles: true })
-    return matches[0] ?? null
+    return null
   }
 
   /**
@@ -157,6 +157,98 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
    */
   function obfuscateValue(value: string): string {
     return Buffer.from(value, 'utf8').toString('base64')
+  }
+
+  /**
+   * 函数：resolveSectionFromFile
+   *
+   * 从 env 文件名推断所属段：`.env`/`.env.local` -> 'default'；
+   * `.env.{mode}`/`.env.{mode}.local` -> '{mode}'。
+   *
+   * @param file - 文件路径
+   * @returns 段名（default 或具体环境）
+   */
+  function resolveSectionFromFile(file: string): string {
+    const name = path.basename(file)
+    if (name === '.env' || name === '.env.local')
+      return 'default'
+    const m = name.match(/^\.env\.([^.]+)(?:\.local)?$/)
+    return m ? m[1] : 'default'
+  }
+
+  /**
+   * 函数：expandInterpolations
+   *
+   * 对 `VAL="${OTHER}/x"` 形式进行展开，支持多轮替换直至稳定，最大 5 轮。
+   *
+   * @param map - 同一段内的环境变量映射（键为 env 变量名，如 `VITE_API_URL`）
+   * @returns 展开后的映射
+   */
+  function expandInterpolations(map: Record<string, string>): Record<string, string> {
+    const out: Record<string, string> = { ...map }
+    const re = /\$\{([A-Z0-9_]+)\}/g
+    for (let i = 0; i < 5; i++) {
+      let changed = false
+      for (const [k, v] of Object.entries(out)) {
+        const nv = v.replace(re, (_, varName) => (out[varName] ?? ''))
+        if (nv !== v) {
+          out[k] = nv
+          changed = true
+        }
+      }
+      if (!changed)
+        break
+    }
+    return out
+  }
+
+  /**
+   * 函数：readEnvFilesToShape
+   *
+   * 扫描根目录下 `.env*` 文件，按段合并并展开嵌套引用，
+   * 将前缀变量转换为原始键（驼峰），生成 `EnvConfigShape`。
+   *
+   * @param root - 根目录
+   * @returns 依据 .env* 构建的配置形状
+   */
+  async function readEnvFilesToShape(root: string): Promise<EnvConfigShape | null> {
+    const files = await fg(envPatterns, { cwd: root, dot: true, absolute: true, onlyFiles: true })
+    if (!files.length)
+      return null
+    const bySectionRaw: Record<string, Record<string, string>> = {}
+    for (const f of files) {
+      const sec = resolveSectionFromFile(f)
+      const buf = await fs.readFile(f, 'utf8')
+      const parsed = dotenv.parse(buf)
+      const filtered: Record<string, string> = {}
+      for (const [k, v] of Object.entries(parsed)) {
+        if (includePrefixes.length === 0 || includePrefixes.some(p => k.startsWith(p)))
+          filtered[k] = v
+      }
+      bySectionRaw[sec] = { ...(bySectionRaw[sec] || {}), ...filtered }
+    }
+    const shape: EnvConfigShape = { default: {} }
+    for (const [sec, raw] of Object.entries(bySectionRaw)) {
+      const expanded = expandInterpolations(raw)
+      const out: Record<string, unknown> = {}
+      for (const [envKey, v] of Object.entries(expanded)) {
+        const orig = fromEnvKey(includePrefixes, envKey)
+        if (orig)
+          out[orig] = v
+      }
+      if (sec === 'default')
+        shape.default = out
+      else (shape as any)[sec] = out
+    }
+    shape.default = { desc: '来自 .env 默认段', ...(shape.default || {}) }
+    for (const k of Object.keys(shape)) {
+      if (k !== 'default') {
+        const obj = (shape as any)[k] as Record<string, unknown>
+        if (!('desc' in obj))
+          obj.desc = `来自 .env.${k} 段`
+      }
+    }
+    return shape
   }
 
   /**
@@ -259,20 +351,74 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   async function runGenerate(): Promise<{ missing: string[] }> {
     if (!resolvedRoot || !resolvedMode)
       return { missing: [] }
-    const cfgPath = await findConfig(resolvedRoot)
+    if (skipEnvOnce) {
+      skipEnvOnce = false
+      return { missing: [] }
+    }
+    let cfgPath = await findConfig(resolvedRoot)
+    if (!cfgPath) {
+      const shapeFromEnv = await readEnvFilesToShape(resolvedRoot)
+      if (shapeFromEnv) {
+        const target = path.join(resolvedRoot, 'env.config.ts')
+        const sections = Object.keys(shapeFromEnv)
+        const keySet = new Set<string>()
+        for (const sec of sections) {
+          if (sec === 'default')
+            continue
+          for (const k of Object.keys((shapeFromEnv as any)[sec] || {})) {
+            if (k !== 'desc')
+              keySet.add(k)
+          }
+        }
+        const keys = Array.from(keySet).sort()
+        const typeLine = `type MyConfig = EnvConfig<${keys.map(k => `'${k}'`).join(' | ') || 'never'}>`
+        const lines: string[] = []
+        lines.push(`import type { EnvConfig } from '@quiteer/vite-plugins'`)
+        lines.push(typeLine)
+        lines.push('')
+        lines.push('export default {')
+        for (const sec of sections) {
+          const obj = (shapeFromEnv as any)[sec] as Record<string, unknown>
+          const entries = Object.entries(obj).sort(([a], [b]) => a.localeCompare(b))
+          lines.push(`  ${sec}: {`)
+          for (const [k, v] of entries) {
+            const vv = typeof v === 'string' ? JSON.stringify(v) : JSON.stringify(String(v))
+            lines.push(`    ${k}: ${vv},`)
+          }
+          lines.push('  },')
+        }
+        lines.push(`} satisfies MyConfig`)
+        lines.push('')
+        await writeOut(target, lines.join('\n'))
+        cfgPath = target
+        skipEnvOnce = true
+        return { missing: [] }
+      }
+      else {
+        throw new Error('未找到 env.config.ts 或 .env* 文件，请提供配置或 .env')
+      }
+    }
     if (!cfgPath)
       throw new Error('未找到 env.config.ts，请在根目录或子包中提供')
     const full = await parseConfigModule(cfgPath)
     const baseOnly = { ...full.default }
     const merged = mergeByMode(full, resolvedMode)
-    const missing = getMissingRequired(merged)
-    const envTextMerged = generateEnvFileContent(merged)
-    const envFileMerged = path.join(resolvedRoot, envFileTemplate.replace('{mode}', resolvedMode))
-    await writeOut(envFileMerged, envTextMerged)
+    const hasKeys = Object.keys(merged).length > 0
+    const missing = hasKeys ? getMissingRequired(merged) : []
+    let envFileMergedPath: string | null = null
+    if (hasKeys) {
+      const envTextMerged = generateEnvFileContent(merged)
+      envFileMergedPath = path.join(resolvedRoot, envFileTemplate.replace('{mode}', resolvedMode))
+      await writeOut(envFileMergedPath, envTextMerged)
+    }
 
-    const envTextDefault = generateEnvFileContent(baseOnly)
-    const envFileDefault = path.join(resolvedRoot, defaultEnvFile)
-    await writeOut(envFileDefault, envTextDefault)
+    const baseHasKeys = Object.keys(baseOnly).length > 0
+    let envFileDefaultPath: string | null = null
+    if (baseHasKeys) {
+      const envTextDefault = generateEnvFileContent(baseOnly)
+      envFileDefaultPath = path.join(resolvedRoot, defaultEnvFile)
+      await writeOut(envFileDefaultPath, envTextDefault)
+    }
 
     if (!disableTypes) {
       const dtsText = literalUnions
@@ -280,12 +426,15 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
         : generateEnvDtsFromTypeMap(new Map(Object.keys(merged).map(k => [toKey(k), 'string'])))
       const dtsFile = typesOut ?? path.join(resolvedRoot, 'env.d.ts')
       await writeOut(dtsFile, dtsText)
-      // eslint-disable-next-line no-console
-      console.log(`${bold(cyan('[env-config]'))} 生成 ${green(path.relative(resolvedRoot, envFileDefault))} 与 ${green(path.relative(resolvedRoot, envFileMerged))}，类型 ${green(path.relative(resolvedRoot, dtsFile))} ${gray(`(${Object.keys(merged).length} keys, obfuscate=${obfuscate})`)}`)
+
+      const dRel = envFileDefaultPath ? green(path.relative(resolvedRoot, envFileDefaultPath)) : gray('(skip .env.local)')
+      const mRel = envFileMergedPath ? green(path.relative(resolvedRoot, envFileMergedPath)) : gray(`(skip ${envFileTemplate.replace('{mode}', resolvedMode)})`)
+      console.log(`${bold(cyan('[env-config]'))} 生成 ${dRel} 与 ${mRel}，类型 ${green(path.relative(resolvedRoot, dtsFile))} ${gray(`(${Object.keys(merged).length} keys, obfuscate=${obfuscate})`)}`)
     }
     else {
-      // eslint-disable-next-line no-console
-      console.log(`${bold(cyan('[env-config]'))} 生成 ${green(path.relative(resolvedRoot, envFileDefault))} 与 ${green(path.relative(resolvedRoot, envFileMerged))} ${gray(`(${Object.keys(merged).length} keys, obfuscate=${obfuscate}, types disabled)`)}`)
+      const dRel = envFileDefaultPath ? green(path.relative(resolvedRoot, envFileDefaultPath)) : gray('(skip .env.local)')
+      const mRel = envFileMergedPath ? green(path.relative(resolvedRoot, envFileMergedPath)) : gray(`(skip ${envFileTemplate.replace('{mode}', resolvedMode)})`)
+      console.log(`${bold(cyan('[env-config]'))} 生成 ${dRel} 与 ${mRel} ${gray(`(${Object.keys(merged).length} keys, obfuscate=${obfuscate}, types disabled)`)}`)
     }
     if (missing.length > 0) {
       console.error(`${bold(red('[env-config] 必填项缺失'))} 环境 ${yellow(resolvedMode)} 缺少：${red(missing.join(', '))}  请补齐 ${cyan('env.config.ts')} 对应段或调整 ${cyan('requiredKeys')}`)
