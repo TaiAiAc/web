@@ -2,7 +2,7 @@
 
 ## 为什么使用
 - 统一管理环境变量：将各环境的配置集中在 `env.config.ts`，免去手改多个 `.env.*` 文件。
-- 自动产物：启动/构建时生成 `.env.local` 与 `.env.{mode}.local`，并可生成类型文件，提升 IDE 体验。
+- 自动产物：启动/构建时生成 `.env.local` 与 `.env.{mode}.local`（仅在存在有效键时写入），并可生成类型文件，提升 IDE 体验。
 - 变更可见：内置文件监听，配置更新后自动再生成，日志清晰可见。
 - 风险可控：仅输出符合前缀（默认 `VITE_`）的变量；支持“必填项”校验，缺失时明确提醒并中止构建。
 - 混淆支持：提供 Base64 混淆以弱化肉眼读取；支持字段级与全局策略，避免 URL 等“直接使用型”字段受影响。
@@ -32,8 +32,8 @@ export default defineConfig(() => ({
       // 根目录（默认 vite root）
       // root: process.cwd(),
 
-      // 配置文件路径（默认在 root 下查找 env.config.ts）
-      // configFile: 'packages/quieter/env.config.ts',
+      // 配置文件路径（默认在 root 下查找 env.config.ts；不再广搜工作区）
+      // configFile: 'env.config.ts',
 
       // 全局混淆开关（Base64），默认 false；可配合字段级 obfuscate 使用
       obfuscate: true,
@@ -58,6 +58,40 @@ export default defineConfig(() => ({
   ]
 }))
 ```
+
+## 启动前辅助：bootstrapEnv（推荐）
+在 `vite` 启动的最早阶段生成 `.env.*` 与类型文件，保证后续 `loadEnv`、插件与配置可用到最新环境产物。
+
+```ts
+// vite.config.ts
+import { defineConfig, loadEnv } from 'vite'
+import { bootstrapEnv, envConfigPlugin } from '@quiteer/vite-plugins'
+
+export default defineConfig(async ({ mode }) => {
+  // 仅在当前 root 下存在配置时写入 .env；未找到配置时直接返回
+  await bootstrapEnv({ mode, includePrefixes: ['VITE_'] })
+
+  const env = loadEnv(mode, process.cwd(), ['NODE', 'VITE'])
+  return {
+    plugins: [
+      envConfigPlugin({ requiredKeys: ['desc'] })
+    ]
+  }
+})
+```
+
+### bootstrapEnv 选项
+- `root?: string`：项目根目录，默认 `process.cwd()`
+- `mode?: string`：目标环境，默认从 `MODE`/`NODE_ENV` 推断或 `'development'`
+- `includePrefixes?: string[]`：变量前缀白名单，默认 `['VITE_']`
+- `envFileTemplate?: string`：环境文件名模板，默认 `'.env.{mode}.local'`
+- `defaultEnvFile?: string`：默认段文件名，默认 `'.env.local'`
+- `typesOutput?: string`：类型输出路径；未传则不生成类型
+- `disableTypes?: boolean`：禁用类型生成，默认 `false`
+
+### 行为说明
+- 仅当当前 `root` 下存在 `env.config.ts` 时写入 `.env.*`；未找到配置将直接返回，不做写入。
+- 类型生成仅在传入 `typesOutput` 且未禁用的情况下进行。
 
 ```ts
 // env.config.ts（支持 TS / satisfies 写法）
@@ -94,7 +128,7 @@ export default {
 
 ## 选项说明
 - `root?: string`：项目根目录，默认 `vite` 的 `root`。
-- `configFile?: string`：配置文件路径，默认在 `root` 查找 `env.config.ts`（或工作区内广搜）。
+- `configFile?: string`：配置文件路径，默认在 `root` 查找 `env.config.ts`（不再广搜工作区）。
 - `targetEnv?: string`：目标环境，默认 `vite` 的 `mode`。
 - `envFileTemplate?: string`：环境文件名模板，默认 `'.env.{mode}.local'`。
 - `defaultEnvFile?: string`：默认段文件名，默认 `'.env.local'`。
@@ -190,11 +224,12 @@ export default defineConfig(({ mode }) => {
 ## 运行机制与细节
 - 合并策略：`{ ...default, ...env[mode] }`，后者覆盖同名键。
 - 前缀过滤：仅生成符合 `includePrefixes` 的键（默认 `VITE_`）。
-- 读取实现：使用 `c12` 加载配置，原生支持 TS/`satisfies` 等写法。
+- 读取实现：使用 `c12` 加载配置对象（仅限当前 `root` 明确路径）。
 - 文件监听：开发模式监听 `env.config.ts`，变更时自动再生成并重启。
-- 错误提示：
-  - 开发模式：终端输出红色错误，避免向 HMR 客户端发送非标准错误包。
-  - 构建阶段：缺失必填项时中止并给出明确提示。
+- 首次运行（缺失配置）：若当前 `root` 下无 `env.config.ts`，将扫描 `.env*` 合成配置文件并立即停止本轮流程（不写 `.env`）；下一个生命周期调用也会跳过一次，避免“刚生成配置就覆盖本地 `.env`”。
+- 写入条件：仅当合并后“存在有效键”时才写 `.env.{mode}.local` 与 `.env.local`；合并结果为空或仅被前缀过滤为空时，跳过写入并输出日志 `skip .env... (0 keys)`。
+- 类型文件：在未禁用的情况下会根据配置生成类型文件；即使 `.env` 被跳过，类型仍可生成（用于 IDE 提示）。
+- 生命周期：在 `config` 与 `buildStart` 阶段各执行一次；属于预热与构建保证，可能会打印两条日志。
 
 ## 示例：应用读取
 ```ts
@@ -209,6 +244,11 @@ const testUrl = import.meta.env.VITE_TEST_URL
 - Base64 仅为混淆，非加密；敏感信息不应下发到前端。
 - 仅生成到 `import.meta.env` 的变量应以 `VITE_` 前缀命名；键名将自动按驼峰分词转为下划线大写（如 `baseURL -> VITE_BASE_URL`）。
 - 模板中避免直接使用 `import.meta.env`，应在脚本中预处理后渲染。
+
+## 行为变更摘要（相较旧版文档）
+- 不再在工作区内广搜 `env.config.ts`，仅使用显式 `configFile` 或当前 `root` 下的配置。
+- 缺失配置首轮仅生成 `env.config.ts`，不写 `.env`，并附带一次性跳过保护。
+- `.env` 写入仅在“有键”时进行；键为空时跳过并打印 `skip` 日志；类型文件可独立生成。
 
 ## 性能与安全
 - 生成流程轻量：文件读写与类型推断均为 O(n) 操作。
