@@ -98,7 +98,6 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   const disableTypes = options.disableTypes ?? false
   const literalUnions = options.literalUnions ?? true
   const envPatterns = ['.env', '.env.*', '.env.*.local', '.env.local']
-  let skipEnvOnce = false
 
   /**
    * 函数：resolveEnvConfigPath
@@ -351,10 +350,7 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
   async function runGenerate(): Promise<{ missing: string[] }> {
     if (!resolvedRoot || !resolvedMode)
       return { missing: [] }
-    if (skipEnvOnce) {
-      skipEnvOnce = false
-      return { missing: [] }
-    }
+
     let cfgPath = await findConfig(resolvedRoot)
     if (!cfgPath) {
       const shapeFromEnv = await readEnvFilesToShape(resolvedRoot)
@@ -391,8 +387,7 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
         lines.push('')
         await writeOut(target, lines.join('\n'))
         cfgPath = target
-        skipEnvOnce = true
-        return { missing: [] }
+        // 继续往下走：解析刚写入的配置并生成 .env 与类型
       }
       else {
         throw new Error('未找到 env.config.ts 或 .env* 文件，请提供配置或 .env')
