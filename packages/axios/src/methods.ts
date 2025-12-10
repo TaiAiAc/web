@@ -109,13 +109,52 @@ export function createApi(client: AxiosClient): Api {
   const cache = new RequestCache()
 
   /**
-   * 函数：统一执行请求
-   * 作用：支持撤回、缓存、loading、前后处理与契约
-   * @param config AxiosRequestConfig 请求配置
-   * @param extras 额外控制项：撤回、缓存、loading、transform、contract 等
-   * @returns TypedResponse<T,E> 保留响应与强类型数据
+   *
+   * 执行请求（统一入口）
+   *
+   * 支持撤回、缓存与 loading 状态；在发送前对请求体进行空值过滤、日期转换与可选加密，
+   * 统一在此处进行序列化处理（避免方法层重复序列化）。在响应到达后，先对完整响应体
+   * 执行 `decrypt`（若提供），再进行 `contract` 映射以提取业务数据与可选包裹层。
+   *
+   * @param config - Axios 请求配置
+   * @param extras - 额外控制项（撤回、缓存、loading、transform、contract 等）
+   * @returns 保留 AxiosResponse 的泛型响应对象，含解包后的 `data` 与可选 `envelope`
+   *
+   * @example
+   * ```ts
+   * const res = await doRequest({ method: 'post', url: '/api', data: { a: 1 } }, {
+   *   transform: { filterEmpty: true, dateToISO: true, encrypt: x => x, decrypt: x => x },
+   *   contract: raw => ({ data: raw.data, envelope: { code: raw.code } }),
+   *   cache: { enabled: true, ttl: 3000 }
+   * })
+   * ```
+   *
+   * @remarks
+   * - 序列化仅在此函数内部进行，方法层不再重复处理
+   * - 解密顺序为 `decrypt -> contract`，确保对包裹层结构也能正确解密
+   *
+   * @security
+   * - 加密/解密函数由业务注入，注意密钥与算法的安全管理
+   *
+   * @performance
+   * - 归一化与序列化为轻量操作；缓存命中可显著降低重复请求成本
    */
-  async function doRequest<T, E = unknown>(config: AxiosRequestConfig, extras?: RequestExtras & { contract?: (data: any) => ContractResult<T, E>, loading?: { enabled?: boolean, onChange?: (key: string, active: boolean) => void }, transform?: { filterEmpty?: boolean, dateToISO?: boolean, encrypt?: (obj: any) => any, decrypt?: (obj: any) => any } }): Promise<TypedResponse<T, E>> {
+  async function doRequest<T, E = unknown>(
+    config: AxiosRequestConfig,
+    extras?: RequestExtras & {
+      contract?: (data: any) => ContractResult<T, E>
+      loading?: {
+        enabled?: boolean
+        onChange?: (key: string, active: boolean) => void
+      }
+      transform?: {
+        filterEmpty?: boolean
+        dateToISO?: boolean
+        encrypt?: (obj: any) => any
+        decrypt?: (obj: any) => any
+      }
+    }
+  ): Promise<TypedResponse<T, E>> {
     const key = extras?.key || buildRequestKey(config)
     const autoCancel = extras?.autoCancel ?? true
     ;(config as any).__silent = extras?.silent
@@ -195,11 +234,10 @@ export function createApi(client: AxiosClient): Api {
      * 作用：语义化 POST，并返回 TypedResponse<T,E>
      */
     async post<T, E = unknown>(url: string, options?: RequestOptions<T, E>): Promise<TypedResponse<T, E>> {
-      const data = serializeDataIfNeeded(options?.data, options?.config)
       const config: AxiosRequestConfig = {
         method: 'post',
         url,
-        data,
+        data: options?.data,
         params: options?.params,
         ...options?.config
       }
@@ -215,11 +253,10 @@ export function createApi(client: AxiosClient): Api {
      * 作用：语义化 PUT，并返回 TypedResponse<T,E>
      */
     async put<T, E = unknown>(url: string, options?: RequestOptions<T, E>): Promise<TypedResponse<T, E>> {
-      const data = serializeDataIfNeeded(options?.data, options?.config)
       const config: AxiosRequestConfig = {
         method: 'put',
         url,
-        data,
+        data: options?.data,
         params: options?.params,
         ...(options?.config)
       }
@@ -235,11 +272,10 @@ export function createApi(client: AxiosClient): Api {
      * 作用：语义化 PATCH，并返回 TypedResponse<T,E>
      */
     async patch<T, E = unknown>(url: string, options?: RequestOptions<T, E>): Promise<TypedResponse<T, E>> {
-      const data = serializeDataIfNeeded(options?.data, options?.config)
       const config: AxiosRequestConfig = {
         method: 'patch',
         url,
-        data,
+        data: options?.data,
         params: options?.params,
         ...options?.config
       }

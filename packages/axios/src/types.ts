@@ -63,10 +63,12 @@ export abstract class ResponseBrand<T, E = unknown> {
  * @template T 响应体 data 的类型
  * @template E 响应包裹层（如后端统一返回结构中的除 data 外的部分）
  */
-export type TypedResponse<T, E = unknown> = AxiosResponse<T> & ResponseBrand<T, E> & {
-  /** 可选：原始包裹层或元数据，供需要的业务读取 */
+export type TypedResponse<T, E = unknown> = AxiosResponse<T> & {
+  /** 响应主体数据（经 contract 处理后） */
+  data: T
+  /** 可选：原始包裹层（如 { code, msg, timestamp }） */
   envelope?: E
-}
+} & ResponseBrand<T, E>
 
 /**
  * 类型：ContractResult

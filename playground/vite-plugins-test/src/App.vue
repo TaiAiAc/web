@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
 const envStr = JSON.stringify(import.meta.env, null, 2)
-const testUrl = import.meta.env.VITE_TESTURL
+
+const testUrl = import.meta.env.VITE_TEST_URL
 
 function runConsoleTests(): void {
   console.log('standalone')
@@ -13,13 +16,27 @@ function runConsoleTests(): void {
 }
 
 runConsoleTests()
-</script>
+
+async function getHello() {
+  const res = await fetch('/api/hello')
+  const data = await res.json()
+  return data
+}
+
+const hello = ref('')
+onMounted(async () => {
+  hello.value = await getHello()
+  console.log('hello: ', hello.value)
+})
+</script>53
 
 <template>
   <div>
     <a :href="testUrl" target="_blank">测试链接</a>
     <h3>import.meta.env</h3>
     <pre>{{ envStr }}</pre>
+    <h3>获取到的 mock 数据</h3>
+    <pre>{{ hello }}</pre>
   </div>
 </template>
 

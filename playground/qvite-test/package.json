@@ -16,6 +16,7 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@quiteer/axios": "workspace:^",
     "@quiteer/vite": "workspace:*",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.18.11",

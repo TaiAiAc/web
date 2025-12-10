@@ -9,7 +9,7 @@ export default defineConfig((envConfig) => {
   return {
     html: {
       config: {
-        title: '测试自己的title',
+        title: env.VITE_TITLE,
         script: {
           src: 'https://unpkg.com/lodash@4.17.21/lodash.min.js',
           async: true,
@@ -34,6 +34,11 @@ export default defineConfig((envConfig) => {
       server: {
         port: 8090
       }
+    },
+    plugins: {
+      MockRouter: [{
+        delay: 1000
+      }]
     }
   }
 })

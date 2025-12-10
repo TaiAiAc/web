@@ -360,6 +360,9 @@ importers:
         specifier: ^4.6.3
         version: 4.6.3(vue@3.5.24(typescript@5.9.3))
     devDependencies:
+      '@quiteer/axios':
+        specifier: workspace:^
+        version: link:../../packages/axios
       '@quiteer/vite':
         specifier: workspace:*
         version: link:../../packages/qvite

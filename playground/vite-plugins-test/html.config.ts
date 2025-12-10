@@ -9,7 +9,7 @@ import type { VirtualHtmlConfig, VirtualHtmlTag } from '@quiteer/vite-plugins'
  * - `attrs` 支持 `string|number|boolean|null|undefined`
  */
 export default {
-  title: '测试我自己的title',
+  title: '这是来自 html.config.ts 的 title',
   /**
    * 外链脚本演示：新增 script 配置
    *

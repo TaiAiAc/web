@@ -1,15 +1,13 @@
 <script setup lang="tsx">
-const Btn = <button>dasdadasbu</button>
-console.log('Btn: ', Btn)
+import AxiosDemo from './Axios.demo.vue'
+
+const Btn = <button>我来自 tsx 组件</button>
 </script>
 
 <template>
   <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentationdasdas
-  </p>
   <Btn />
+  <AxiosDemo />
 </template>
 
 <style scoped></style>
