@@ -104,3 +104,5 @@ export function defineTsdownConfig(
 ): ReturnType<typeof tsdownDefineConfig> {
   return tsdownDefineConfig(config as TsdownUserConfig | TsdownUserConfig[])
 }
+
+export { FileSystemIconLoader, IconsResolver, NaiveUiResolver } from '@quiteer/vite-plugins'

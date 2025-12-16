@@ -1,5 +1,6 @@
 import type { QviteConfig } from './typings'
 import { fileURLToPath } from 'node:url'
+import { IconsResolver, NaiveUiResolver } from '@quiteer/vite-plugins'
 
 export const defaultOptions = {
   plugins: {
@@ -10,11 +11,32 @@ export const defaultOptions = {
     Progress: [{}],
     FileChangeLogger: false,
     RemoveConsole: false,
-    MockRouter: false
+    MockRouter: false,
+    Icons: false,
+    SvgIcons: false,
+    AutoImport: [{
+      imports: [
+        'vue',
+        'vue-router',
+        {
+          'naive-ui': [
+            'useDialog',
+            'useMessage',
+            'useNotification',
+            'useLoadingBar'
+          ]
+        }
+      ]
+    }],
+    Components: [{
+      types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
+      resolvers: [
+        NaiveUiResolver(),
+        IconsResolver({ customCollections: 'local', componentPrefix: 'icon-loacl' })
+      ]
+    }]
   },
-  html: {
-
-  },
+  html: { },
   env: {
     obfuscate: false,
     requiredKeys: ['desc']

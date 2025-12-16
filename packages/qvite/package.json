@@ -63,9 +63,8 @@
     "kolorist": "1.8.0",
     "portfinder": "^1.0.38",
     "semver": "^7.6.3",
+    "tsdown": "^0.16.1",
     "vite": "npm:rolldown-vite@7.2.2",
     "zx": "^8.8.5"
-  },
-  "devDependencies": {
   }
 }
