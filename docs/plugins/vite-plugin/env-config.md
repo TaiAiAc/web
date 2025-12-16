@@ -81,13 +81,16 @@ export default defineConfig(async ({ mode }) => {
 ```
 
 ### bootstrapEnv 选项
-- `root?: string`：项目根目录，默认 `process.cwd()`
-- `mode?: string`：目标环境，默认从 `MODE`/`NODE_ENV` 推断或 `'development'`
-- `includePrefixes?: string[]`：变量前缀白名单，默认 `['VITE_']`
-- `envFileTemplate?: string`：环境文件名模板，默认 `'.env.{mode}.local'`
-- `defaultEnvFile?: string`：默认段文件名，默认 `'.env.local'`
-- `typesOutput?: string`：类型输出路径；未传则不生成类型
-- `disableTypes?: boolean`：禁用类型生成，默认 `false`
+
+| 参数 | 类型 | 默认值 | 说明 |
+| - | - | - | - |
+| `root` | `string` | `process.cwd()` | 项目根目录 |
+| `mode` | `string` | `'development'` 或从 `MODE/NODE_ENV` 推断 | 目标环境 |
+| `includePrefixes` | `string[]` | `['VITE_']` | 变量前缀白名单 |
+| `envFileTemplate` | `string` | `'.env.{mode}.local'` | 环境文件名模板 |
+| `defaultEnvFile` | `string` | `'.env.local'` | 默认段文件名 |
+| `typesOutput` | `string` | `-` | 类型输出路径（未传则不生成类型） |
+| `disableTypes` | `boolean` | `false` | 禁用类型生成 |
 
 ### 行为说明
 - 仅当当前 `root` 下存在 `env.config.ts` 时写入 `.env.*`；未找到配置将直接返回，不做写入。
@@ -127,25 +130,31 @@ export default {
 - 类型文件（可选）：默认写入 `env.d.ts`，为 `import.meta.env` 提供类型提示与校验。
 
 ## 选项说明
-- `root?: string`：项目根目录，默认 `vite` 的 `root`。
-- `configFile?: string`：配置文件路径，默认在 `root` 查找 `env.config.ts`（不再广搜工作区）。
-- `targetEnv?: string`：目标环境，默认 `vite` 的 `mode`。
-- `envFileTemplate?: string`：环境文件名模板，默认 `'.env.{mode}.local'`。
-- `defaultEnvFile?: string`：默认段文件名，默认 `'.env.local'`。
-- `includePrefixes?: string[]`：变量前缀白名单，默认取 `envPrefix` 或 `['VITE_']`。
-- `requiredKeys?: string[]`：必填项校验，缺失时开发模式报错，构建阶段中止。
-- `obfuscate?: boolean`：全局混淆开关（Base64），默认 `false`。
-- `obfuscateSkipKeys?: string[]`：跳过混淆的原始键名（如 `'testUrl'`）。
-- `disableTypes?: boolean`：禁用类型文件生成，默认 `false`。
-- `typesOutput?: string`：类型输出文件路径，默认 `'env.d.ts'`。
-- `literalUnions?: boolean`：是否为类型生成“联合字面量”精确值，默认 `true`。开启后会从 `default` 与所有环境段聚合每个键的取值并去重，生成如 `'通用环境变量'|'开发环境变量'|'生产环境变量'` 的类型；若某键无可聚合值则回退为 `string`。
+
+| 参数 | 类型 | 默认值 | 说明 |
+| - | - | - | - |
+| `root` | `string` | Vite `root` | 项目根目录 |
+| `configFile` | `string` | `'env.config.ts'`（位于 `root`） | 配置文件路径（不再广搜工作区） |
+| `targetEnv` | `string` | Vite `mode` | 目标环境 |
+| `envFileTemplate` | `string` | `'.env.{mode}.local'` | 环境文件名模板 |
+| `defaultEnvFile` | `string` | `'.env.local'` | 默认段文件名 |
+| `includePrefixes` | `string[]` | `envPrefix` 或 `['VITE_']` | 变量前缀白名单（仅生成匹配前缀的键） |
+| `requiredKeys` | `string[]` | `-` | 必填项校验；缺失时开发模式报错，构建阶段中止 |
+| `obfuscate` | `boolean` | `false` | 全局混淆开关（Base64） |
+| `obfuscateSkipKeys` | `string[]` | `-` | 跳过混淆的原始键名（如 `'testUrl'`） |
+| `disableTypes` | `boolean` | `false` | 禁用类型文件生成 |
+| `typesOutput` | `string` | `'env.d.ts'` | 类型输出文件路径 |
+| `literalUnions` | `boolean` | `true` | 为类型生成更精确的联合字面量值 |
 
 ## 字段级策略（EnvConfigOption）
-- 写法：字符串或对象 `{ value?: string; obfuscate?: boolean }`
-- 优先级：
-  1. 字段 `obfuscate`（强制）
-  2. `obfuscateSkipKeys` 白名单
-  3. 全局 `obfuscate`
+-- 写法：字符串或对象 `{ value?: string; obfuscate?: boolean }`
+
+| 字段 | 类型 | 默认值 | 说明 |
+| - | - | - | - |
+| `value` | `string` | `-` | 实际环境变量值 |
+| `obfuscate` | `boolean` | 继承全局与跳过策略 | 字段级混淆开关（优先级最高） |
+
+- 优先级：字段 `obfuscate` > `obfuscateSkipKeys` > 全局 `obfuscate`
 - 建议：URL/直接使用型字段设置 `obfuscate: false` 或加入 `obfuscateSkipKeys`。
 
 ## 严格键约束（推荐）

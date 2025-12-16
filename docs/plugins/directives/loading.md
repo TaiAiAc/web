@@ -21,5 +21,7 @@ import LoadingDemo from './components/LoadingDemo.vue'
 </details>
 
 ## 组合示例
-- 布尔模式：`v-loading="isLoading"`
-- 对象模式：`v-loading="{ show, text, background, spinner }"`
+| 模式 | 用法示例 | 说明 |
+|------|----------|------|
+| 布尔模式 | `` v-loading="isLoading" `` | 传入布尔值控制遮罩显隐；默认使用全局配置的加载文案与样式 |
+| 对象模式 | `` v-loading="{ show, text, background, spinner }" `` | 支持细粒度配置：<br>- `show: boolean`：是否显示遮罩<br>- `text: string`：加载提示文案<br>- `background: string`：遮罩背景色（支持透明度）<br>- `spinner: string`：自定义加载动画类名或类型 |

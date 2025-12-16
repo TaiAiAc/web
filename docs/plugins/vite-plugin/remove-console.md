@@ -18,12 +18,14 @@ export default defineConfig({
 ```
 
 ## 选项
-- `level`: 'off' | 'error' | 'warn' | 'info' | 'log' | 'debug' | 'trace'，默认 'warn'
-- `stripInDev`: 是否在 dev 移除，默认 `true`
-- `stripInBuild`: 是否在 build 移除，默认 `true`
-- `methods`: 自定义方法白名单，优先于 `level`
-- `include`/`exclude`: 文件正则过滤
-- `processVue`: 是否处理 `.vue` 内脚本，默认 `true`
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `` `level` `` | `` 'off' \| 'error' \| 'warn' \| 'info' \| 'log' \| 'debug' \| 'trace' `` | `` `'warn'` `` | 日志等级阈值：低于此级别的 `console.*` 调用将被移除 |
+| `` `stripInDev` `` | `boolean` | `` `true` `` | 是否在开发环境（dev）中移除 console 调用 |
+| `` `stripInBuild` `` | `boolean` | `` `true` `` | 是否在构建（build）时移除 console 调用 |
+| `` `methods` `` | `string[]` | — | 自定义保留的方法名白名单（如 `['error', 'warn']`），优先级高于 `level` |
+| `` `include` `` / `` `exclude` `` | `RegExp \| RegExp[]` | — | 按文件路径正则过滤，仅对匹配的文件生效 |
+| `` `processVue` `` | `boolean` | `` `true` `` | 是否处理 `.vue` 单文件组件中的 `<script>` 内容 |
 
 ## 示例
 ```ts

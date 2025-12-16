@@ -62,24 +62,19 @@ export default defineConfig({
 ```
 
 ## 插件列表
-- 文件改动日志：美观打印新增/修改/删除文件路径与时间戳
-  - 文档：[file-change-logger](/plugins/vite-plugin/file-change-logger)
-- API Mock 路由：将 `/api/*` 自动映射到 `<root>/mock/*.json`
-  - 文档：[mock-router](/plugins/vite-plugin/mock-router)
-- 环境变量类型生成：扫描 `.env*` 自动生成 `env.d.ts`
-  - 文档：[env-types](/plugins/vite-plugin/env-types)
-- 环境配置生成：读取 `env.config.ts` 生成 `.env.local/.env.{mode}.local` 并支持混淆、校验与类型
-  - 文档：[env-config](/plugins/vite-plugin/env-config)
-- 移除 console：按等级剔除 `console.*` 调用（含 `.vue` 脚本）
-  - 文档：[remove-console](/plugins/vite-plugin/remove-console)
-- 虚拟 HTML 生成：通过配置对象生成根 `index.html`，实现“无 HTML 文件”开发与构建
-  - 文档：[virtual-html](/plugins/vite-plugin/virtual-html)
-- 构建进度条（第三方集成）：`vite-plugin-progress`
-  - 文档：[progress](/plugins/vite-plugin/progress)
-- Vue 集成：`@vitejs/plugin-vue` 的一键启用封装
-- Vue JSX：`@vitejs/plugin-vue-jsx` 的一键启用封装
-- UnoCSS：`@unocss/vite` 的一键启用封装
-- 工具方法：`bootstrapEnv` 用于在配置函数开头预生成 `.env` 与类型，保障首次运行即可读取环境变量
+| 功能 | 说明 | 文档 |
+|------|------|------|
+| 文件改动日志 | 美观打印新增/修改/删除文件路径与时间戳 | [file-change-logger](/plugins/vite-plugin/file-change-logger) |
+| API Mock 路由 | 将 `/api/*` 自动映射到 `<root>/mock/*.json` | [mock-router](/plugins/vite-plugin/mock-router) |
+| 环境变量类型生成 | 扫描 `.env*` 文件，自动生成 `env.d.ts` 提供类型提示 | [env-types](/plugins/vite-plugin/env-types) |
+| 环境配置生成 | 读取 `env.config.ts` 生成 `.env.local` / `.env.{mode}.local`，支持混淆、校验与类型 | [env-config](/plugins/vite-plugin/env-config) |
+| 移除 console | 按等级剔除 `console.*` 调用（含 `.vue` 脚本） | [remove-console](/plugins/vite-plugin/remove-console) |
+| 虚拟 HTML 生成 | 通过配置对象生成根 `index.html`，实现“无 HTML 文件”开发与构建 | [virtual-html](/plugins/vite-plugin/virtual-html) |
+| 构建进度条 | 集成 `vite-plugin-progress` 显示构建进度 | [progress](/plugins/vite-plugin/progress) |
+| Vue 集成 | 一键启用 `@vitejs/plugin-vue` | — |
+| Vue JSX 支持 | 一键启用 `@vitejs/plugin-vue-jsx` | — |
+| UnoCSS 集成 | 一键启用 `@unocss/vite` | — |
+| 工具方法 | 提供 `bootstrapEnv`，在配置函数开头预生成 `.env` 与类型，保障首次运行即可读取环境变量 | — |
 
 ## 单独使用
 ```ts
@@ -123,26 +118,17 @@ export default defineConfig({
 - 如需在 `vite.config.ts` 顶层读取环境，使用 `async defineConfig` 并在开头调用 `bootstrapEnv({ mode })`
 
 ## 插件详解（概要）
-- `envConfigPlugin(options)`：
-  - 读取 `env.config.ts`，合并 `default + mode`，生成 `.env.local/.env.{mode}.local`
-  - 支持 `requiredKeys` 校验与 `obfuscate` 混淆；类型文件生成可配置 `typesOutput`
-  - 键名规范：自动将驼峰转为下划线大写（`baseURL -> VITE_BASE_URL`）
-- `envTypesPlugin(options)`：
-  - 扫描 `.env*` 生成 `env.d.ts`，为 `import.meta.env` 提供提示
-- `virtualHtmlPlugin(options)`：
-  - “无模板”开发，将 `title/script/style/tags` 插入到输出目录的 `index.html` 或多页
-- `fileChangeLoggerPlugin(options)`：
-  - 开发期打印文件新增、修改、删除日志，提升变更可见性
-- `mockRouterPlugin(options)`：
-  - 将 `/api/*` 请求映射到 `mock/*.json`，适合前后端分离场景的快速联调
-- `removeConsolePlugin(options)`：
-  - 剔除 `console.*` 调用（支持 `.vue`），减少生产日志污染；可按等级配置
-- `Progress()`：
-  - 构建/启动过程进度条提示
-- `Vue()/VueJsx()/UnoCSS()`：
-  - 对应插件的封装函数，减少样板代码
-- `bootstrapEnv(opts)`：
-  - 工具方法，配置函数开头调用，保证首次运行前 `.env` 与类型就绪
+| 名称 | 用途 | 特性 / 说明 |
+|------|------|-------------|
+| `` `envConfigPlugin(options)` `` | 读取 `env.config.ts` 并生成本地环境文件 | - 合并 `default` 与当前 `mode` 配置<br>- 支持 `requiredKeys` 校验和 `obfuscate` 混淆<br>- 可配置类型输出路径 `typesOutput`<br>- 自动将驼峰键转为大写下划线（如 `baseURL` → `VITE_BASE_URL`） |
+| `` `envTypesPlugin(options)` `` | 扫描 `.env*` 文件生成 `env.d.ts` | 为 `import.meta.env` 提供 TypeScript 类型提示与自动补全 |
+| `` `virtualHtmlPlugin(options)` `` | 实现“无 HTML 模板”开发模式 | 动态生成 `index.html`（或多页），注入 `title`、`script`、`style`、`meta` 等标签 |
+| `` `fileChangeLoggerPlugin(options)` `` | 开发阶段可视化文件变更 | 打印新增、修改、删除的文件路径及时间戳，提升调试体验 |
+| `` `mockRouterPlugin(options)` `` | 自动 mock API 接口 | 将 `/api/*` 请求映射到 `<root>/mock/*.json`，适用于前后端分离快速联调 |
+| `` `removeConsolePlugin(options)` `` | 移除生产环境中的 `console` 调用 | 支持 `.vue` 文件；可按日志等级（如 `log`/`debug`/`error`）配置剔除策略 |
+| `` `Progress()` `` | 显示构建/启动进度 | 集成第三方进度条插件，提升 CLI 可视化体验 |
+| `` `Vue()` / `VueJsx()` / `UnoCSS()` `` | 一键启用常用 Vite 插件 | 对 `@vitejs/plugin-vue`、`@vitejs/plugin-vue-jsx`、`@unocss/vite` 的封装，减少样板代码 |
+| `` `bootstrapEnv(opts)` `` | 预生成环境文件与类型定义 | 工具方法，建议在 Vite 配置函数开头调用，确保首次运行即可读取完整环境变量 |
 
 ## 参数约定
 - 插件函数支持传入“布尔开关”或“参数对象/数组”（按各插件文档说明）

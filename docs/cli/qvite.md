@@ -125,23 +125,27 @@ qvite build -m production --minify
 
 `QviteConfig` 包含以下字段：
 
-- `vite`：Vite 原生配置对象
-- `tsdown`：`UserConfig | UserConfig[]`
-- `plugins`：内置插件开关/参数
-- `html`：`virtualHtmlPlugin` 的配置
-- `env`：`envConfigPlugin` 的选项
+| 字段 | 类型 | 对应插件 / 功能 | 说明 |
+|------|------|------------------|------|
+| `` vite `` | `import('vite').UserConfig` | Vite 原生配置 | 透传给 Vite 的标准配置对象，支持所有官方选项 |
+| `` tsdown `` | `UserConfig \| UserConfig[]` | TypeScript 降级构建 | 用于生成兼容旧版浏览器的降级包（如 ES5），可配置多套输出 |
+| `` plugins `` | `object` | 内置插件管理 | 控制内置插件（如 `removeConsolePlugin`、`mockRouterPlugin` 等）的启用状态及参数 |
+| `` html `` | `VirtualHtmlOptions` | `virtualHtmlPlugin` | 配置无模板 HTML 生成，如 `title`、`script`、`tags`、多页等 |
+| `` env `` | `EnvConfigOptions` | `envConfigPlugin` | 配置环境变量生成逻辑，如 `requiredKeys`、`obfuscate`、`typesOutput` 等 |
 
 ### 默认配置
 
 - 插件默认：
-  - `Vue: [{ customElement: true }]`（开启）
-  - `UnoCSS: false`（默认关闭）
-  - `VueDevTools: [{}]`（开启）
-  - `VueJsx: [{}]`（开启）
-  - `Progress: [{}]`（开启）
-  - `FileChangeLogger: false`（默认关闭）
-  - `RemoveConsole: false`（默认关闭）
-  - `MockRouter: false`（默认关闭）
+  | 插件名 | 默认值 | 启用方式 | 说明 |
+  |--------|--------|----------|------|
+  | `` Vue `` | `[{ customElement: true }]` | 已默认开启 | 启用 Vue 自定义元素支持（Web Components） |
+  | `` UnoCSS `` | `false` | `UnoCSS: true` 或 `UnoCSS: [options]` | 原子化 CSS 引擎，**默认关闭**，按需开启 |
+  | `` VueDevTools `` | `[{}]` | 已默认开启 | 在开发环境注入 Vue DevTools 支持 |
+  | `` VueJsx `` | `[{}]` | 已默认开启 | 支持 JSX/TSX 语法（配合 `@vitejs/plugin-vue-jsx`） |
+  | `` Progress `` | `[{}]` | 已默认开启 | 构建时显示进度条（如 `vite-plugin-progress`） |
+  | `` FileChangeLogger `` | `false` | `FileChangeLogger: true` | 开发模式下记录文件变更日志，**默认关闭** |
+  | `` RemoveConsole `` | `false` | `RemoveConsole: true` 或传入选项对象 | 构建时移除 `console.*` 调用，**默认关闭** |
+  | `` MockRouter `` | `false` | `MockRouter: true` 或传入 `{ apiPrefix, mockDir, ... }` | 启用本地 API Mock 路由，**默认关闭** |
 - HTML 默认：为空对象（不插入标题/脚本/样式/标签）
 - 环境默认：`{ obfuscate: false, requiredKeys: ['desc'] }`
 - Vite 默认：
@@ -240,10 +244,13 @@ html: {
 
 ## 类型提示实践
 
-- `defineConfig`：用于 `qvite.config.ts` 的类型辅助
-- `ConfigEnv<T>`：回调入参类型（包含 `command`、`mode`、`env: T`、`root`）
-- `defineViteConfig`：Vite 配置的类型辅助包装
-- `defineTsdownConfig`：tsdown 配置的类型辅助包装
+| 名称 | 类型 / 用途 | 参数 | 说明 |
+|------|-------------|------|------|
+| `` defineConfig `` | 配置入口函数 | `(config: QViteUserConfig \| (env: ConfigEnv<Env>) => QViteUserConfig)` | 用于 `qvite.config.ts` 的主配置定义函数，提供完整类型推导 |
+| `` ConfigEnv<T> `` | 环境上下文类型 | `{ command: 'build' \| 'serve'; mode: string; env: T; root: string }` | 配置回调函数的入参类型，`T` 为 `.env` 文件解析后的环境变量类型 |
+| `` defineViteConfig `` | Vite 配置包装器 | `(config: UserConfig \| (env: ConfigEnv<Env>) => UserConfig)` | 专用于定义透传给 Vite 的原生配置部分，支持函数式配置 |
+| `` defineTsdownConfig `` | tsdown 配置包装器 | `(config: UserConfig \| UserConfig[])` | 用于定义降级构建（如 ES5 兼容包）的 Vite 配置，支持单/多输出 |
+`
 
 在配置回调中使用：
 

@@ -38,16 +38,18 @@ app.mount('#app')
 
 ## 主要指令
 
-- 权限控制：[v-permission](/plugins/directives/permission)
-- 复制文本：[v-copy](/plugins/directives/copy)
-- 防抖事件：[v-debounce](/plugins/directives/debounce)
-- 节流事件：[v-throttle](/plugins/directives/throttle)
-- 点击外部：[v-click-outside](/plugins/directives/clickOutside)
-- 文本省略：[v-ellipsis](/plugins/directives/ellipsis)
-- 交叉观察：[v-intersecting](/plugins/directives/intersecting)
-- 图片懒载：[v-lazy](/plugins/directives/lazy)
-- 加载遮罩：[v-loading](/plugins/directives/loading)
-- 水印叠加：[v-watermark](/plugins/directives/watermark)
+| 指令 | 说明 | 文档 |
+|------|------|------|
+| `` `v-permission` `` | 基于角色或权限码的元素显隐控制 | [permission](/plugins/directives/permission) |
+| `` `v-copy` `` | 一键复制文本内容，支持回调与提示 | [copy](/plugins/directives/copy) |
+| `` `v-debounce` `` | 对绑定事件进行防抖处理（如输入搜索） | [debounce](/plugins/directives/debounce) |
+| `` `v-throttle` `` | 对绑定事件进行节流处理（如滚动、点击） | [throttle](/plugins/directives/throttle) |
+| `` `v-click-outside` `` | 点击元素外部时触发回调（常用于下拉菜单关闭） | [clickOutside](/plugins/directives/clickOutside) |
+| `` `v-ellipsis` `` | 自动对文本应用省略号样式（单行/多行） | [ellipsis](/plugins/directives/ellipsis) |
+| `` `v-intersecting` `` | 基于 Intersection Observer 监听元素进入/离开视口 | [intersecting](/plugins/directives/intersecting) |
+| `` `v-lazy` `` | 图片懒加载，提升首屏性能 | [lazy](/plugins/directives/lazy) |
+| `` `v-loading` `` | 在元素上叠加加载遮罩，支持自定义文案 | [loading](/plugins/directives/loading) |
+| `` `v-watermark` `` | 在页面或容器叠加全屏/局部水印 | [watermark](/plugins/directives/watermark) |
 
 ## 参数与修饰符说明
 

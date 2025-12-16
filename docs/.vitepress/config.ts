@@ -1,3 +1,4 @@
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vitepress'
 import { version } from '../../package.json'
 
@@ -59,7 +60,8 @@ export default defineConfig({
     },
     optimizeDeps: {
       include: ['vue', 'naive-ui', 'vueuc', 'vooks']
-    }
+    },
+    plugins: [vueJsx()]
   }
 })
 

@@ -48,6 +48,8 @@ app.mount('#app')
   - 局部：`v-lazy="{ error: '/override.jpg' }"` 最终 `error='/override.jpg'`
 
 ## 组合示例
-- 仅占位图：`v-lazy="{ loading: '/loading.gif' }"`
-- 占位 + 错误图：`v-lazy="{ loading: '/loading.gif', error: '/error.jpg' }"`
-- 带回调：`v-lazy="{ onLoad, onError }"`
+| 模式 | 用法示例 | 说明 |
+|------|----------|------|
+| 仅占位图 | `` v-lazy="{ loading: '/loading.gif' }" `` | 加载过程中显示指定占位图片 |
+| 占位 + 错误图 | `` v-lazy="{ loading: '/loading.gif', error: '/error.jpg' }" `` | 加载时显示占位图，加载失败时自动切换为错误图 |
+| 带回调函数 | `` v-lazy="{ onLoad, onError }" `` | 支持自定义生命周期回调：<br>- `onLoad(img: HTMLImageElement)`：图片加载成功时触发<br>- `onError(error: Event)`：图片加载失败时触发 |

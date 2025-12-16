@@ -18,11 +18,13 @@ export default defineConfig({
 ```
 
 ## 选项
-- `root?: string`：项目根目录，默认 Vite `config.root`
-- `envFilePatterns?: string[]`：默认 `['.env', '.env.*', '.env.*.local', '.env.local']`
-- `includePrefixes?: string[]`：默认读取 Vite `envPrefix` 或 `['VITE_']`
-- `outputFile?: string`：输出路径，默认 `<root>/env.d.ts`
-- `literalUnions?: boolean`：是否生成“联合字面量类型”，默认 `true`。开启后会跨所有匹配的 `.env*` 文件聚合每个键的值并去重，输出更精确的类型；若无可聚合值则回退为 `string`。
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `` `root` `` | `string` | Vite 的 `` `config.root` `` | 项目根目录 |
+| `` `envFilePatterns` `` | `string[]` | `` `['.env', '.env.*', '.env.*.local', '.env.local']` `` | 要扫描的环境变量文件匹配模式 |
+| `` `includePrefixes` `` | `string[]` | Vite 的 `` `envPrefix` `` 或 `` `['VITE_']` `` | 仅包含指定前缀的环境变量，避免暴露敏感信息 |
+| `` `outputFile` `` | `string` | `` `<root>/env.d.ts` `` | 生成的类型定义文件输出路径 |
+| `` `literalUnions` `` | `boolean` | `` `true` `` | 是否生成“联合字面量类型”。开启后会跨所有匹配的 `` `.env*` `` 文件聚合每个键的值并去重，输出更精确的类型；若无可聚合值则回退为 `` `string` `` |
 
 ## 示例
 ```ts

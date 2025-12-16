@@ -21,5 +21,7 @@ import ClickOutsideDemo from './components/ClickOutsideDemo.vue'
 </details>
 
 ## 组合示例
-- 函数模式：`v-click-outside="fn"`
-- 对象模式：`v-click-outside="{ handler: fn, immediate, attachOnMount }"`
+| 模式 | 用法示例 | 说明 |
+|------|----------|------|
+| 函数模式 | `` v-click-outside="fn" `` | 直接传入处理函数，点击外部时调用 `fn` |
+| 对象模式 | `` v-click-outside="{ handler: fn, immediate: boolean, attachOnMount: boolean }" `` | 支持高级配置：<br>- `handler`：点击外部时的回调函数<br>- `immediate`：是否立即绑定事件（默认 `true`）<br>- `attachOnMount`：是否在组件挂载时自动附加监听（默认 `true`） |

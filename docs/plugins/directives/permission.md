@@ -58,15 +58,19 @@ import PermissionDemo from './components/PermissionDemo.vue'
 
 - 功能：根据用户权限控制元素的可见性或交互性。
 - 指令值：
-  - 字符串：单一权限码，如 `'sys:user:add'`
-  - 数组：多个权限码，如 `['sys:user:add','sys:user:edit']`
-  - 对象：`{ codes, mode, effect }`
+  | 模式 | 示例 | 说明 |
+  |------|------|------|
+  | 字符串 | `` 'sys:user:add' `` | 单一权限码，元素在用户拥有该权限时显示 |
+  | 数组 | `` ['sys:user:add', 'sys:user:edit'] `` | 多个权限码，默认为 **“或”关系**（满足任一即可） |
+  | 对象 | `` { codes: ['sys:user:add'], mode: 'and' \| 'or', effect: 'show' \| 'hide' } `` | 高级配置：<br>- `codes`：权限码列表<br>- `mode`：校验逻辑，
 - 修饰符：
-  - `any`：任意命中即可，如 `v-permission.any="[...]"`
-  - `all`：必须全部命中，如 `v-permission.all="[...]"`
-  - `hide`：未授权时隐藏（默认效果）
-  - `disable`：未授权时禁用
-  - `remove`：未授权时移除
+  | 名称 | 类型 | 用法示例 | 说明 |
+  |------|------|----------|------|
+  | `` any `` | 校验模式 | `` v-permission.any="['a', 'b']" `` | 权限码列表中 **任意一个匹配即授权通过**（等价于 `mode: 'or'`） |
+  | `` all `` | 校验模式 | `` v-permission.all="['a', 'b']" `` | 权限码列表 **必须全部匹配才授权通过**（等价于 `mode: 'and'`） |
+  | `` hide `` | 未授权效果 | `` v-permission.hide="['a']" `` | 无权限时 **隐藏元素**（`display: none`），默认行为 |
+  | `` disable `` | 未授权效果 | `` v-permission.disable="['a']" `` | 无权限时 **禁用元素**（如添加 `disabled` 或 `pointer-events: none`） |
+  | `` remove `` | 未授权效果 | `` v-permission.remove="['a']" `` | 无权限时 **从 DOM 中完全移除元素**（不渲染） |
 - 参数：
   - 可用 `:hide` / `:disable` / `:remove`
   - 指定效果 `v-permission:remove="'sys:user:add'"`

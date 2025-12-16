@@ -46,20 +46,24 @@ const list3 = ref([
 
 ## 属性
 
-- `file-type`：上传视图模式，可选 `image-view` | `video-view` | `audio-view` | `file` | `dragger-file`
-- `max`：最大上传数量，`1` 为单文件模式，影响移除行为与展示
-- `accept`：允许的文件扩展名列表，结合 `AcceptType` 使用，如 `AcceptType.Image`
-- `file-size`：文件大小上限（MB），如 `2` 表示 2MB，上限校验在上传前执行
-- `data-type`：返回值类型，设置为 `'string'` 时为单文件 URL 字符串，否则为列表
-- `is-set-fields-value`：是否根据 `v-model` 初始值回显文件列表，默认 `true`
-- 透传 `naive-ui` 的 `UploadProps`：如 `action`、`headers`、`data`、`disabled`、`list-type` 等
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `` `file-type` `` | `` 'image-view' \| 'video-view' \| 'audio-view' \| 'file' \| 'dragger-file' `` | — | 上传视图模式，决定 UI 展示样式 |
+| `` `max` `` | `number` | — | 最大上传文件数量；设为 `1` 时启用单文件模式，影响移除逻辑与界面展示 |
+| `` `accept` `` | `string[] \| AcceptType` | — | 允许的文件类型，可直接传扩展名数组，或使用 `AcceptType.Image` 等预设常量 |
+| `` `file-size` `` | `number` | — | 单个文件大小上限（单位：MB），校验在上传前执行（如 `2` 表示 2MB） |
+| `` `data-type` `` | `` 'string' \| 'array' `` | `'array'` | 返回值类型：`'string'` 时返回单文件 URL 字符串，否则返回文件对象列表 |
+| `` `is-set-fields-value` `` | `boolean` | `` `true` `` | 是否根据 `v-model` 的初始值自动回显已上传的文件列表 |
+| — | — | — | **以下属性透传至 `naive-ui` 的 `NUpload` 组件**：<br>`action`、`headers`、`data`、`disabled`、`list-type` 等标准 `UploadProps` |
 
 ## 事件
 
-- `@finish`：上传完成，组件内部会根据 `data-type` 更新 `v-model`（字符串或列表）
-- `@remove`：移除文件，单文件模式会清空，列表模式按下标移除
-- `@before-upload`：上传前校验，校验文件类型、大小、文件名合法性
-- `@error`：上传错误，打印后端返回的错误信息，便于排查
+| 事件名 | 回调参数 | 说明 |
+|--------|----------|------|
+| `` `@finish` `` | `(value: string \| any[])` | 上传完成时触发；组件会根据 `data-type` 自动更新 `v-model`（`'string'` 模式返回 URL 字符串，否则返回文件对象列表） |
+| `` `@remove` `` | `(file: any, index?: number)` | 文件被移除时触发；单文件模式清空值，列表模式按索引移除对应项 |
+| `` `@before-upload` `` | `(file: File) => boolean \| Promise<boolean>` | 上传前校验钩子，可用于检查文件类型、大小、文件名合法性；返回 `false` 或 reject 可中断上传 |
+| `` `@error` `` | `(error: Error \| { message: string })` | 上传失败时触发，通常用于打印后端返回的错误信息，便于调试与用户提示 |
 
 ## 插槽
 
@@ -68,15 +72,20 @@ const list3 = ref([
 
 ## 返回值结构（v-model）
 
-- 字符串模式：当 `data-type='string'` 且 `max=1`，`v-model:value` 为文件 `url` 字符串
-- 列表模式：`v-model:value` 为数组，项结构：`{ id: string, name: string, url: string }`
+| 模式 | 条件 | `v-model:value` 值类型与结构 |
+|------|------|-------------------------------|
+| 字符串模式 | `data-type='string'` 且 `max=1` | `string`<br>文件的 URL 字符串（如 `'https://example.com/file.jpg'`） |
+| 列表模式 | 其他情况（默认） | `Array<{ id: string; name: string; url: string }>`<br>文件对象数组，每项包含唯一标识、文件名和访问地址 |
 
 ## AcceptType 对照表
 
-- `AcceptType.Image`：`.jpg,.jpeg,.png,.gif,.bmp,.webp,.svg`
-- `AcceptType.Video`：`.mp4,.webm,.ogg,.mov,.avi,.wmv,.flv,.mkv`
-- `AcceptType.Audio`：`.mp3,.wav,.ogg,.aac,.flac,.m4a`
-- `AcceptType.File`：`.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.pdf,.zip,.rar,.7z,.tar,.gz`
+| 常量 | 支持的文件扩展名 |
+|------|------------------|
+| `` AcceptType.Image `` | `.jpg, .jpeg, .png, .gif, .bmp, .webp, .svg` |
+| `` AcceptType.Video `` | `.mp4, .webm, .ogg, .mov, .avi, .wmv, .flv, .mkv` |
+| `` AcceptType.Audio `` | `.mp3, .wav, .ogg, .aac, .flac, .m4a` |
+| `` AcceptType.File ``  | `.doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .pdf, .zip, .rar, .7z, .tar, .gz` |
+
 
 ## 与表单集成
 

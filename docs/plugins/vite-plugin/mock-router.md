@@ -19,11 +19,13 @@ export default defineConfig({
 ```
 
 ## 选项
-- `apiPrefix?: string`：API 前缀，默认 `'/api'`
-- `mockDir?: string`：Mock 目录，默认 `'<root>/mock'`
-- `extension?: string`：扩展名，默认 `'.json'`
-- `delay?: number`：响应延迟毫秒，默认 `0`
-- `onMiss?: 'pass' | '404'`：未命中策略，默认 `'pass'`
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `` `apiPrefix` `` | `string` | `` `'/api'` `` | API 请求前缀 |
+| `` `mockDir` `` | `string` | `` `'<root>/mock'` `` | Mock 文件所在目录 |
+| `` `extension` `` | `string` | `` `'.json'` `` | Mock 文件的扩展名 |
+| `` `delay` `` | `number` | `` `0` `` | 模拟网络延迟，单位为毫秒 |
+| `` `onMiss` `` | `` 'pass' \| '404' `` | `` `'pass'` `` | 当请求未匹配到 mock 文件时的处理策略：<br>`'pass'` 表示透传给下游中间件，`'404'` 返回 404 响应 |
 
 ## 示例
 ```ts

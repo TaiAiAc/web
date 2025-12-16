@@ -18,9 +18,11 @@ export default defineConfig({
 ```
 
 ## 选项
-- `devOnly?: boolean`：仅在开发启用，默认 `true`
-- `events?: Array<'change'|'add'|'unlink'>`：监听事件，默认全部
-- `label?: string`：输出标签，默认 `'file'`
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `` `devOnly` `` | `boolean` | `` `true` `` | 仅在开发启用 |
+| `` `events` `` | `` Array<'change' \| 'add' \| 'unlink'> `` | 全部事件 | 监听事件 |
+| `` `label` `` | `string` | `` `'file'` `` | 输出标签 |
 
 ## 示例
 ```ts

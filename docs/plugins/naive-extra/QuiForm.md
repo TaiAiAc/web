@@ -13,23 +13,29 @@ import FormDemo from './components/FormDemo.vue'
 
 ## 属性（Props）
 
-- `schemas`：表单字段定义数组，包含 `field`、`label`、`component`、`rules` 等
-- `model`：初始表单值对象（可选）
-- `size`：表单尺寸，常用 `'small' | 'medium' | 'large'`
-- `layout`：布局配置，如 `labelPlacement`、`labelWidth` 等（透传 `naive-ui` 表单属性）
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `` `schemas` `` | `{ field: string; label: string; component: string; rules?: any[]; }[]` | — | 表单字段定义数组，每个项包含字段名、标签、组件类型及校验规则等 |
+| `` `model` `` | `Record<string, any>` | — | 初始表单数据对象（可选） |
+| `` `size` `` | `` 'small' \| 'medium' \| 'large' `` | — | 表单控件尺寸 |
+| `` `layout` `` | `object` | — | 布局配置，透传给 `naive-ui` 的 `NForm` 属性（如 `labelPlacement`、`labelWidth` 等） |
 
 ## 插槽（Slots）
 
-- `action-button`：操作区按钮插槽（提交、重置、导出等）
-- 自定义字段插槽：以字段名为插槽名，替换某个字段的默认渲染
+| 插槽名 | 说明 | 作用 |
+|--------|------|------|
+| `` `action-button` `` | 操作区按钮插槽 | 自定义提交、重置、导出等操作按钮区域 |
+| `` `{field}` `` | 动态字段插槽（`field` 为字段名） | 替换指定字段的默认渲染内容，实现高度自定义表单项 |
 
 ## 实例方法（Ref）
 
-- `validate`：触发表单校验（返回 `Promise`）
-- `resetFields`：重置表单到初始值
-- `clearValidate`：清除校验状态
-- `getFieldsValue`：获取当前表单值对象
-- `setFieldsValue`：批量设置表单字段值
+| 方法名 | 参数 | 说明 |
+|--------|------|------|
+| `` `validate` `` | — | 触发表单校验，返回 `Promise<boolean>`（校验通过为 `true`） |
+| `` `resetFields` `` | — | 将表单字段重置为初始值（即 `model` 的原始状态） |
+| `` `clearValidate` `` | — | 清除所有字段的校验状态（错误提示等） |
+| `` `getFieldsValue` `` | — | 获取当前所有字段的值，返回 `Record<string, any>` |
+| `` `setFieldsValue` `` | `values: Record<string, any>` | 批量更新表单字段值，支持部分字段更新 |
 
 ## 示例：定义与提交
 
