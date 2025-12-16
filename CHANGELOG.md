@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-16 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-16 `✏️ 2+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.8
+  > **🕒  15:12** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`2f1f398`](https://github.com/QuiteerJs/web/commit/2f1f3983dc7ca3484bacc6e0c6cec636f4d30bb4))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/2f1f3983dc7ca3484bacc6e0c6cec636f4d30bb4/packages/qvite/package.json)
 - 🔧  **chore** `release`: v0.0.15
   > **🕒  15:11** · `➕2` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`a8a983a`](https://github.com/QuiteerJs/web/commit/a8a983ae936f52cde4f071825d6638c3cb53f191))
@@ -385,6 +389,45 @@
   - ✏️ [`package.json`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/package.json)
   - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-lock.yaml)
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
+
+### 构建
+#### 2025-12-16 `✏️ 11+` `➕ 0+` `🗑️ 0+`
+- 🏗️  **build** `deps`: 内置更多依赖
+  > **🕒  15:11** · `➕482` / `➖603`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`975ed07`](https://github.com/QuiteerJs/web/commit/975ed0772564c108d62bb9fbb0c8aed009ba8e4f))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/qvite/index.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/index.ts)
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/package.json)
+  - ✏️ [`packages/qvite/src/defaults.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/defaults.ts)
+  - ✏️ [`packages/qvite/src/plugins.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/plugins.ts)
+  - ✏️ [`packages/qvite/src/typings.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/typings.ts)
+  - ✏️ [`packages/qvite/src/watch.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/watch.ts)
+  - ✏️ [`packages/vite-plugins/src/extra.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/vite-plugins/src/extra.ts)
+  - ✏️ [`playground/qvite-test/qvite.config.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/playground/qvite-test/qvite.config.ts)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/pnpm-lock.yaml)
+
+#### 2025-11-24 `✏️ 8+` `➕ 0+` `🗑️ 0+`
+- 🏗️  **build** `packages`: 完善各个包的package
+  > **🕒  17:47** · `➕34` / `➖6`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`38789c9`](https://github.com/QuiteerJs/web/commit/38789c907b5877f852ccd27758e3b55a6c57ae0d))
+  - ✏️ [`packages/axios/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/axios/package.json)
+  - ✏️ [`packages/box/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/box/package.json)
+  - ✏️ [`packages/directives/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/directives/package.json)
+  - ✏️ [`packages/naive-extra/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/naive-extra/package.json)
+  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/unocss/package.json)
+  - ✏️ [`packages/utils/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/utils/package.json)
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/vite-plugins/package.json)
+- 🏗️  **build** `packages`: 给各个包添加发布地址
+  > **🕒  17:42** · `➕5` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`85670f8`](https://github.com/QuiteerJs/web/commit/85670f88284e3ef125ff17efb5bf55d02fc154dd))
+  - ✏️ [`packages/is/package.json`](https://github.com/QuiteerJs/web/blob/85670f88284e3ef125ff17efb5bf55d02fc154dd/packages/is/package.json)
+
+#### 2025-11-22 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+- 🏗️  **build** `packages`: 增加指令
+  > **🕒  12:04** · `➕2` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`df6af47`](https://github.com/QuiteerJs/web/commit/df6af47d3ac986e8f50d8aa19fb9e31b32b4cb25))
+  - ✏️ [`scripts/package.json`](https://github.com/QuiteerJs/web/blob/df6af47d3ac986e8f50d8aa19fb9e31b32b4cb25/scripts/package.json)
 
 ### 新功能
 #### 2025-12-16 `✏️ 2+` `➕ 1+` `🗑️ 0+`
@@ -1824,29 +1867,6 @@
   - ➕ [`packages/utils/src/index.ts`](https://github.com/QuiteerJs/web/blob/df3d53b727099f04860a1a82f7c6c051e2b63327/packages/utils/src/index.ts)
   - ✏️ [`.github/workflows/deploy.yml`](https://github.com/QuiteerJs/web/blob/df3d53b727099f04860a1a82f7c6c051e2b63327/.github/workflows/deploy.yml)
   - ✏️ [`packages/naive-extra/src/upload/index.ts`](https://github.com/QuiteerJs/web/blob/df3d53b727099f04860a1a82f7c6c051e2b63327/packages/naive-extra/src/upload/index.ts)
-
-### 构建
-#### 2025-11-24 `✏️ 8+` `➕ 0+` `🗑️ 0+`
-- 🏗️  **build** `packages`: 完善各个包的package
-  > **🕒  17:47** · `➕34` / `➖6`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`38789c9`](https://github.com/QuiteerJs/web/commit/38789c907b5877f852ccd27758e3b55a6c57ae0d))
-  - ✏️ [`packages/axios/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/axios/package.json)
-  - ✏️ [`packages/box/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/box/package.json)
-  - ✏️ [`packages/directives/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/directives/package.json)
-  - ✏️ [`packages/naive-extra/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/naive-extra/package.json)
-  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/unocss/package.json)
-  - ✏️ [`packages/utils/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/utils/package.json)
-  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/38789c907b5877f852ccd27758e3b55a6c57ae0d/packages/vite-plugins/package.json)
-- 🏗️  **build** `packages`: 给各个包添加发布地址
-  > **🕒  17:42** · `➕5` / `➖1`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`85670f8`](https://github.com/QuiteerJs/web/commit/85670f88284e3ef125ff17efb5bf55d02fc154dd))
-  - ✏️ [`packages/is/package.json`](https://github.com/QuiteerJs/web/blob/85670f88284e3ef125ff17efb5bf55d02fc154dd/packages/is/package.json)
-
-#### 2025-11-22 `✏️ 1+` `➕ 0+` `🗑️ 0+`
-- 🏗️  **build** `packages`: 增加指令
-  > **🕒  12:04** · `➕2` / `➖1`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`df6af47`](https://github.com/QuiteerJs/web/commit/df6af47d3ac986e8f50d8aa19fb9e31b32b4cb25))
-  - ✏️ [`scripts/package.json`](https://github.com/QuiteerJs/web/blob/df6af47d3ac986e8f50d8aa19fb9e31b32b4cb25/scripts/package.json)
 
 ### 性能优化
 #### 2025-11-24 `✏️ 2+` `➕ 0+` `🗑️ 0+`

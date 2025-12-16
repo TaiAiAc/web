@@ -1,6 +1,24 @@
 ## 变更日志
 
-### 2025-12-16 `✏️ 32+` `➕ 2+` `🗑️ 1+`
+### 2025-12-16 `✏️ 44+` `➕ 2+` `🗑️ 1+`
+- 🔧  **chore** `release`: v0.0.8
+  > **🕒  15:12** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`2f1f398`](https://github.com/QuiteerJs/web/commit/2f1f3983dc7ca3484bacc6e0c6cec636f4d30bb4))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/2f1f3983dc7ca3484bacc6e0c6cec636f4d30bb4/packages/qvite/package.json)
+- 🏗️  **build** `deps`: 内置更多依赖
+  > **🕒  15:11** · `➕482` / `➖603`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`975ed07`](https://github.com/QuiteerJs/web/commit/975ed0772564c108d62bb9fbb0c8aed009ba8e4f))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/qvite/index.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/index.ts)
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/package.json)
+  - ✏️ [`packages/qvite/src/defaults.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/defaults.ts)
+  - ✏️ [`packages/qvite/src/plugins.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/plugins.ts)
+  - ✏️ [`packages/qvite/src/typings.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/typings.ts)
+  - ✏️ [`packages/qvite/src/watch.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/qvite/src/watch.ts)
+  - ✏️ [`packages/vite-plugins/src/extra.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/packages/vite-plugins/src/extra.ts)
+  - ✏️ [`playground/qvite-test/qvite.config.ts`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/playground/qvite-test/qvite.config.ts)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/975ed0772564c108d62bb9fbb0c8aed009ba8e4f/pnpm-lock.yaml)
 - 🔧  **chore** `release`: v0.0.15
   > **🕒  15:11** · `➕2` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`a8a983a`](https://github.com/QuiteerJs/web/commit/a8a983ae936f52cde4f071825d6638c3cb53f191))
