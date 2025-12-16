@@ -2,7 +2,7 @@ import type { Plugin } from 'vite'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
-import { loadConfig } from 'c12'
+
 import { bold, cyan, gray, green, red } from 'kolorist'
 
 /**
@@ -104,8 +104,8 @@ export interface HtmlVirtualConfig {
     fetchpriority?: 'high' | 'low' | 'auto'
     attrs?: Record<string, string | boolean | number | null | undefined>
     position?: 'head' | 'body-prepend' | 'body-append'
-  }
-  style?: {
+  }[]
+  link?: {
     src: string
     rel?: 'stylesheet'
     media?: string
@@ -114,7 +114,7 @@ export interface HtmlVirtualConfig {
     referrerpolicy?: string
     attrs?: Record<string, string | boolean | number | null | undefined>
     position?: 'head' | 'body-prepend' | 'body-append'
-  }
+  }[]
   tags?: HtmlTagDescriptor[]
   entry?: string
   appRoot?: { tag?: string, id?: string, attrs?: Record<string, string | boolean | number | null | undefined> }
@@ -123,11 +123,10 @@ export interface HtmlVirtualConfig {
 /**
  * 接口：HtmlVirtualPluginOptions
  *
- * 虚拟 HTML 插件的运行选项，控制根目录解析、配置来源与在存在真实 `index.html` 时的回退策略。
+ * 虚拟 HTML 插件的运行选项，控制根目录解析、内联配置来源与在存在真实 `index.html` 时的回退策略。
  *
  * @param root - 项目根目录，默认使用 Vite `root`
- * @param configFile - 配置文件路径，默认 `'html.config.ts'`
- * @param config - 直接传入内联配置对象，优先于文件读取
+ * @param config - 直接传入内联配置对象
  * @param fallbackWhenIndexExists - 当根下存在 `index.html` 时是否仍启用虚拟 HTML，默认 false
  * @returns 插件初始化所需的选项对象，无返回值
  *
@@ -140,14 +139,13 @@ export interface HtmlVirtualConfig {
  * ```
  *
  * @remarks
- * - 若同时提供 `config` 与 `configFile`，以 `config` 为准
+ * - 移除文件配置解析逻辑，仅支持内联 `config` 与 `pages`
  *
  * @security
  * - 请勿将敏感数据放入生成的静态标签或内联脚本中
  */
 export interface HtmlVirtualPluginOptions {
   root?: string
-  configFile?: string
   config?: HtmlVirtualConfig
   fallbackWhenIndexExists?: boolean
   /**
@@ -203,7 +201,7 @@ function mergeVirtualConfig(base: HtmlVirtualConfig, override: HtmlVirtualConfig
     bodyAttrs,
     tags: override.tags ?? base.tags,
     script: override.script ?? base.script,
-    style: override.style ?? base.style,
+    link: override.link ?? base.link,
     appRoot
   }
 }
@@ -377,7 +375,7 @@ function renderTag(d: HtmlTagDescriptor): string {
  * @performance
  * 仅进行属性对象拼接，时间复杂度 O(1)
  */
-function toScriptTag(script: NonNullable<HtmlVirtualConfig['script']>): HtmlTagDescriptor {
+function toScriptTag(script: NonNullable<HtmlVirtualConfig['script']>[number]): HtmlTagDescriptor {
   const baseAttrs: Record<string, string | boolean | number> = { src: script.src }
   if (script.type)
     baseAttrs.type = script.type
@@ -403,12 +401,12 @@ function toScriptTag(script: NonNullable<HtmlVirtualConfig['script']>): HtmlTagD
 }
 
 /**
- * 将样式配置转换为 HtmlTagDescriptor
+ * 将样式链接配置转换为 HtmlTagDescriptor
  *
- * 基于 `HtmlVirtualConfig.style` 生成外链样式描述，采用 `<link rel="stylesheet" href="...">` 形式；
+ * 基于 `HtmlVirtualConfig.links` 生成外链样式描述，采用 `<link rel="stylesheet" href="...">` 形式；
  * 支持 `media/crossorigin/integrity/referrerpolicy` 等常见属性，并允许通过 `attrs` 扩展。未显式指定 `position` 时默认注入到 `head`。
  *
- * @param style - 样式配置对象，包含 `src` 与可选属性
+ * @param link - 样式链接配置对象，包含 `src` 与可选属性
  * @returns 返回可用于渲染的标签描述对象
  * @throws {TypeError} 当 `src` 为空字符串时可能导致资源加载失败
  *
@@ -427,21 +425,21 @@ function toScriptTag(script: NonNullable<HtmlVirtualConfig['script']>): HtmlTagD
  * @performance
  * 仅进行属性对象拼接，时间复杂度 O(1)
  */
-function toStyleTag(style: NonNullable<HtmlVirtualConfig['style']>): HtmlTagDescriptor {
-  const baseAttrs: Record<string, string | boolean | number> = { rel: style.rel ?? 'stylesheet', href: style.src }
-  if (style.media)
-    baseAttrs.media = style.media
-  if (style.crossorigin)
-    baseAttrs.crossorigin = style.crossorigin
-  if (style.integrity)
-    baseAttrs.integrity = style.integrity
-  if (style.referrerpolicy)
-    baseAttrs.referrerpolicy = style.referrerpolicy
+function toLinkTag(link: NonNullable<HtmlVirtualConfig['link']>[number]): HtmlTagDescriptor {
+  const baseAttrs: Record<string, string | boolean | number> = { rel: link.rel ?? 'stylesheet', href: link.src }
+  if (link.media)
+    baseAttrs.media = link.media
+  if (link.crossorigin)
+    baseAttrs.crossorigin = link.crossorigin
+  if (link.integrity)
+    baseAttrs.integrity = link.integrity
+  if (link.referrerpolicy)
+    baseAttrs.referrerpolicy = link.referrerpolicy
   return {
     tag: 'link',
-    attrs: { ...baseAttrs, ...style.attrs },
+    attrs: { ...baseAttrs, ...link.attrs },
     selfClosing: true,
-    position: style.position ?? 'head'
+    position: link.position ?? 'head'
   }
 }
 
@@ -478,8 +476,8 @@ function renderHtmlDocument(cfg: HtmlVirtualConfig): string {
   const extraHead: HtmlTagDescriptor[] = []
   const extraBodyPrepend: HtmlTagDescriptor[] = []
   const extraBodyAppend: HtmlTagDescriptor[] = []
-  if (cfg.style) {
-    const s = toStyleTag(cfg.style)
+  for (const lk of cfg.link ?? []) {
+    const s = toLinkTag(lk)
     const pos = s.position ?? 'head'
     if (pos === 'head')
       extraHead.push(s)
@@ -487,8 +485,8 @@ function renderHtmlDocument(cfg: HtmlVirtualConfig): string {
       extraBodyPrepend.push(s)
     else extraBodyAppend.push(s)
   }
-  if (cfg.script) {
-    const s = toScriptTag(cfg.script)
+  for (const sc of cfg.script ?? []) {
+    const s = toScriptTag(sc)
     const pos = s.position ?? 'body-append'
     if (pos === 'head')
       extraHead.push(s)
@@ -537,28 +535,7 @@ function renderHtmlDocument(cfg: HtmlVirtualConfig): string {
  * @throws {Error} 当配置文件格式错误或加载失败时抛出
  */
 async function resolveHtmlConfig(root: string, options: HtmlVirtualPluginOptions): Promise<HtmlVirtualConfig> {
-  if (options.config)
-    return mergeVirtualConfig(DEFAULT_VIRTUAL_HTML_CONFIG, options.config)
-  const cfgFile = options.configFile ?? 'html.config.ts'
-  const abs = path.isAbsolute(cfgFile) ? cfgFile : path.join(root, cfgFile)
-  try {
-    await fs.access(abs)
-  }
-  catch {
-    return DEFAULT_VIRTUAL_HTML_CONFIG
-  }
-  const { config } = await loadConfig<HtmlVirtualConfig>({
-    name: 'html',
-    cwd: path.dirname(abs),
-    configFile: abs,
-    rcFile: false,
-    dotenv: false,
-    packageJson: false,
-    globalRc: false
-  })
-  if (!config || typeof config !== 'object')
-    return DEFAULT_VIRTUAL_HTML_CONFIG
-  return mergeVirtualConfig(DEFAULT_VIRTUAL_HTML_CONFIG, config)
+  return mergeVirtualConfig(DEFAULT_VIRTUAL_HTML_CONFIG, options.config ?? {})
 }
 
 /**
@@ -693,11 +670,14 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
     async closeBundle() {
       if (!activeForBuild)
         return
-      const tmpBuiltRoot = path.join(rootDir, outDir, 'node_modules', '.quiteer')
-      // 复制每个页面的构建结果到 dist 对应路径
+      const absOutDir = path.isAbsolute(outDir) ? outDir : path.join(rootDir, outDir)
+      // 复制每个页面的构建结果到 outDir 对应路径（Rollup 会产出 name.html 在 outDir 根）
       for (const page of buildPages) {
-        const src = path.join(tmpBuiltRoot, page.replace(/^\//, ''))
-        const dest = path.join(rootDir, outDir, page.replace(/^\//, ''))
+        const name = page === '/index.html'
+          ? 'index'
+          : page.replace(/\/$|^\//g, '').replace(/\/index\.html$/, '').split('/').pop() || 'page'
+        const src = path.join(absOutDir, `${name}.html`)
+        const dest = path.join(absOutDir, page.replace(/^\//, ''))
         await fs.mkdir(path.dirname(dest), { recursive: true })
         try {
           const built = await fs.readFile(src, 'utf8')
@@ -709,12 +689,8 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
           }
         }
       }
-      // 清理嵌套临时目录
-      try {
-        await fs.rm(tmpBuiltRoot, { recursive: true, force: true })
-      }
-      catch {}
-      const nestedNM = path.join(rootDir, outDir, 'node_modules')
+      // 清理嵌套临时目录（若存在）
+      const nestedNM = path.join(absOutDir, 'node_modules')
       try {
         await fs.rm(nestedNM, { recursive: true, force: true })
       }

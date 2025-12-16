@@ -18,13 +18,30 @@ export default defineConfig(async ({ mode }) => {
        * `VirtualHtmlOptions` 为插件选项类型，能提供 IDE 自动补全与校验
        */
       virtualHtmlPlugin({
-        configFile: 'html.config.ts',
         fallbackWhenIndexExists: true,
+        config: {
+          title: '',
+          script: [{
+            src: 'https://unpkg.com/lodash@4.17.21/lodash.min.js',
+            async: true,
+            position: 'body-append',
+            attrs: { 'data-demo': 'quiteer' }
+          }],
+          link: [{
+            src: '/src/style.css',
+            media: 'screen',
+            position: 'head',
+            attrs: { id: 'demo-style' }
+          }],
+          tags: [
+            { tag: 'div', attrs: { style: 'width: 100px; height: 100px; background-color: red;' }, selfClosing: true, position: 'body-append' }
+          ]
+        },
         pages: {
           '/nested/index.html': {
             title: 'Nested Page',
             entry: '/src/nested/main.ts',
-            style: { src: '/src/style.css', position: 'head' }
+            link: [{ src: '/src/style.css', position: 'head' }]
           }
         }
       }),
