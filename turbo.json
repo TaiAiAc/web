@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": []
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "docs:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "docs:build": {
+      "outputs": [
+        "docs/.vitepress/dist/**"
+      ]
+    }
+  }
+}
