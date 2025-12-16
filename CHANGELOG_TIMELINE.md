@@ -1,6 +1,15 @@
 ## 变更日志
 
-### 2025-12-16 `✏️ 44+` `➕ 2+` `🗑️ 1+`
+### 2025-12-16 `✏️ 47+` `➕ 2+` `🗑️ 1+`
+- 🔧  **chore** `release`: v0.0.16
+  > **🕒  16:23** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`a2a2f92`](https://github.com/QuiteerJs/web/commit/a2a2f920b033c35c4b999f5be76e345abf3770b3))
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/a2a2f920b033c35c4b999f5be76e345abf3770b3/packages/vite-plugins/package.json)
+- 🧹  **optimize** `release`: 增加默认配置 优化体验 配置文件变动后重启
+  > **🕒  15:13** · `➕63` / `➖25`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`d353a48`](https://github.com/QuiteerJs/web/commit/d353a48ede7c94f50f54061318c7c0487f514274))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/d353a48ede7c94f50f54061318c7c0487f514274/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/d353a48ede7c94f50f54061318c7c0487f514274/CHANGELOG_TIMELINE.md)
 - 🔧  **chore** `release`: v0.0.8
   > **🕒  15:12** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`2f1f398`](https://github.com/QuiteerJs/web/commit/2f1f3983dc7ca3484bacc6e0c6cec636f4d30bb4))

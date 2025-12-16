@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-16 `✏️ 2+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-16 `✏️ 3+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.16
+  > **🕒  16:23** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`a2a2f92`](https://github.com/QuiteerJs/web/commit/a2a2f920b033c35c4b999f5be76e345abf3770b3))
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/a2a2f920b033c35c4b999f5be76e345abf3770b3/packages/vite-plugins/package.json)
 - 🔧  **chore** `release`: v0.0.8
   > **🕒  15:12** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`2f1f398`](https://github.com/QuiteerJs/web/commit/2f1f3983dc7ca3484bacc6e0c6cec636f4d30bb4))
@@ -389,6 +393,131 @@
   - ✏️ [`package.json`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/package.json)
   - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-lock.yaml)
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
+
+### 质量优化
+#### 2025-12-16 `✏️ 4+` `➕ 0+` `🗑️ 1+`
+- 🧹  **optimize** `release`: 增加默认配置 优化体验 配置文件变动后重启
+  > **🕒  15:13** · `➕63` / `➖25`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`d353a48`](https://github.com/QuiteerJs/web/commit/d353a48ede7c94f50f54061318c7c0487f514274))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/d353a48ede7c94f50f54061318c7c0487f514274/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/d353a48ede7c94f50f54061318c7c0487f514274/CHANGELOG_TIMELINE.md)
+- 🧹  **optimize** `utils`: 优化虚拟 html 参数配置
+  > **🕒  11:23** · `➕57` / `➖104`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`cad3c22`](https://github.com/QuiteerJs/web/commit/cad3c227ecbf6d0d8073c0d791811514fc5a956b))
+  - ✏️ [`packages/vite-plugins/src/virtual-html.ts`](https://github.com/QuiteerJs/web/blob/cad3c227ecbf6d0d8073c0d791811514fc5a956b/packages/vite-plugins/src/virtual-html.ts)
+  - ✏️ [`playground/vite-plugins-test/vite.config.ts`](https://github.com/QuiteerJs/web/blob/cad3c227ecbf6d0d8073c0d791811514fc5a956b/playground/vite-plugins-test/vite.config.ts)
+  - 🗑️ [~~`playground/vite-plugins-test/html.config.ts`~~](https://github.com/QuiteerJs/web/commit/cad3c227ecbf6d0d8073c0d791811514fc5a956b)
+
+#### 2025-12-10 `✏️ 13+` `➕ 4+` `🗑️ 0+`
+- 🧹  **optimize** `packages`: 一些示例和 axios 优化
+  > **🕒  09:51** · `➕225` / `➖42`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`8d86a99`](https://github.com/QuiteerJs/web/commit/8d86a99689d94ab7480715716bedcc43e262ac86))
+  - ➕ [`playground/qvite-test/mock/test/hello.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/mock/test/hello.json)
+  - ➕ [`playground/qvite-test/src/Axios.demo.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/Axios.demo.vue)
+  - ➕ [`playground/qvite-test/src/servers/index.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/servers/index.ts)
+  - ➕ [`playground/vite-plugins-test/mock/hello.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/mock/hello.json)
+  - ✏️ [`packages/axios/src/methods.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/methods.ts)
+  - ✏️ [`packages/axios/src/types.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/types.ts)
+  - ✏️ [`packages/axios/src/utils.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/utils.ts)
+  - ✏️ [`playground/qvite-test/env.d.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/env.d.ts)
+  - ✏️ [`playground/qvite-test/package.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/package.json)
+  - ✏️ [`playground/qvite-test/qvite.config.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/qvite.config.ts)
+  - ✏️ [`playground/qvite-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/App.vue)
+  - ✏️ [`playground/qvite-test/tsconfig.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/tsconfig.json)
+  - ✏️ [`playground/vite-plugins-test/html.config.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/html.config.ts)
+  - ✏️ [`playground/vite-plugins-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/App.vue)
+  - ✏️ [`playground/vite-plugins-test/src/main.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/main.ts)
+  - ✏️ [`playground/vite-plugins-test/src/style.css`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/style.css)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/pnpm-lock.yaml)
+
+#### 2025-12-04 `✏️ 5+` `➕ 0+` `🗑️ 0+`
+- 🧹  **optimize** `packages`: vite插件优化
+  > **🕒  14:58** · `➕6` / `➖7`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`d5f8bf9`](https://github.com/QuiteerJs/web/commit/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2))
+  - ✏️ [`packages/vite-plugins/src/env-config.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/env-config.ts)
+  - ✏️ [`packages/vite-plugins/src/index.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/index.ts)
+  - ✏️ [`packages/vite-plugins/src/bootstrap-env.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/bootstrap-env.ts)
+  - ✏️ [`packages/vite-plugins/src/env-shared.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/env-shared.ts)
+  - ✏️ [`playground/vite-plugins-test/vite.config.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/playground/vite-plugins-test/vite.config.ts)
+
+#### 2025-12-02 `✏️ 2+` `➕ 0+` `🗑️ 0+`
+- 🧹  **optimize** `release`: 微调
+  > **🕒  20:13** · `➕1009` / `➖965`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`02429c6`](https://github.com/QuiteerJs/web/commit/02429c6d4f3ffa828214903c3dcc49d6ff487e86))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/02429c6d4f3ffa828214903c3dcc49d6ff487e86/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/02429c6d4f3ffa828214903c3dcc49d6ff487e86/CHANGELOG_TIMELINE.md)
+
+#### 2025-11-28 `✏️ 24+` `➕ 9+` `🗑️ 0+`
+- 🧹  **optimize** `release`: 发布指令
+  > **🕒  19:10** · `➕363` / `➖211`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`9c42e97`](https://github.com/QuiteerJs/web/commit/9c42e976219fa7692faa08f0bbc1bf19a9bef236))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/9c42e976219fa7692faa08f0bbc1bf19a9bef236/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/9c42e976219fa7692faa08f0bbc1bf19a9bef236/CHANGELOG_TIMELINE.md)
+- 🧹  **optimize** `packages`: 指令优化
+  > **🕒  19:06** · `➕778` / `➖619`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`c91f30f`](https://github.com/QuiteerJs/web/commit/c91f30f7bc9e6347ce3735ac7f92cc79ff386394))
+  - ➕ [`docs/plugins/directives/components/ClickOutsideDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/ClickOutsideDemo.vue)
+  - ➕ [`docs/plugins/directives/components/CopyDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/CopyDemo.vue)
+  - ➕ [`docs/plugins/directives/components/DebounceDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/DebounceDemo.vue)
+  - ➕ [`docs/plugins/directives/components/EllipsisDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/EllipsisDemo.vue)
+  - ➕ [`docs/plugins/directives/components/IntersectingDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/IntersectingDemo.vue)
+  - ➕ [`docs/plugins/directives/components/LazyDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/LazyDemo.vue)
+  - ➕ [`docs/plugins/directives/components/LoadingDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/LoadingDemo.vue)
+  - ➕ [`docs/plugins/directives/components/ThrottleDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/ThrottleDemo.vue)
+  - ➕ [`docs/plugins/directives/components/WatermarkDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/WatermarkDemo.vue)
+  - ✏️ [`docs/plugins/directives/clickOutside.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/clickOutside.md)
+  - ✏️ [`docs/plugins/directives/components/PermissionDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/PermissionDemo.vue)
+  - ✏️ [`docs/plugins/directives/copy.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/copy.md)
+  - ✏️ [`docs/plugins/directives/debounce.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/debounce.md)
+  - ✏️ [`docs/plugins/directives/ellipsis.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/ellipsis.md)
+  - ✏️ [`docs/plugins/directives/intersecting.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/intersecting.md)
+  - ✏️ [`docs/plugins/directives/lazy.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/lazy.md)
+  - ✏️ [`docs/plugins/directives/loading.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/loading.md)
+  - ✏️ [`docs/plugins/directives/throttle.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/throttle.md)
+  - ✏️ [`docs/plugins/directives/watermark.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/watermark.md)
+  - ✏️ [`packages/directives/index.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/index.ts)
+  - ✏️ [`packages/directives/src/clickOutside.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/clickOutside.ts)
+  - ✏️ [`packages/directives/src/copy.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/copy.ts)
+  - ✏️ [`packages/directives/src/debounce.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/debounce.ts)
+  - ✏️ [`packages/directives/src/ellipsis.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/ellipsis.ts)
+  - ✏️ [`packages/directives/src/intersecting.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/intersecting.ts)
+  - ✏️ [`packages/directives/src/lazy.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/lazy.ts)
+  - ✏️ [`packages/directives/src/loading.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/loading.ts)
+  - ✏️ [`packages/directives/src/permission.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/permission.ts)
+  - ✏️ [`packages/directives/src/throttle.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/throttle.ts)
+  - ✏️ [`packages/directives/src/watermark.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/watermark.ts)
+  - ✏️ [`packages/utils/src/type-utils.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/utils/src/type-utils.ts)
+
+#### 2025-11-26 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+- 🧹  **optimize** `styles`: demo
+  > **🕒  19:27** · `➕2` / `➖2`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`9d80044`](https://github.com/QuiteerJs/web/commit/9d800445ca7966c9d17183c1a52436f57bf81060))
+  - ✏️ [`docs/plugins/directives/components/PermissionDemo.vue`](https://github.com/QuiteerJs/web/blob/9d800445ca7966c9d17183c1a52436f57bf81060/docs/plugins/directives/components/PermissionDemo.vue)
+
+#### 2025-11-25 `✏️ 8+` `➕ 0+` `🗑️ 0+`
+- 🧹  **optimize** `release`: 类型提示增强
+  > **🕒  18:18** · `➕68` / `➖48`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`08b63d2`](https://github.com/QuiteerJs/web/commit/08b63d2c99f61f9fad3268402b541f4fa460ade9))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/directives/index.ts`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/packages/directives/index.ts)
+  - ✏️ [`playground/directives-test/src/main.ts`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/playground/directives-test/src/main.ts)
+- 🧹  **optimize** `release`: 增加类型提示
+  > **🕒  17:52** · `➕49` / `➖5`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`6516968`](https://github.com/QuiteerJs/web/commit/65169683b45899ec9dffa74ccd030956214f751e))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/directives/index.ts`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/packages/directives/index.ts)
+  - ✏️ [`playground/directives-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/playground/directives-test/src/App.vue)
+
+#### 2025-11-24 `✏️ 3+` `➕ 0+` `🗑️ 1+`
+- 🧹  **optimize** `packages`: axios 类型优化
+  > **🕒  10:56** · `➕95` / `➖64`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`fb9715e`](https://github.com/QuiteerJs/web/commit/fb9715e08f86b39f4cbb4fc8f59ff201d396455a))
+  - ✏️ [`packages/axios/src/index.ts`](https://github.com/QuiteerJs/web/blob/fb9715e08f86b39f4cbb4fc8f59ff201d396455a/packages/axios/src/index.ts)
+  - ✏️ [`packages/axios/src/methods.ts`](https://github.com/QuiteerJs/web/blob/fb9715e08f86b39f4cbb4fc8f59ff201d396455a/packages/axios/src/methods.ts)
+  - ✏️ [`packages/axios/src/types.ts`](https://github.com/QuiteerJs/web/blob/fb9715e08f86b39f4cbb4fc8f59ff201d396455a/packages/axios/src/types.ts)
+  - 🗑️ [~~`packages/axios/src/env.ts`~~](https://github.com/QuiteerJs/web/commit/fb9715e08f86b39f4cbb4fc8f59ff201d396455a)
 
 ### 构建
 #### 2025-12-16 `✏️ 11+` `➕ 0+` `🗑️ 0+`
@@ -1253,126 +1382,6 @@
   - ✏️ [`scripts/src/index.ts`](https://github.com/QuiteerJs/web/blob/587a973c63744591ba6c41173e0772e45039ae88/scripts/src/index.ts)
   - ✏️ [`scripts/src/types/index.ts`](https://github.com/QuiteerJs/web/blob/587a973c63744591ba6c41173e0772e45039ae88/scripts/src/types/index.ts)
   - ✏️ [`tsconfig.json`](https://github.com/QuiteerJs/web/blob/587a973c63744591ba6c41173e0772e45039ae88/tsconfig.json)
-
-### 质量优化
-#### 2025-12-16 `✏️ 2+` `➕ 0+` `🗑️ 1+`
-- 🧹  **optimize** `utils`: 优化虚拟 html 参数配置
-  > **🕒  11:23** · `➕57` / `➖104`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`cad3c22`](https://github.com/QuiteerJs/web/commit/cad3c227ecbf6d0d8073c0d791811514fc5a956b))
-  - ✏️ [`packages/vite-plugins/src/virtual-html.ts`](https://github.com/QuiteerJs/web/blob/cad3c227ecbf6d0d8073c0d791811514fc5a956b/packages/vite-plugins/src/virtual-html.ts)
-  - ✏️ [`playground/vite-plugins-test/vite.config.ts`](https://github.com/QuiteerJs/web/blob/cad3c227ecbf6d0d8073c0d791811514fc5a956b/playground/vite-plugins-test/vite.config.ts)
-  - 🗑️ [~~`playground/vite-plugins-test/html.config.ts`~~](https://github.com/QuiteerJs/web/commit/cad3c227ecbf6d0d8073c0d791811514fc5a956b)
-
-#### 2025-12-10 `✏️ 13+` `➕ 4+` `🗑️ 0+`
-- 🧹  **optimize** `packages`: 一些示例和 axios 优化
-  > **🕒  09:51** · `➕225` / `➖42`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`8d86a99`](https://github.com/QuiteerJs/web/commit/8d86a99689d94ab7480715716bedcc43e262ac86))
-  - ➕ [`playground/qvite-test/mock/test/hello.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/mock/test/hello.json)
-  - ➕ [`playground/qvite-test/src/Axios.demo.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/Axios.demo.vue)
-  - ➕ [`playground/qvite-test/src/servers/index.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/servers/index.ts)
-  - ➕ [`playground/vite-plugins-test/mock/hello.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/mock/hello.json)
-  - ✏️ [`packages/axios/src/methods.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/methods.ts)
-  - ✏️ [`packages/axios/src/types.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/types.ts)
-  - ✏️ [`packages/axios/src/utils.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/packages/axios/src/utils.ts)
-  - ✏️ [`playground/qvite-test/env.d.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/env.d.ts)
-  - ✏️ [`playground/qvite-test/package.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/package.json)
-  - ✏️ [`playground/qvite-test/qvite.config.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/qvite.config.ts)
-  - ✏️ [`playground/qvite-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/src/App.vue)
-  - ✏️ [`playground/qvite-test/tsconfig.json`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/qvite-test/tsconfig.json)
-  - ✏️ [`playground/vite-plugins-test/html.config.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/html.config.ts)
-  - ✏️ [`playground/vite-plugins-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/App.vue)
-  - ✏️ [`playground/vite-plugins-test/src/main.ts`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/main.ts)
-  - ✏️ [`playground/vite-plugins-test/src/style.css`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/playground/vite-plugins-test/src/style.css)
-  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/8d86a99689d94ab7480715716bedcc43e262ac86/pnpm-lock.yaml)
-
-#### 2025-12-04 `✏️ 5+` `➕ 0+` `🗑️ 0+`
-- 🧹  **optimize** `packages`: vite插件优化
-  > **🕒  14:58** · `➕6` / `➖7`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`d5f8bf9`](https://github.com/QuiteerJs/web/commit/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2))
-  - ✏️ [`packages/vite-plugins/src/env-config.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/env-config.ts)
-  - ✏️ [`packages/vite-plugins/src/index.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/index.ts)
-  - ✏️ [`packages/vite-plugins/src/bootstrap-env.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/bootstrap-env.ts)
-  - ✏️ [`packages/vite-plugins/src/env-shared.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/packages/vite-plugins/src/env-shared.ts)
-  - ✏️ [`playground/vite-plugins-test/vite.config.ts`](https://github.com/QuiteerJs/web/blob/d5f8bf9caff5e5f7b34f8a3130d4413d8beddda2/playground/vite-plugins-test/vite.config.ts)
-
-#### 2025-12-02 `✏️ 2+` `➕ 0+` `🗑️ 0+`
-- 🧹  **optimize** `release`: 微调
-  > **🕒  20:13** · `➕1009` / `➖965`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`02429c6`](https://github.com/QuiteerJs/web/commit/02429c6d4f3ffa828214903c3dcc49d6ff487e86))
-  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/02429c6d4f3ffa828214903c3dcc49d6ff487e86/CHANGELOG.md)
-  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/02429c6d4f3ffa828214903c3dcc49d6ff487e86/CHANGELOG_TIMELINE.md)
-
-#### 2025-11-28 `✏️ 24+` `➕ 9+` `🗑️ 0+`
-- 🧹  **optimize** `release`: 发布指令
-  > **🕒  19:10** · `➕363` / `➖211`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`9c42e97`](https://github.com/QuiteerJs/web/commit/9c42e976219fa7692faa08f0bbc1bf19a9bef236))
-  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/9c42e976219fa7692faa08f0bbc1bf19a9bef236/CHANGELOG.md)
-  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/9c42e976219fa7692faa08f0bbc1bf19a9bef236/CHANGELOG_TIMELINE.md)
-- 🧹  **optimize** `packages`: 指令优化
-  > **🕒  19:06** · `➕778` / `➖619`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`c91f30f`](https://github.com/QuiteerJs/web/commit/c91f30f7bc9e6347ce3735ac7f92cc79ff386394))
-  - ➕ [`docs/plugins/directives/components/ClickOutsideDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/ClickOutsideDemo.vue)
-  - ➕ [`docs/plugins/directives/components/CopyDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/CopyDemo.vue)
-  - ➕ [`docs/plugins/directives/components/DebounceDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/DebounceDemo.vue)
-  - ➕ [`docs/plugins/directives/components/EllipsisDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/EllipsisDemo.vue)
-  - ➕ [`docs/plugins/directives/components/IntersectingDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/IntersectingDemo.vue)
-  - ➕ [`docs/plugins/directives/components/LazyDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/LazyDemo.vue)
-  - ➕ [`docs/plugins/directives/components/LoadingDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/LoadingDemo.vue)
-  - ➕ [`docs/plugins/directives/components/ThrottleDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/ThrottleDemo.vue)
-  - ➕ [`docs/plugins/directives/components/WatermarkDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/WatermarkDemo.vue)
-  - ✏️ [`docs/plugins/directives/clickOutside.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/clickOutside.md)
-  - ✏️ [`docs/plugins/directives/components/PermissionDemo.vue`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/components/PermissionDemo.vue)
-  - ✏️ [`docs/plugins/directives/copy.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/copy.md)
-  - ✏️ [`docs/plugins/directives/debounce.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/debounce.md)
-  - ✏️ [`docs/plugins/directives/ellipsis.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/ellipsis.md)
-  - ✏️ [`docs/plugins/directives/intersecting.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/intersecting.md)
-  - ✏️ [`docs/plugins/directives/lazy.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/lazy.md)
-  - ✏️ [`docs/plugins/directives/loading.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/loading.md)
-  - ✏️ [`docs/plugins/directives/throttle.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/throttle.md)
-  - ✏️ [`docs/plugins/directives/watermark.md`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/docs/plugins/directives/watermark.md)
-  - ✏️ [`packages/directives/index.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/index.ts)
-  - ✏️ [`packages/directives/src/clickOutside.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/clickOutside.ts)
-  - ✏️ [`packages/directives/src/copy.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/copy.ts)
-  - ✏️ [`packages/directives/src/debounce.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/debounce.ts)
-  - ✏️ [`packages/directives/src/ellipsis.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/ellipsis.ts)
-  - ✏️ [`packages/directives/src/intersecting.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/intersecting.ts)
-  - ✏️ [`packages/directives/src/lazy.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/lazy.ts)
-  - ✏️ [`packages/directives/src/loading.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/loading.ts)
-  - ✏️ [`packages/directives/src/permission.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/permission.ts)
-  - ✏️ [`packages/directives/src/throttle.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/throttle.ts)
-  - ✏️ [`packages/directives/src/watermark.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/directives/src/watermark.ts)
-  - ✏️ [`packages/utils/src/type-utils.ts`](https://github.com/QuiteerJs/web/blob/c91f30f7bc9e6347ce3735ac7f92cc79ff386394/packages/utils/src/type-utils.ts)
-
-#### 2025-11-26 `✏️ 1+` `➕ 0+` `🗑️ 0+`
-- 🧹  **optimize** `styles`: demo
-  > **🕒  19:27** · `➕2` / `➖2`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`9d80044`](https://github.com/QuiteerJs/web/commit/9d800445ca7966c9d17183c1a52436f57bf81060))
-  - ✏️ [`docs/plugins/directives/components/PermissionDemo.vue`](https://github.com/QuiteerJs/web/blob/9d800445ca7966c9d17183c1a52436f57bf81060/docs/plugins/directives/components/PermissionDemo.vue)
-
-#### 2025-11-25 `✏️ 8+` `➕ 0+` `🗑️ 0+`
-- 🧹  **optimize** `release`: 类型提示增强
-  > **🕒  18:18** · `➕68` / `➖48`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`08b63d2`](https://github.com/QuiteerJs/web/commit/08b63d2c99f61f9fad3268402b541f4fa460ade9))
-  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/CHANGELOG.md)
-  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/CHANGELOG_TIMELINE.md)
-  - ✏️ [`packages/directives/index.ts`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/packages/directives/index.ts)
-  - ✏️ [`playground/directives-test/src/main.ts`](https://github.com/QuiteerJs/web/blob/08b63d2c99f61f9fad3268402b541f4fa460ade9/playground/directives-test/src/main.ts)
-- 🧹  **optimize** `release`: 增加类型提示
-  > **🕒  17:52** · `➕49` / `➖5`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`6516968`](https://github.com/QuiteerJs/web/commit/65169683b45899ec9dffa74ccd030956214f751e))
-  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/CHANGELOG.md)
-  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/CHANGELOG_TIMELINE.md)
-  - ✏️ [`packages/directives/index.ts`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/packages/directives/index.ts)
-  - ✏️ [`playground/directives-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/65169683b45899ec9dffa74ccd030956214f751e/playground/directives-test/src/App.vue)
-
-#### 2025-11-24 `✏️ 3+` `➕ 0+` `🗑️ 1+`
-- 🧹  **optimize** `packages`: axios 类型优化
-  > **🕒  10:56** · `➕95` / `➖64`
-  > `👤 Quiteer`  <p602985@yeah.net> ([`fb9715e`](https://github.com/QuiteerJs/web/commit/fb9715e08f86b39f4cbb4fc8f59ff201d396455a))
-  - ✏️ [`packages/axios/src/index.ts`](https://github.com/QuiteerJs/web/blob/fb9715e08f86b39f4cbb4fc8f59ff201d396455a/packages/axios/src/index.ts)
-  - ✏️ [`packages/axios/src/methods.ts`](https://github.com/QuiteerJs/web/blob/fb9715e08f86b39f4cbb4fc8f59ff201d396455a/packages/axios/src/methods.ts)
-  - ✏️ [`packages/axios/src/types.ts`](https://github.com/QuiteerJs/web/blob/fb9715e08f86b39f4cbb4fc8f59ff201d396455a/packages/axios/src/types.ts)
-  - 🗑️ [~~`packages/axios/src/env.ts`~~](https://github.com/QuiteerJs/web/commit/fb9715e08f86b39f4cbb4fc8f59ff201d396455a)
 
 ### 文档
 #### 2025-12-16 `✏️ 22+` `➕ 0+` `🗑️ 0+`
