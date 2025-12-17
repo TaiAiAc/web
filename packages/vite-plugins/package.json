@@ -2,7 +2,7 @@
   "name": "@quiteer/vite-plugins",
   "type": "module",
   "version": "0.0.17",
-  "description": "Vite 插件集合，例如移除开发时杂乱 console 的插件",
+  "description": "Vite 插件集合，旨在提供开箱即用的开发体验，涵盖环境配置、Mock、HTML 处理及常用插件封装。",
   "author": "",
   "license": "MIT",
   "homepage": "https://quiteerjs.github.io/web/plugins/vite-plugin/",

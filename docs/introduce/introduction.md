@@ -1,98 +1,52 @@
 # 快速上手
 
-## 环境准备
-- Node：`22.14.0`
-- 包管理器：`pnpm`
-- 系统：macOS
+以下为各个包的安装命令与一句话功能简介。统一使用 `pnpm` 作为包管理器。
 
-## 安装依赖
+## Vite 插件集合
+- `@quiteer/vite-plugins`：Vite 插件总集（环境配置、Mock、虚拟 HTML、多页、移除 console 等）
 ```bash
-pnpm install
+pnpm add -D @quiteer/vite-plugins
 ```
 
-## 启动文档站
+## Vue 组件与指令
+- `@quiteer/naive-extra`：基于 Naive UI 的业务增强组件（表单、表格、布局、上传等）
 ```bash
-pnpm docs:dev
+pnpm add @quiteer/naive-extra
 ```
 
-## 打包文档站
+- `@quiteer/directives`：Vue 指令库（复制、防抖、节流、权限、懒加载、水印等）
 ```bash
-pnpm docs:build
-pnpm docs:preview
+pnpm add @quiteer/directives
 ```
 
-## 目录导航
-- [文档首页](/)
-- [项目说明](/introduce/project)
-- [插件总览](/plugins/)
-- [Naive UI 增强](/plugins/naive-extra/index)
-- [指令库](/plugins/directives/index)
-- [Axios 封装](/plugins/axios/index)
-- [工具库](/plugins/utils/index)
-- [Vite 插件集](/plugins/vite-plugin/index)
-- [类型判断](/plugins/is)
-- [Box 网格](/plugins/box/index)
-
-## 使用组件库（示例）
-```vue
-<script setup lang="ts">
-import { AcceptType, QuiForm, QuiLayout, QuiUpload, useLayout, useUploadProps } from '@quiteer/naive-extra'
-
-/**
- * 函数：生成上传配置
- * 作用：借助 useUploadProps 与枚举 AcceptType 快速配置上传属性
- */
-const uploadProps = useUploadProps({
-  accept: AcceptType.Image,
-  multiple: true
-})
-
-/**
- * 函数：初始化布局折叠状态
- * 作用：通过 useLayout 管理侧边栏折叠与响应式信息
- */
-const { collapsed, toggle } = useLayout(false)
-</script>
-
-<template>
-  <QuiLayout v-model:collapsed="collapsed" type="sider-left">
-    <template #sider>
-      <NButton size="small" @click="toggle">
-        切换折叠
-      </NButton>
-    </template>
-    <div>内容区域</div>
-  </QuiLayout>
-
-  <QuiUpload v-bind="uploadProps" />
-</template>
+- `@quiteer/box`：布局组件（Flex/Grid 快速构建响应式布局）
+```bash
+pnpm add @quiteer/box
 ```
 
-## 注册指令库（示例）
-```ts
-import Directives from '@quiteer/directives'
-// src/main.ts
-import { createApp } from 'vue'
-import App from './App.vue'
-
-/**
- * 函数：注册指令与全局配置
- * 作用：统一注册所有指令，并设置 v-lazy 的全局默认占位图与错误图
- */
-createApp(App)
-  .use(Directives, {
-    lazy: {
-      loading: '/loading.gif',
-      error: '/error.jpg'
-    }
-  })
-  .mount('#app')
+## 通用工具库
+- `@quiteer/axios`：Axios 封装（重试、缓存、全局 loading、错误提示）
+```bash
+pnpm add @quiteer/axios
 ```
 
-## UnoCSS 使用说明
-- 若未在项目集成 UnoCSS，可在入口引入 `@quiteer/naive-extra/style.css`
-- 若已集成 UnoCSS，`naive-extra` 内部使用 `virtual:uno.css`，无需额外引入
+- `@quiteer/utils`：通用工具函数（数组、对象、时间、字符串等）
+```bash
+pnpm add @quiteer/utils
+```
 
-## 常见问题
-- `NLayout` 侧边栏：Naive UI 从 v2.3.0 起，包含 `n-layout-sider` 的 `n-layout` 需要显式设置 `has-sider`
-- 组件演示不可见：确保在文档中使用 `<ClientOnly>` 包裹交互性示例组件
+- `@quiteer/is`：类型与环境判断工具（类型检测、浏览器/设备特征判断）
+```bash
+pnpm add @quiteer/is
+```
+
+## 样式与工程化
+- `@quiteer/unocss`：UnoCSS 预设（原子化样式集成与统一主题）
+```bash
+pnpm add -D @quiteer/unocss
+```
+
+- `@quiteer/qvite`：Vite 工具与 CLI 扩展（工程脚手架与构建辅助）
+```bash
+pnpm add -D @quiteer/qvite
+```

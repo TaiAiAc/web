@@ -20,6 +20,19 @@ export default defineConfig(() => ({
 }))
 ```
 
+## 从现有 .env 迁移（自动反向生成）
+如果你的项目中已存在多个 `.env` 文件（如 `.env`, `.env.development` 等），插件支持在首次运行时自动将它们转换为 `env.config.ts`。
+
+**操作步骤：**
+1. 确保项目根目录下**不存在** `env.config.ts`。
+2. 在 `vite.config.ts` 中引入并注册插件。
+3. 运行一次 `vite dev` 或 `vite build`。
+4. 插件会自动扫描 `.env*` 文件，解析变量与值，并在根目录生成包含类型定义的 `env.config.ts`。
+
+**生成后建议：**
+- 检查生成的 `env.config.ts` 内容是否符合预期。
+- 原有的 `.env` 文件可以删除（或备份），后续将由插件根据配置文件自动管理生成。
+
 ## 使用方法
 ```ts
 // vite.config.ts
@@ -315,10 +328,10 @@ export default {
 
 - 如何还原混淆值？建议不进行还原，URL/直用型字段应跳过混淆；若确需还原，可直接使用包内提供的工具函数：
 ```ts
-import { decodeBase64Env } from '@quiteer/vite-plugins/obfuscation'
+import { decode } from '@quiteer/vite-plugins/obfuscation'
 
 // 还原 Base64 混淆后的环境变量值（UTF-8）
-decodeBase64Env(import.meta.env.VITE_BASE_URL)
+decode(import.meta.env.VITE_BASE_URL)
 ```
 
 - `requiredKeys` 与 `default` 段：`default` 可包含额外键；必填校验仅针对当前环境段（合并后）。

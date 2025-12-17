@@ -1,13 +1,33 @@
 # @quiteer/vite-plugins 插件总览
 
+Vite 插件集合，旨在提供开箱即用的开发体验，涵盖环境配置、Mock、HTML 处理及常用插件封装。
+
 ## 安装
 ```bash
 pnpm add -D @quiteer/vite-plugins
 ```
 
-说明：
-- 本包已内置常用插件的封装（Vue、Vue JSX、UnoCSS、Progress、DevTools 等），无需单独安装对应的 Vite 插件包。
-- 若启用 Vue/UnoCSS 等生态，请确保项目已安装核心库（如 `vue`、`unocss` 或相关预设/组件库）。
+## 功能全貌
+
+### 核心插件
+
+| 插件名 | 描述 | 文档 |
+| --- | --- | --- |
+| `envConfigPlugin` | **环境配置管理**。支持从 `env.config.ts` 自动生成 `.env` 文件及 TypeScript 类型定义，支持字段混淆。 | [详细](/plugins/vite-plugin/env-config) |
+| `envTypesPlugin` | **类型生成**。扫描现有 `.env` 文件生成 `env.d.ts`，提供智能提示。 | [详细](/plugins/vite-plugin/env-types) |
+| `virtualHtmlPlugin` | **虚拟 HTML**。支持多页面入口配置、EJS 模板渲染，解决多页应用目录结构限制。 | [详细](/plugins/vite-plugin/virtual-html) |
+| `mockRouterPlugin` | **Mock 服务**。基于文件系统的本地 Mock 数据服务。 | [详细](/plugins/vite-plugin/mock-router) |
+| `removeConsolePlugin` | **日志清理**。生产环境构建时自动移除 `console` 语句。 | [详细](/plugins/vite-plugin/remove-console) |
+| `fileChangeLoggerPlugin` | **变更日志**。开发模式下在终端实时打印文件变更记录。 | [详细](/plugins/vite-plugin/file-change-logger) |
+
+### 集成预设
+
+本包集成了常用的 Vue 生态及开发插件，方便统一管理依赖版本：
+
+- **Vue 生态**: `Vue` (plugin-vue), `VueJsx` (plugin-vue-jsx), `VueDevTools`
+- **UI/样式**: `UnoCSS`, `Icons` (unplugin-icons), `IconsResolver`, `FileSystemIconLoader`, `createSvgIconsPlugin` (vite-plugin-svg-icons)
+- **自动化**: `AutoImport`, `Components` (unplugin-vue-components), `NaiveUiResolver`
+- **工具**: `Progress` (vite-plugin-progress 构建进度条)
 
 ## 首次运行保障（读取到环境变量）
 - 若你的 `vite.config.ts` 在顶层需要读取环境变量（例如 `loadEnv(mode)`），建议在配置函数开头调用工具方法 `bootstrapEnv` 以保证第一次运行时 `.env` 已生成：
@@ -116,19 +136,6 @@ export default defineConfig({
 - 组合使用进度与文件改动日志，提升开发反馈质量
 - Vue/UnoCSS 封装可直接通过导出的插件函数启用，减少样板代码
 - 如需在 `vite.config.ts` 顶层读取环境，使用 `async defineConfig` 并在开头调用 `bootstrapEnv({ mode })`
-
-## 插件详解（概要）
-| 名称 | 用途 | 特性 / 说明 |
-|------|------|-------------|
-| `` `envConfigPlugin(options)` `` | 读取 `env.config.ts` 并生成本地环境文件 | - 合并 `default` 与当前 `mode` 配置<br>- 支持 `requiredKeys` 校验和 `obfuscate` 混淆<br>- 可配置类型输出路径 `typesOutput`<br>- 自动将驼峰键转为大写下划线（如 `baseURL` → `VITE_BASE_URL`） |
-| `` `envTypesPlugin(options)` `` | 扫描 `.env*` 文件生成 `env.d.ts` | 为 `import.meta.env` 提供 TypeScript 类型提示与自动补全 |
-| `` `virtualHtmlPlugin(options)` `` | 实现“无 HTML 模板”开发模式 | 动态生成 `index.html`（或多页），注入 `title`、`script`、`style`、`meta` 等标签 |
-| `` `fileChangeLoggerPlugin(options)` `` | 开发阶段可视化文件变更 | 打印新增、修改、删除的文件路径及时间戳，提升调试体验 |
-| `` `mockRouterPlugin(options)` `` | 自动 mock API 接口 | 将 `/api/*` 请求映射到 `<root>/mock/*.json`，适用于前后端分离快速联调 |
-| `` `removeConsolePlugin(options)` `` | 移除生产环境中的 `console` 调用 | 支持 `.vue` 文件；可按日志等级（如 `log`/`debug`/`error`）配置剔除策略 |
-| `` `Progress()` `` | 显示构建/启动进度 | 集成第三方进度条插件，提升 CLI 可视化体验 |
-| `` `Vue()` / `VueJsx()` / `UnoCSS()` `` | 一键启用常用 Vite 插件 | 对 `@vitejs/plugin-vue`、`@vitejs/plugin-vue-jsx`、`@unocss/vite` 的封装，减少样板代码 |
-| `` `bootstrapEnv(opts)` `` | 预生成环境文件与类型定义 | 工具方法，建议在 Vite 配置函数开头调用，确保首次运行即可读取完整环境变量 |
 
 ## 参数约定
 - 插件函数支持传入“布尔开关”或“参数对象/数组”（按各插件文档说明）

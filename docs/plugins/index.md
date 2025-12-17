@@ -1,36 +1,47 @@
-# 插件总览
+# 工具库与插件集合
 
-欢迎使用插件与扩展集合，这里提供各模块的快速入口与说明。
+本项目采用 Monorepo 架构管理，提供了一系列开箱即用的前端开发工具库、Vue 组件和 Vite 插件，旨在提升开发效率和代码规范性。
 
-## Naive Extra
-- 组件与工具：`@quiteer/naive-extra`
-- 快速入口：
-  - [概览与使用](/plugins/naive-extra/index)
-  - [上传组件 QuiUpload](/plugins/naive-extra/QuiUpload)
-  - [表单组件 QuiForm](/plugins/naive-extra/QuiForm)
-  - [表格组件 QuiTable](/plugins/naive-extra/QuiTable)
-  - [布局组件 QuiLayout](/plugins/naive-extra/QuiLayout)
+## 核心模块
 
-## 指令集合
-- 入口：[指令集合](/plugins/directives/index)
-- 权限指令：[v-permission](/plugins/directives/permission)
+### 🛠 构建与工程化
 
-## 工具与类型
-- 类型判断：[is](/plugins/is)
-- 常用工具：[utils](/plugins/utils/index)
-- Vite 插件：[vite-plugins](/plugins/vite-plugin/index)
-- 工具类（classer）：[classer](/plugins/utils/classer)
+| 模块 | 包名 | 描述 |
+| --- | --- | --- |
+| [**Vite Plugins**](/plugins/vite-plugin/) | `@quiteer/vite-plugins` | 强大的 Vite 插件集合，涵盖环境配置管理、Mock 服务、虚拟 HTML 多页支持、构建日志优化等功能。 |
+| [**UnoCSS Preset**](/plugins/unocss/) | `@quiteer/unocss` | 统一的原子化 CSS 预设配置，内置常用样式简写与主题变量。 |
 
-## 网络层封装
-- Axios 封装：[axios](/plugins/axios/index)
+### 🧩 Vue 生态扩展
 
-## 布局与拖拽
-- Box 网格：[box](/plugins/box/index)
+| 模块 | 包名 | 描述 |
+| --- | --- | --- |
+| [**Naive Extra**](/plugins/naive-extra/) | `@quiteer/naive-extra` | 基于 Naive UI 的高级业务组件封装，提供配置化的 ProForm、ProTable 及布局组件，大幅减少样板代码。 |
+| [**Directives**](/plugins/directives/) | `@quiteer/directives` | 实用的 Vue 自定义指令集，包含复制、防抖/节流、权限控制、懒加载、水印等常用功能。 |
+| [**Box Layout**](/plugins/box/) | `@quiteer/box` | 简单易用的 Flex 与 Grid 布局组件，快速构建响应式界面。 |
 
-## 样式与预设
-- UnoCSS 预设：[unocss](/plugins/unocss/index)
+### 🔧 通用工具库
 
-## 其他
-- 项目介绍：`/introduce/introduction`
-- 项目说明：`/introduce/project`
-- 关于页：`/about/index`
+| 模块 | 包名 | 描述 |
+| --- | --- | --- |
+| [**Axios Client**](/plugins/axios/) | `@quiteer/axios` | 增强版 Axios 客户端封装，内置请求重试、接口缓存、全局加载状态管理及错误处理机制。 |
+| [**Utils**](/plugins/utils/) | `@quiteer/utils` | 全面的 JavaScript/TypeScript 工具函数库，涵盖数组、对象、时间、字符串等常用操作。 |
+| [**Is**](/plugins/is) | `@quiteer/is` | 轻量级类型与环境判断工具，用于快速检测数据类型、浏览器环境及设备特征。 |
+
+## 安装使用
+
+所有包均已发布至 npm registry，支持按需安装。推荐使用 `pnpm` 进行管理：
+
+```bash
+# 安装 Vite 插件
+pnpm add -D @quiteer/vite-plugins
+
+# 安装工具库
+pnpm add @quiteer/utils @quiteer/axios
+
+# 安装 Vue 组件库
+pnpm add @quiteer/naive-extra @quiteer/directives
+```
+
+## 贡献指南
+
+本项目采用 pnpm workspace 管理，欢迎提交 Pull Request 或 Issue 共同完善。

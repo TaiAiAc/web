@@ -59,7 +59,7 @@ export interface EnvConfigPluginOptions {
 const PREFIX = '__ENC__'
 const SUFFIX = '__END__'
 
-export function encode(str: string): string {
+function encode(str: string): string {
   // 将 UTF-8 字符串转为 Base64
   const base64 = Buffer.from(str, 'utf8').toString('base64')
   return `${PREFIX}${base64}${SUFFIX}`
