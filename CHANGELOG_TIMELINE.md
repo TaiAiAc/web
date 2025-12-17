@@ -1,6 +1,36 @@
 ## 变更日志
 
-### 2025-12-16 `✏️ 50+` `➕ 2+` `🗑️ 1+`
+### 2025-12-17 `✏️ 13+` `➕ 1+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.17
+  > **🕒  09:34** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`5dbdc90`](https://github.com/QuiteerJs/web/commit/5dbdc90b2d277416997501b6f0bf014b58164091))
+  - ✏️ [`packages/vite-plugins/package.json`](https://github.com/QuiteerJs/web/blob/5dbdc90b2d277416997501b6f0bf014b58164091/packages/vite-plugins/package.json)
+- ✨  **feat** `utils`: 新增内置依赖
+  > **🕒  09:33** · `➕77` / `➖55`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`a46961e`](https://github.com/QuiteerJs/web/commit/a46961ee52a2990414eb06ab394a67cebc6d0c0d))
+  - ➕ [`playground/qvite-test/src/pages/test.vue`](https://github.com/QuiteerJs/web/blob/a46961ee52a2990414eb06ab394a67cebc6d0c0d/playground/qvite-test/src/pages/test.vue)
+  - ✏️ [`packages/qvite/src/defaults.ts`](https://github.com/QuiteerJs/web/blob/a46961ee52a2990414eb06ab394a67cebc6d0c0d/packages/qvite/src/defaults.ts)
+  - ✏️ [`packages/qvite/src/transform.ts`](https://github.com/QuiteerJs/web/blob/a46961ee52a2990414eb06ab394a67cebc6d0c0d/packages/qvite/src/transform.ts)
+  - ✏️ [`playground/qvite-test/src/router/index.ts`](https://github.com/QuiteerJs/web/blob/a46961ee52a2990414eb06ab394a67cebc6d0c0d/playground/qvite-test/src/router/index.ts)
+- 🧹  **optimize** `utils`: 优化插件功能
+  > **🕒  09:29** · `➕273` / `➖101`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`98a3ebc`](https://github.com/QuiteerJs/web/commit/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d))
+  - ✏️ [`docs/plugins/vite-plugin/virtual-html.md`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/docs/plugins/vite-plugin/virtual-html.md)
+  - ✏️ [`packages/vite-plugins/extra/obfuscation.ts`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/packages/vite-plugins/extra/obfuscation.ts)
+  - ✏️ [`packages/vite-plugins/src/env-config.ts`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/packages/vite-plugins/src/env-config.ts)
+  - ✏️ [`packages/vite-plugins/src/virtual-html.ts`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/packages/vite-plugins/src/virtual-html.ts)
+  - ✏️ [`playground/vite-plugins-test/env.config.ts`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/playground/vite-plugins-test/env.config.ts)
+  - ✏️ [`playground/vite-plugins-test/env.d.ts`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/playground/vite-plugins-test/env.d.ts)
+  - ✏️ [`playground/vite-plugins-test/package.json`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/playground/vite-plugins-test/package.json)
+  - ✏️ [`playground/vite-plugins-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/playground/vite-plugins-test/src/App.vue)
+  - ✏️ [`playground/vite-plugins-test/vite.config.ts`](https://github.com/QuiteerJs/web/blob/98a3ebc64bd23f4ea1eb0d2c16bc4a30d2d9517d/playground/vite-plugins-test/vite.config.ts)
+
+### 2025-12-16 `✏️ 52+` `➕ 2+` `🗑️ 1+`
+- 🐛  **fix** `release`: 重新发布
+  > **🕒  16:26** · `➕190` / `➖170`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`fc04394`](https://github.com/QuiteerJs/web/commit/fc04394c6fa13c8312db559d8238544f4069b84d))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/fc04394c6fa13c8312db559d8238544f4069b84d/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/fc04394c6fa13c8312db559d8238544f4069b84d/CHANGELOG_TIMELINE.md)
 - 🔧  **chore** `release`: v0.1.0
   > **🕒  16:26** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`d03631a`](https://github.com/QuiteerJs/web/commit/d03631a28e1a77540db7fb00e4a7f0ef88de16a9))
