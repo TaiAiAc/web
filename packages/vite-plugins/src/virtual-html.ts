@@ -578,6 +578,10 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
   let lastHtml: string | null = null
   let activeForBuild = false
   let buildPages: string[] = []
+  let generatedHtmlMap: Record<string, string> = {}
+  let pageInputNameMap: Record<string, string> = {}
+  let buildPageConfigs: Record<string, HtmlVirtualConfig> = {}
+  let pageEntryMap: Record<string, string> = {}
 
   return {
     name: 'quiteer-virtual-html',
@@ -610,9 +614,13 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
         return
       // 多页面：优先使用 pages；否则回退单页
       const pagesMap = await resolvePageConfigs(localRoot, options)
-      const tmpRoot = path.join(localRoot, 'node_modules', '.quiteer')
+      const tmpRoot = path.join(localRoot, '.quiteer')
       const inputs: Record<string, string> = {}
       buildPages = []
+      generatedHtmlMap = {}
+      pageInputNameMap = {}
+      buildPageConfigs = {}
+      pageEntryMap = {}
       await fs.mkdir(tmpRoot, { recursive: true })
       for (const [pagePath, cfg] of Object.entries(pagesMap)) {
         if (!pagePath.endsWith('index.html'))
@@ -622,16 +630,28 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
         const html = renderHtmlDocument(cfg)
         await fs.writeFile(tmpAbs, html, 'utf8')
         lastHtml = html
-        // 名称按目录名或 index 命名（仅用于 Rollup input，对输出结构无影响）
+        generatedHtmlMap[pagePath] = html
+        /**
+         * 生成 Rollup 输入名称（唯一且稳定）
+         * - 根页面使用 `index`
+         * - 其他页面按规范化路径去前后缀后以 `__` 连接目录段，例如 `/nested/a/index.html` → `nested__a`
+         */
         const name = pagePath === '/index.html'
           ? 'index'
-          : pagePath.replace(/\/$|^\//g, '').replace(/\/index\.html$/, '').split('/').pop() || 'page'
-        inputs[name] = tmpAbs
+          : pagePath.replace(/^\//, '').replace(/\/index\.html$/, '').split('/').filter(Boolean).join('__') || 'page'
+        // 以模块入口作为 Rollup 输入，方便构建产物映射
+        const entrySrc = (cfg.entry ?? '/src/main.ts').replace(/^\//, '')
+        const entryAbs = path.join(localRoot, entrySrc)
+        inputs[name] = entryAbs
         buildPages.push(pagePath)
+        pageInputNameMap[pagePath] = name
+        buildPageConfigs[pagePath] = cfg
+        pageEntryMap[pagePath] = entrySrc
       }
       activeForBuild = true
       return {
         build: {
+          manifest: true,
           rollupOptions: {
             input: inputs
           }
@@ -671,21 +691,50 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
       if (!activeForBuild)
         return
       const absOutDir = path.isAbsolute(outDir) ? outDir : path.join(rootDir, outDir)
+      // 读取 manifest 以便重写 HTML 的入口与样式
+      let manifest: Record<string, { file: string, css?: string[] }> = {}
+      try {
+        const m = await fs.readFile(path.join(absOutDir, 'manifest.json'), 'utf8')
+        manifest = JSON.parse(m)
+      }
+      catch {}
       // 复制每个页面的构建结果到 outDir 对应路径（Rollup 会产出 name.html 在 outDir 根）
       for (const page of buildPages) {
-        const name = page === '/index.html'
+        const name = pageInputNameMap[page] ?? (page === '/index.html'
           ? 'index'
-          : page.replace(/\/$|^\//g, '').replace(/\/index\.html$/, '').split('/').pop() || 'page'
+          : page.replace(/^\//, '').replace(/\/index\.html$/, '').split('/').filter(Boolean).join('__') || 'page')
         const src = path.join(absOutDir, `${name}.html`)
         const dest = path.join(absOutDir, page.replace(/^\//, ''))
         await fs.mkdir(path.dirname(dest), { recursive: true })
         try {
-          const built = await fs.readFile(src, 'utf8')
+          // 优先使用构建后的 HTML；若未注入正确资源，则依据 manifest 进行重写
+          let built = await fs.readFile(src, 'utf8')
+          const entryKey = pageEntryMap[page]?.replace(/^\.?\//, '')
+          const item = entryKey ? manifest[entryKey] : undefined
+          if (item?.file) {
+            built = rewriteBuiltHtml(built, `/${item.file}`, (item.css ?? []).map(href => `/${href}`))
+          }
+          else {
+            const guessed = await guessBuiltAssets(absOutDir, page, pageEntryMap[page])
+            if (guessed.js)
+              built = rewriteBuiltHtml(built, guessed.js, guessed.css)
+          }
           await fs.writeFile(dest, built, 'utf8')
         }
         catch {
-          if (lastHtml && page === '/index.html') {
-            await fs.writeFile(dest, lastHtml, 'utf8')
+          const fallback = generatedHtmlMap[page] ?? (page === '/index.html' ? lastHtml : null)
+          if (fallback) {
+            const entryKey = pageEntryMap[page]?.replace(/^\.?\//, '')
+            const item = entryKey ? manifest[entryKey] : undefined
+            let rewritten: string
+            if (item?.file) {
+              rewritten = rewriteBuiltHtml(fallback, `/${item.file}`, (item.css ?? []).map(href => `/${href}`))
+            }
+            else {
+              const guessed = await guessBuiltAssets(absOutDir, page, pageEntryMap[page])
+              rewritten = guessed.js ? rewriteBuiltHtml(fallback, guessed.js, guessed.css) : fallback
+            }
+            await fs.writeFile(dest, rewritten, 'utf8')
           }
         }
       }
@@ -695,8 +744,76 @@ export function virtualHtmlPlugin(options: HtmlVirtualPluginOptions = {}): Plugi
         await fs.rm(nestedNM, { recursive: true, force: true })
       }
       catch {}
+      // 清理项目根的临时目录 .quiteer
+      try {
+        await fs.rm(path.join(rootDir, '.quiteer'), { recursive: true, force: true })
+      }
+      catch {}
     }
   }
+}
+
+/**
+ * 函数：rewriteBuiltHtml
+ *
+ * 在构建阶段对 HTML 进行资源重写：
+ * - 将入口 `<script type="module" src="/src/...">` 替换为构建产物路径；
+ * - 移除指向 `"/src/..."` 的样式 `<link>`，并按需注入构建后 CSS。
+ *
+ * @param html - 原始 HTML 文本
+ * @param builtJs - 构建后 JS 入口文件路径（例如 `/assets/index-xxxx.js`）
+ * @param builtCss - 构建后 CSS 文件路径列表（例如 [`/assets/index-xxxx.css`]）
+ * @returns 重写后的 HTML 文本
+ */
+function rewriteBuiltHtml(html: string, builtJs: string, builtCss: string[]): string {
+  // 重写入口 script
+  let out = html.replace(
+    /<script[^>]*type="module"[^>]*src="[^"]+"[^>]*><\/script>/i,
+    `<script type="module" crossorigin src="${builtJs}"></script>`
+  )
+  // 移除指向 /src 的样式 link
+  out = out.replace(/<link[^>]*href="\/src\/[^"]+"[^>]*>/gi, '')
+  // 注入构建 CSS 到 head 末尾
+  if (builtCss.length) {
+    const cssLinks = builtCss.map(href => `<link rel="stylesheet" href="${href}">`).join('')
+    out = out.replace(/<\/head>/i, `${cssLinks}</head>`)
+  }
+  return out
+}
+
+/**
+ * 函数：guessBuiltAssets
+ *
+ * 当未生成 manifest 时，基于约定文件名推测构建产物：
+ * - 根页面优先选择 `assets/index-*.js|.css`
+ * - 其他页面依据入口 basename（如 `main`）选择 `assets/main-*.js|.css`
+ *
+ * @param absOutDir - 构建输出根目录（绝对路径）
+ * @param page - 规范化页面路径，形如 `/nested/index.html`
+ * @param entrySrc - 入口源码路径，形如 `src/main.ts`
+ * @returns 推测到的 JS 与 CSS 文件路径（以 `/assets/...` 形式返回），若未命中则为空
+ */
+async function guessBuiltAssets(absOutDir: string, page: string, entrySrc?: string): Promise<{ js: string | null, css: string[] }> {
+  const assetsDir = path.join(absOutDir, 'assets')
+  let files: string[] = []
+  try {
+    files = await fs.readdir(assetsDir)
+  }
+  catch {
+    return { js: null, css: [] }
+  }
+  const jsCandidates = files.filter(f => f.endsWith('.js'))
+  const cssCandidates = files.filter(f => f.endsWith('.css'))
+  const base = (entrySrc ?? '').replace(/^\//, '')
+  const basename = base ? path.basename(base, path.extname(base)) : ''
+  const isRoot = page === '/index.html'
+  const js = (isRoot
+    ? (jsCandidates.find(f => f.startsWith('index-')) ?? jsCandidates.find(f => f.startsWith(`${basename}-`)) ?? null)
+    : (jsCandidates.find(f => f.startsWith(`${basename}-`)) ?? jsCandidates.find(f => f.startsWith('index-')) ?? null))
+  const css = (isRoot
+    ? cssCandidates.filter(f => f.startsWith('index-')).map(f => `/assets/${f}`)
+    : cssCandidates.filter(f => f.startsWith(`${basename}-`)).map(f => `/assets/${f}`))
+  return { js: js ? `/assets/${js}` : null, css }
 }
 
 export type { HtmlVirtualPluginOptions as VirtualHtmlOptions }

@@ -42,6 +42,16 @@ export default defineConfig(async ({ mode }) => {
             title: 'Nested Page',
             entry: '/src/nested/main.ts',
             link: [{ src: '/src/style.css', position: 'head' }]
+          },
+          '/group-a/users/index.html': {
+            title: 'Users A',
+            entry: '/src/nested/main.ts',
+            link: [{ src: '/src/style.css', position: 'head' }]
+          },
+          '/group-b/users/index.html': {
+            title: 'Users B',
+            entry: '/src/nested/main.ts',
+            link: [{ src: '/src/style.css', position: 'head' }]
           }
         }
       }),

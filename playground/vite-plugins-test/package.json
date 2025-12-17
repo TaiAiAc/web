@@ -5,11 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 8088",
+    "dev:obfuscate": " vite --mode obfuscate",
     "build": " vite build",
     "build:development": " vite build --mode development",
     "build:test": " vite build --mode test",
-    "build:staging": " vite build --mode staging",
-    "build:release": " vite build --mode release",
+    "build:obfuscate": " vite build --mode obfuscate",
     "preview": "vite preview"
   },
   "dependencies": {

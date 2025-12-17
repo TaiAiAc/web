@@ -1,6 +1,8 @@
 import type { EnvConfig } from '@quiteer/vite-plugins'
 
-type MyConfig = EnvConfig<'baseURL' | 'apiURL' | 'uploadURL' | 'gisJs' | 'gisCss'>
+type EnvNames = 'development' | 'production' | 'test' | 'obfuscate'
+
+type MyConfig = EnvConfig<'baseURL' | 'apiURL' | 'uploadURL' | 'gisJs' | 'gisCss', EnvNames>
 
 export default {
   default: {
@@ -26,8 +28,11 @@ export default {
     test1: true
   },
   production: {
+    baseURL: {
+      value: 'http://localhost:3000',
+      obfuscate: true
+    },
     desc: '生产环境变量',
-    baseURL: 'https://api.example.com',
     apiURL: '/api',
     uploadURL: '/files',
     gisJs: '/gis',
@@ -43,22 +48,30 @@ export default {
     gisCss: '/gis',
     title: 'test'
   },
-  staging: {
-    desc: '预发布环境变量',
-    baseURL: 'https://api.staging.example.com',
-    apiURL: '/api',
-    uploadURL: '/files',
-    gisJs: '/gis',
-    gisCss: '/gis',
-    title: 'staging'
-  },
-  release: {
-    desc: '发布环境变量',
-    baseURL: 'https://api.release.example.com',
-    apiURL: '/api',
-    uploadURL: '/files',
-    gisJs: '/gis',
-    gisCss: '/gis',
-    title: 'release'
+  obfuscate: {
+    desc: {
+      value: '混淆环境变量',
+      obfuscate: true
+    },
+    baseURL: {
+      value: 'http://localhost:3000',
+      obfuscate: true
+    },
+    apiURL: {
+      value: '/api',
+      obfuscate: true
+    },
+    uploadURL: {
+      value: '/files',
+      obfuscate: true
+    },
+    gisJs: {
+      value: '/gis',
+      obfuscate: true
+    },
+    gisCss: {
+      value: '/1',
+      obfuscate: true
+    }
   }
 } satisfies MyConfig

@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { decodeBase64Env } from '@quiteer/vite-plugins/obfuscation'
-import { onMounted, ref } from 'vue'
+import { decode } from '@quiteer/vite-plugins/obfuscation'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 
-const envStr = JSON.stringify(import.meta.env, null, 2)
+const decodeEnv = computed(() => {
+  const env = {} as Record<string, string>
+  for (const key in import.meta.env) {
+    if (key.startsWith('VITE_')) {
+      env[key] = decode(import.meta.env[key])
+    }
+  }
+  return env
+})
 
-const testUrl = decodeBase64Env(import.meta.env.VITE_TEST_URL)
-const baseUrl = decodeBase64Env(import.meta.env.VITE_BASE_URL)
+watchEffect(() => {
+  console.log(' import.meta.env :>> ', import.meta.env)
+  console.log('decodeEnv: ', decodeEnv.value)
+})
+
 console.log('import.meta.env.VITE_BASE_URL: ', import.meta.env.VITE_BASE_URL)
-
-console.log('decodeBase64Env(import.meta.env.VITE_BASE_URL): ', baseUrl)
 
 function runConsoleTests(): void {
   console.log('standalone')
@@ -37,9 +46,9 @@ onMounted(async () => {
 
 <template>
   <div>
-    <a :href="testUrl" target="_blank">测试链接</a>
+    <a :href="decodeEnv.VITE_TEST_URL" target="_blank">测试链接</a>
     <h3>import.meta.env</h3>
-    <pre>{{ envStr }}</pre>
+    <pre v-for="(value, key) in decodeEnv" :key="key">{{ key }}: {{ value }}</pre>
     <h3>获取到的 mock 数据</h3>
     <pre>{{ hello }}</pre>
   </div>

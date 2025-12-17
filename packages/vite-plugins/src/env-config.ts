@@ -56,6 +56,15 @@ export interface EnvConfigPluginOptions {
   literalUnions?: boolean
 }
 
+const PREFIX = '__ENC__'
+const SUFFIX = '__END__'
+
+export function encode(str: string): string {
+  // 将 UTF-8 字符串转为 Base64
+  const base64 = Buffer.from(str, 'utf8').toString('base64')
+  return `${PREFIX}${base64}${SUFFIX}`
+}
+
 /**
  * 函数：envConfigPlugin
  *
@@ -145,18 +154,6 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
    * @returns 环境变量名
    */
   const toKey = (key: string) => toEnvKey(includePrefixes, key)
-
-  /**
-   * 函数：obfuscateValue
-   *
-   * 混淆字符串（Base64）。
-   *
-   * @param value - 原始字符串值
-   * @returns 处理后的字符串
-   */
-  function obfuscateValue(value: string): string {
-    return Buffer.from(value, 'utf8').toString('base64')
-  }
 
   /**
    * 函数：resolveSectionFromFile
@@ -285,7 +282,7 @@ export function envConfigPlugin(options: EnvConfigPluginOptions = {}): Plugin {
         finalObf = false
       else
         finalObf = obfuscate
-      const out = finalObf ? obfuscateValue(raw) : raw
+      const out = finalObf ? encode(raw) : raw
       lines.push(`${key}=${out}`)
     }
     return `${lines.join('\n')}\n`
