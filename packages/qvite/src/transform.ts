@@ -3,14 +3,14 @@ import type { QviteConfig, QvitePlugins } from './typings'
 import { deepMerge } from '@quiteer/utils'
 import { envConfigPlugin, virtualHtmlPlugin } from '@quiteer/vite-plugins'
 import { mergeConfig } from 'vite'
-import { defaultOptions } from './defaults'
+import { getDefaultOptions } from './defaults'
 import defaultPlugins from './plugins'
 import { store } from './store'
 
 type NormalizeConfig = Required<QviteConfig>
 
 export async function normalizeConfig(raw: QviteConfig): Promise<NormalizeConfig> {
-  const config = deepMerge<QviteConfig>(defaultOptions, raw) as NormalizeConfig
+  const config = deepMerge<QviteConfig>(getDefaultOptions(), raw) as NormalizeConfig
   return config
 }
 
