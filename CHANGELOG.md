@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-17 `✏️ 1+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-17 `✏️ 2+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.1.1
+  > **🕒  09:39** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`ce35811`](https://github.com/QuiteerJs/web/commit/ce358111846893ffeb3a9e4564e0be809f7d0c31))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/ce358111846893ffeb3a9e4564e0be809f7d0c31/packages/qvite/package.json)
 - 🔧  **chore** `release`: v0.0.17
   > **🕒  09:34** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`5dbdc90`](https://github.com/QuiteerJs/web/commit/5dbdc90b2d277416997501b6f0bf014b58164091))
@@ -405,7 +409,12 @@
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
 
 ### 新功能
-#### 2025-12-17 `✏️ 3+` `➕ 1+` `🗑️ 0+`
+#### 2025-12-17 `✏️ 5+` `➕ 1+` `🗑️ 0+`
+- ✨  **feat** `release`: 修复 bug 优化混淆
+  > **🕒  09:35** · `➕1007` / `➖943`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`4d07aa8`](https://github.com/QuiteerJs/web/commit/4d07aa83bfdefb7a7d9c26dd8b34c451033af718))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/4d07aa83bfdefb7a7d9c26dd8b34c451033af718/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/4d07aa83bfdefb7a7d9c26dd8b34c451033af718/CHANGELOG_TIMELINE.md)
 - ✨  **feat** `utils`: 新增内置依赖
   > **🕒  09:33** · `➕77` / `➖55`
   > `👤 Quiteer`  <p602985@yeah.net> ([`a46961e`](https://github.com/QuiteerJs/web/commit/a46961ee52a2990414eb06ab394a67cebc6d0c0d))
