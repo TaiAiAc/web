@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-18 `✏️ 4+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 5+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.1.3
+  > **🕒  15:04** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`cebd932`](https://github.com/QuiteerJs/web/commit/cebd93220194f12a391db7847a3d2d0ac42b621c))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/cebd93220194f12a391db7847a3d2d0ac42b621c/packages/qvite/package.json)
 - 🔧  **chore** `release`: v0.0.1
   > **🕒  15:01** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`8dc6f53`](https://github.com/QuiteerJs/web/commit/8dc6f53bcd4735b25b6f055276bb0da2a2f30111))
@@ -424,7 +428,12 @@
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
 
 ### 新功能
-#### 2025-12-18 `✏️ 3+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 5+` `➕ 0+` `🗑️ 0+`
+- ✨  **feat** `release`: 集成 unocss
+  > **🕒  15:02** · `➕1254` / `➖1232`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`2437586`](https://github.com/QuiteerJs/web/commit/243758681dc208f6dc3688aee9f929e36464cf34))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/243758681dc208f6dc3688aee9f929e36464cf34/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/243758681dc208f6dc3688aee9f929e36464cf34/CHANGELOG_TIMELINE.md)
 - ✨  **feat** `release`: 改变 unocss 的配置方法
   > **🕒  15:00** · `➕1609` / `➖1466`
   > `👤 Quiteer`  <p602985@yeah.net> ([`4891c8c`](https://github.com/QuiteerJs/web/commit/4891c8c293243b90fa5187ec1c41a5bd60883304))
