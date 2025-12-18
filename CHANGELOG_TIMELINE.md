@@ -1,6 +1,15 @@
 ## 变更日志
 
-### 2025-12-18 `✏️ 46+` `➕ 9+` `🗑️ 4+`
+### 2025-12-18 `✏️ 49+` `➕ 9+` `🗑️ 4+`
+- 🔧  **chore** `release`: v0.1.5
+  > **🕒  16:42** · `➕3` / `➖2`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`f916ec9`](https://github.com/QuiteerJs/web/commit/f916ec91ca5d6f94c29dbe431856c146ab7356d2))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/f916ec91ca5d6f94c29dbe431856c146ab7356d2/packages/qvite/package.json)
+- 🐛  **fix** `release`: 解决编辑器丢失提示 bug
+  > **🕒  16:31** · `➕1150` / `➖1124`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`4567e42`](https://github.com/QuiteerJs/web/commit/4567e4277ec2ca4491872badb4776be891258397))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/4567e4277ec2ca4491872badb4776be891258397/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/4567e4277ec2ca4491872badb4776be891258397/CHANGELOG_TIMELINE.md)
 - 🔧  **chore** `release`: v0.1.4
   > **🕒  16:31** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`5bfec18`](https://github.com/QuiteerJs/web/commit/5bfec18a20287b18dc1e8126caabd91762d89482))
