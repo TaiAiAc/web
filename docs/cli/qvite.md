@@ -25,9 +25,11 @@
 - 自动读取并解析 `qvite.config.*`，合并默认项与用户配置，生成可直接交给 Vite 的内联配置（`packages/qvite/src/transform.ts:62`）。
 - 将 `plugins` 字段中的参数数组展开为对应的 Vite 插件实例，并统一追加虚拟 HTML 与环境变量注入插件（`packages/qvite/src/transform.ts:42-60`、`packages/qvite/src/plugins.ts:3-18`）。
 
-- UnoCSS 自动注入
-- 当启用 `plugins.UnoCSS` 时，自动往虚拟 HTML 的 `head` 注入 `import 'uno.css'`，避免你在入口或模板中手动维护样式引入（`packages/qvite/src/transform.ts:13-35`）。
-- 仍可与本地的 `unocss.config.ts` 配合预设与扫描路径；若你已在入口手动导入，二者不会产生副作用。
+- UnoCSS 集成与自动注入
+- 启用 `UnoCSS` 后，qvite 会在虚拟 HTML 中自动插入 `import 'uno.css'`，无需在入口手动维护样式引入（`packages/qvite/src/transform.ts:40-64`）。
+- 默认推荐与 `@quiteer/unocss` 配合使用：`import UnoPreset from '@quiteer/unocss'`，qvite 内部会在启用时追加该插件（`packages/qvite/src/transform.ts:1-11`、`packages/qvite/src/plugins.ts:1-17`）。
+- 若项目已手动导入 `uno.css`，与自动注入不会产生冲突；本地 `unocss.config.ts` 亦可继续生效（预设、规则、扫描路径由本地决定）。
+- 相关示例：`playground/qvite-test/qvite.config.ts:1-41`
 
 - 虚拟 HTML 能力（无模板开发）
 - 通过 `virtualHtmlPlugin` 在不需要实体 `index.html` 的情况下插入 `title`、`script`、`style` 与任意 `tags`，支持单页与多页配置（`packages/qvite/src/transform.ts:59-60`）。
@@ -168,6 +170,7 @@ qvite build -m production --minify
 | `` plugins `` | `object` | 内置插件管理 | 控制内置插件（如 `removeConsolePlugin`、`mockRouterPlugin` 等）的启用状态及参数 |
 | `` html `` | `VirtualHtmlOptions` | `virtualHtmlPlugin` | 配置无模板 HTML 生成，如 `title`、`script`、`tags`、多页等 |
 | `` env `` | `EnvConfigOptions` | `envConfigPlugin` | 配置环境变量生成逻辑，如 `requiredKeys`、`obfuscate`、`typesOutput` 等 |
+| `` UnoCSS `` | `boolean` | `@quiteer/unocss` | 启用 UnoCSS 插件并自动注入 `import 'uno.css'` 到虚拟 HTML（`packages/qvite/src/transform.ts:40-64`） |
 
 ### 默认配置
 
@@ -175,7 +178,6 @@ qvite build -m production --minify
   | 插件名 | 默认值 | 启用方式 | 说明 |
   |--------|--------|----------|------|
   | `` Vue `` | `[{ customElement: true }]` | 已默认开启 | 启用 Vue 自定义元素支持（Web Components） |
-  | `` UnoCSS `` | `false` | `UnoCSS: true` 或 `UnoCSS: [options]` | 原子化 CSS 引擎，**默认关闭**，按需开启 |
   | `` VueDevTools `` | `[{}]` | 已默认开启 | 在开发环境注入 Vue DevTools 支持 |
   | `` VueJsx `` | `[{}]` | 已默认开启 | 支持 JSX/TSX 语法（配合 `@vitejs/plugin-vue-jsx`） |
   | `` Progress `` | `[{}]` | 已默认开启 | 构建时显示进度条（如 `vite-plugin-progress`） |
