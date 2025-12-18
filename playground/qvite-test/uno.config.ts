@@ -1,5 +1,4 @@
-import { unoConfig } from '@quiteer/unocss'
-import { defineConfig } from '@unocss/vite'
+import { defineConfig, unoConfig } from '@quiteer/vite/uno.config.ts'
 
 export default defineConfig({
   ...unoConfig,

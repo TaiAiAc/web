@@ -1,6 +1,28 @@
 ## 变更日志
 
-### 2025-12-18 `✏️ 33+` `➕ 8+` `🗑️ 4+`
+### 2025-12-18 `✏️ 40+` `➕ 8+` `🗑️ 4+`
+- 🔧  **chore** `release`: v0.0.2
+  > **🕒  16:29** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`2b1ebec`](https://github.com/QuiteerJs/web/commit/2b1ebecb3c0a5aa8f4820e144b13d2a47703f7e2))
+  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/2b1ebecb3c0a5aa8f4820e144b13d2a47703f7e2/packages/unocss/package.json)
+- 📝  **docs** `projects`: 文档更新
+  > **🕒  15:26** · `➕26` / `➖26`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`a7c4c7f`](https://github.com/QuiteerJs/web/commit/a7c4c7f3f9a1bf4558306b615f6aee580180bf96))
+  - ✏️ [`docs/.vitepress/config.ts`](https://github.com/QuiteerJs/web/blob/a7c4c7f3f9a1bf4558306b615f6aee580180bf96/docs/.vitepress/config.ts)
+  - ✏️ [`docs/plugins/index.md`](https://github.com/QuiteerJs/web/blob/a7c4c7f3f9a1bf4558306b615f6aee580180bf96/docs/plugins/index.md)
+- 🏗️  **build** `projects`: 更新锁文件
+  > **🕒  15:15** · `➕7` / `➖49`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`b7bcb47`](https://github.com/QuiteerJs/web/commit/b7bcb471a201d6735b2e6be85ab10d6cfe799903))
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/b7bcb471a201d6735b2e6be85ab10d6cfe799903/pnpm-lock.yaml)
+- 📝  **docs** `packages`: 更新说明
+  > **🕒  15:11** · `➕6` / `➖4`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`38b91c1`](https://github.com/QuiteerJs/web/commit/38b91c192d65f6e19921aa895444192764f935cc))
+  - ✏️ [`docs/cli/qvite.md`](https://github.com/QuiteerJs/web/blob/38b91c192d65f6e19921aa895444192764f935cc/docs/cli/qvite.md)
+- 🏗️  **build** `release`: 依赖问题
+  > **🕒  15:04** · `➕21` / `➖3`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`f93613d`](https://github.com/QuiteerJs/web/commit/f93613de12e38853ce427decda39f69141834416))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/f93613de12e38853ce427decda39f69141834416/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/f93613de12e38853ce427decda39f69141834416/CHANGELOG_TIMELINE.md)
 - 🔧  **chore** `release`: v0.1.3
   > **🕒  15:04** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`cebd932`](https://github.com/QuiteerJs/web/commit/cebd93220194f12a391db7847a3d2d0ac42b621c))

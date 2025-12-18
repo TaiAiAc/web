@@ -19,7 +19,8 @@
     },
     "./client": {
       "types": "./client.d.ts"
-    }
+    },
+    "./uno.config.ts": "./uno.config.ts"
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
