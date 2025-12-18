@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-18 `✏️ 11+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 12+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.1.7
+  > **🕒  18:47** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`6f6857c`](https://github.com/QuiteerJs/web/commit/6f6857c7cf2c09b55c8b1e08e7af7734ec6f436f))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/6f6857c7cf2c09b55c8b1e08e7af7734ec6f436f/packages/qvite/package.json)
 - 🔧  **chore** `release`: v0.0.4
   > **🕒  18:45** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`39eddf9`](https://github.com/QuiteerJs/web/commit/39eddf96f270152f092f2c6bf661ce7cf4dfe6e8))
@@ -452,7 +456,19 @@
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
 
 ### 修复
-#### 2025-12-18 `✏️ 13+` `➕ 16+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 22+` `➕ 16+` `🗑️ 0+`
+- 🐛  **fix** `release`: 修改导出
+  > **🕒  18:46** · `➕27` / `➖70`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`656a721`](https://github.com/QuiteerJs/web/commit/656a7211f997d226af3f181e7feebef6495c178b))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/CHANGELOG_TIMELINE.md)
+  - ✏️ [`docs/plugins/unocss/index.md`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/docs/plugins/unocss/index.md)
+  - ✏️ [`package.json`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/package.json)
+  - ✏️ [`packages/unocss/src/index.ts`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/packages/unocss/src/index.ts)
+  - ✏️ [`playground/qvite-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/playground/qvite-test/src/App.vue)
+  - ✏️ [`playground/qvite-test/uno.config.ts`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/playground/qvite-test/uno.config.ts)
+  - ✏️ [`playground/unocss-test/uno.config.ts`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/playground/unocss-test/uno.config.ts)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/656a7211f997d226af3f181e7feebef6495c178b/pnpm-lock.yaml)
 - 🐛  **fix** `release`: 适配 uno 编辑器提示
   > **🕒  18:11** · `➕63` / `➖3`
   > `👤 Quiteer`  <p602985@yeah.net> ([`fa75531`](https://github.com/QuiteerJs/web/commit/fa75531e0e5be7263d0797639d52d32369246bd2))
