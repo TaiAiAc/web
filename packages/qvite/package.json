@@ -1,7 +1,7 @@
 {
   "name": "@quiteer/vite",
   "type": "module",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "packageManager": "pnpm@10.20.0",
   "description": "在 vite 的基础上增强的前端架构 cli",
   "author": "quiteer",
