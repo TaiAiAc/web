@@ -9,6 +9,7 @@
 - 自定义规则：支持组件层规则与通用规则扩展
 - 生产友好：构建外部化原生依赖，避免跨平台 `.node` 模块打包问题
 
+
 ## 安装
 - 主项目（使用者）需安装：
   - `pnpm add -D @quiteer/unocss`
@@ -40,65 +41,71 @@ export default defineConfig({
 ```
 - 启用后，qvite 会自动注入 `import 'uno.css'` 到虚拟 HTML，确保样式生效（实现位置：`packages/qvite/src/transform.ts:40-64`）。
 
-## 配置结构
-- 插件入口：`packages/unocss/src/index.ts:1-11`
-  - 默认导出 `UnoPreset()`，内部调用 `@unocss/vite` 并传入统一配置
-- UnoCSS 配置：`packages/unocss/src/uno.config.ts:1-21`
-  - `presets`：`presetWind4()`、`presetIcons()`、`presetWebFonts()`
-  - `transformers`：`transformerDirectives()`、`transformerVariantGroup()`
-  - `rules`、`theme`、`shortcuts`：统一从本包导入
-- 主题与快捷：
-  - 主题：`packages/unocss/src/theme.ts:1-106`
-  - 快捷类：`packages/unocss/src/shortcuts.ts:1-42`
-- 自定义规则：
-  - 规则：`packages/unocss/src/rule.ts:1-36`
 
-## API 概览
-- `default export`: `UnoPreset(): PluginOption`
-  - 返回 UnoCSS 的 Vite 插件实例，内置统一配置
-- `named export`: `unoConfig`
-  - 直接复用本包的 `UserConfig`，用于自定义组合或二次包装
+## 内置插件
 
-## 主题与快捷（示例）
+`@quiteer/unocss` 默认集成了以下 UnoCSS 预设和转换器：
+
+- **预设 (Presets)**
+  - [`@unocss/preset-wind4`](https://unocss.dev/presets/wind)：基于 Tailwind/Windi CSS 的实用工具类预设（UnoCSS v4 风格）。
+  - [`@unocss/preset-icons`](https://unocss.dev/presets/icons)：纯 CSS 图标方案，支持 Iconify 数据源。
+  - [`@unocss/preset-web-fonts`](https://unocss.dev/presets/web-fonts)：Web 字体预设。
+
+- **转换器 (Transformers)**
+  - [`@unocss/transformer-directives`](https://unocss.dev/transformers/directives)：支持 `@apply`, `@screen`, `theme()` 等指令。
+  - [`@unocss/transformer-variant-group`](https://unocss.dev/transformers/variant-group)：支持变体组写法（如 `hover:(bg-gray-400 font-medium)`）。
+
+## 默认配置
+
+- shortcuts
+
+<<< ../../../packages/unocss/src/shortcuts.ts
+
+- theme
+
+<<< ../../../packages/unocss/src/theme.ts
+
+- rules
+
+<<< ../../../packages/unocss/src/rule.ts
+
+
+
+## 如何拓展配置
+
+> 在根目录下创建 `uno.config.ts` 配置文件，即可拓展配置。
+
+- defineConfig
+
+> 可以使用 `defineConfig` 函数来获取代码提示。
+
+- unoConfig
+
+> 可以使用 `unoConfig` 来获取默认配置。
+
 ```ts
-// theme 片段
-export const theme = {
-  colors: { primary: '#3b82f6', secondary: '#6366f1' },
-  fontFamily: { sans: 'Inter, system-ui, ...', mono: 'Fira Code, ...' },
-  breakpoints: { sm: '640px', md: '768px', lg: '1024px' }
-}
-
-// shortcuts 片段
-export const shortcuts = {
-  'flex-center': 'flex justify-center items-center',
-  'absolute-center': 'absolute left-0 top-0 flex-center size-full',
-  'ellipsis-text': 'overflow-hidden whitespace-nowrap text-ellipsis'
-}
-```
-
-## 规则扩展示例
-```ts
-// 组件规则：按钮风格
-export const buttonRules = [
-  [/^btn-(primary|secondary)$/, ([, variant]) => ({
-    'background-color': variant === 'primary' ? '#3b82f6' : '#6366f1',
-    'color': 'white',
-    'padding': '0.5rem 1rem',
-    'border-radius': '0.25rem',
-    'font-weight': '500'
-  }), { layer: 'components' }]
-]
-```
-
-## 推荐用法
-- 在 Vite 插件中直接使用 `UnoPreset()`，简单稳定
-```ts
-import UnoPreset, { unoConfig } from '@quiteer/unocss'
-import { defineConfig } from 'unocss'
+// uno.config.ts
+import { defineConfig,unoConfig } from '@quiteer/unocss/uno.config.ts'
 
 const myConfig = defineConfig({
   rules: [[/^wh-(\d+)$/, ([, d]) => ({ width: `${Number(d)/4}rem`, height: `${Number(d)/4}rem` })]]
 })
+
+export default myConfig
+```
+
+
+
+
+::: tip  配合 IDE 插件代码提示
+- 虽然已经把 unocss 相关的包都内聚了，但是为了代码高亮提示还是要在根目录下创建 `uno.config.ts` 文件。
+- 检查是否已经安装了对应插件，windcss 插件会跟 unocss 插件冲突
+:::
+
+如果你对当前配置满意，就不需要在 `uno.config.ts` 文件中配置了。
+```ts
+// uno.config.ts
+export default {}
 ```
 
 
