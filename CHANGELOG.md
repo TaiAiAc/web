@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-18 `✏️ 9+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 10+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.1.6
+  > **🕒  18:10** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`8596df4`](https://github.com/QuiteerJs/web/commit/8596df49d3fdad540473f7b38b853214539c0064))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/8596df49d3fdad540473f7b38b853214539c0064/packages/qvite/package.json)
 - 🔧  **chore** `release`: v0.0.3
   > **🕒  18:09** · `➕4` / `➖3`
   > `👤 Quiteer`  <p602985@yeah.net> ([`32dd0fe`](https://github.com/QuiteerJs/web/commit/32dd0fe444af7e800e4d9a0f76386e6c77907d17))
@@ -444,7 +448,33 @@
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
 
 ### 修复
-#### 2025-12-18 `✏️ 4+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 11+` `➕ 16+` `🗑️ 0+`
+- 🐛  **fix** `release`: 获得编辑器提示
+  > **🕒  18:09** · `➕407` / `➖17`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`fc2b538`](https://github.com/QuiteerJs/web/commit/fc2b53828a57c9a9fce49063b385c1573208c5f3))
+  - ➕ [`playground/unocss-test/.gitignore`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/.gitignore)
+  - ➕ [`playground/unocss-test/.vscode/extensions.json`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/.vscode/extensions.json)
+  - ➕ [`playground/unocss-test/README.md`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/README.md)
+  - ➕ [`playground/unocss-test/index.html`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/index.html)
+  - ➕ [`playground/unocss-test/package.json`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/package.json)
+  - ➕ [`playground/unocss-test/public/vite.svg`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/public/vite.svg)
+  - ➕ [`playground/unocss-test/src/App.vue`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/src/App.vue)
+  - ➕ [`playground/unocss-test/src/assets/vue.svg`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/src/assets/vue.svg)
+  - ➕ [`playground/unocss-test/src/components/HelloWorld.vue`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/src/components/HelloWorld.vue)
+  - ➕ [`playground/unocss-test/src/main.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/src/main.ts)
+  - ➕ [`playground/unocss-test/src/style.css`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/src/style.css)
+  - ➕ [`playground/unocss-test/tsconfig.app.json`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/tsconfig.app.json)
+  - ➕ [`playground/unocss-test/tsconfig.json`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/tsconfig.json)
+  - ➕ [`playground/unocss-test/tsconfig.node.json`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/tsconfig.node.json)
+  - ➕ [`playground/unocss-test/uno.config.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/uno.config.ts)
+  - ➕ [`playground/unocss-test/vite.config.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/playground/unocss-test/vite.config.ts)
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/qvite/uno.config.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/packages/qvite/uno.config.ts)
+  - ✏️ [`packages/unocss/src/index.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/packages/unocss/src/index.ts)
+  - ✏️ [`packages/unocss/src/uno.config.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/packages/unocss/src/uno.config.ts)
+  - ✏️ [`packages/unocss/tsdown.config.ts`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/packages/unocss/tsdown.config.ts)
+  - ✏️ [`pnpm-lock.yaml`](https://github.com/QuiteerJs/web/blob/fc2b53828a57c9a9fce49063b385c1573208c5f3/pnpm-lock.yaml)
 - 🐛  **fix** `deps`: 更新 files 字段
   > **🕒  16:42** · `➕202` / `➖182`
   > `👤 Quiteer`  <p602985@yeah.net> ([`abc09a9`](https://github.com/QuiteerJs/web/commit/abc09a96a68cfd7e4c39e8f893c30b11db015c73))
