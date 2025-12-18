@@ -1,7 +1,11 @@
 ## 变更日志
 
 ### 其他
-#### 2025-12-18 `✏️ 8+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 9+` `➕ 0+` `🗑️ 0+`
+- 🔧  **chore** `release`: v0.0.3
+  > **🕒  18:09** · `➕4` / `➖3`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`32dd0fe`](https://github.com/QuiteerJs/web/commit/32dd0fe444af7e800e4d9a0f76386e6c77907d17))
+  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/32dd0fe444af7e800e4d9a0f76386e6c77907d17/packages/unocss/package.json)
 - 🔧  **chore** `release`: v0.1.5
   > **🕒  16:42** · `➕3` / `➖2`
   > `👤 Quiteer`  <p602985@yeah.net> ([`f916ec9`](https://github.com/QuiteerJs/web/commit/f916ec91ca5d6f94c29dbe431856c146ab7356d2))
@@ -440,7 +444,12 @@
   - ✏️ [`pnpm-workspace.yaml`](https://github.com/QuiteerJs/web/blob/3a9e13397fe92cc5856e727ecae4b7dab09ee818/pnpm-workspace.yaml)
 
 ### 修复
-#### 2025-12-18 `✏️ 2+` `➕ 0+` `🗑️ 0+`
+#### 2025-12-18 `✏️ 4+` `➕ 0+` `🗑️ 0+`
+- 🐛  **fix** `deps`: 更新 files 字段
+  > **🕒  16:42** · `➕202` / `➖182`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`abc09a9`](https://github.com/QuiteerJs/web/commit/abc09a96a68cfd7e4c39e8f893c30b11db015c73))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/abc09a96a68cfd7e4c39e8f893c30b11db015c73/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/abc09a96a68cfd7e4c39e8f893c30b11db015c73/CHANGELOG_TIMELINE.md)
 - 🐛  **fix** `release`: 解决编辑器丢失提示 bug
   > **🕒  16:31** · `➕1150` / `➖1124`
   > `👤 Quiteer`  <p602985@yeah.net> ([`4567e42`](https://github.com/QuiteerJs/web/commit/4567e4277ec2ca4491872badb4776be891258397))

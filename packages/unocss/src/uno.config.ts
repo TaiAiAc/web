@@ -7,7 +7,9 @@ import { rules } from './rule'
 import { shortcuts } from './shortcuts'
 import { theme } from './theme'
 
-export default defineConfig({
+export { defineConfig }
+
+export const unoConfig = defineConfig({
   content: {
     pipeline: {
       exclude: ['node_modules', 'dist']
