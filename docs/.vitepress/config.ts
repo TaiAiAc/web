@@ -161,13 +161,13 @@ function introduceSidebar() {
       ]
     },
     {
-      text: '插件',
+      text: 'NPM Packages',
       items: [
-        { text: '插件总览', link: '/plugins/' },
+        { text: '介绍', link: '/plugins/' },
         {
           text: '@quiteer/naive-extra',
           items: [
-            { text: '总览', link: '/plugins/naive-extra/' },
+            { text: '使用说明', link: '/plugins/naive-extra/' },
             { text: 'QuiUpload', link: '/plugins/naive-extra/QuiUpload' },
             { text: 'QuiForm', link: '/plugins/naive-extra/QuiForm' },
             { text: 'QuiTable', link: '/plugins/naive-extra/QuiTable' },
@@ -175,34 +175,9 @@ function introduceSidebar() {
           ]
         },
         {
-          text: '@quiteer/box',
-          items: [
-            { text: '总览', link: '/plugins/box/' }
-          ]
-        },
-        {
-          text: '@quiteer/axios',
-          items: [
-            { text: '总览', link: '/plugins/axios/' }
-          ]
-        },
-        {
-          text: '@quiteer/vite-plugins',
-          items: [
-            { text: '插件总览', link: '/plugins/vite-plugin/' },
-            { text: '文件改动日志', link: '/plugins/vite-plugin/file-change-logger' },
-            { text: '环境变量配置', link: '/plugins/vite-plugin/env-config' },
-            { text: '自动生成环境变量类型', link: '/plugins/vite-plugin/env-types' },
-            { text: 'API Mock 路由', link: '/plugins/vite-plugin/mock-router' },
-            { text: '移除 console', link: '/plugins/vite-plugin/remove-console' },
-            { text: '虚拟 HTML 生成', link: '/plugins/vite-plugin/virtual-html' },
-            { text: '构建进度条（第三方）', link: '/plugins/vite-plugin/progress' }
-          ]
-        },
-        {
           text: '@quiteer/directives',
           items: [
-            { text: '指令总览', link: '/plugins/directives/' },
+            { text: '使用说明', link: '/plugins/directives/' },
             { text: '权限指令(v-permission)', link: '/plugins/directives/permission' },
             { text: '复制指令(v-copy)', link: '/plugins/directives/copy' },
             { text: '防抖指令(v-debounce)', link: '/plugins/directives/debounce' },
@@ -216,9 +191,34 @@ function introduceSidebar() {
           ]
         },
         {
+          text: '@quiteer/vite-plugins',
+          items: [
+            { text: '使用说明', link: '/plugins/vite-plugin/' },
+            { text: '文件改动日志', link: '/plugins/vite-plugin/file-change-logger' },
+            { text: '环境变量配置', link: '/plugins/vite-plugin/env-config' },
+            { text: '自动生成环境变量类型', link: '/plugins/vite-plugin/env-types' },
+            { text: 'API Mock 路由', link: '/plugins/vite-plugin/mock-router' },
+            { text: '移除 console', link: '/plugins/vite-plugin/remove-console' },
+            { text: '虚拟 HTML 生成', link: '/plugins/vite-plugin/virtual-html' },
+            { text: '构建进度条（第三方）', link: '/plugins/vite-plugin/progress' }
+          ]
+        },
+        {
+          text: '@quiteer/unocss',
+          items: [
+            { text: '使用说明', link: '/plugins/unocss/' }
+          ]
+        },
+        {
+          text: '@quiteer/axios',
+          items: [
+            { text: '使用说明', link: '/plugins/axios/' }
+          ]
+        },
+        {
           text: '@quiteer/utils',
           items: [
-            { text: '总览', link: '/plugins/utils/' },
+            { text: '使用说明', link: '/plugins/utils/' },
             { text: '函数', link: '/plugins/utils/function' },
             { text: '数组', link: '/plugins/utils/array' },
             { text: '对象', link: '/plugins/utils/object' },
