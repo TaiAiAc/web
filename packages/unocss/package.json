@@ -1,25 +1,38 @@
 {
   "name": "@quiteer/unocss",
   "version": "0.0.0",
-  "homepage": "https://quiteerjs.github.io/web/",
+  "description": "",
+  "homepage": "https://quiteerjs.github.io/web/plugins/unocss/index.html",
   "exports": {
-    ".": "./index.ts",
-    "./uno-preset": "./uno-preset/index.ts"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs"
+    }
   },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./*/*"
-      ]
-    }
+  "files": ["dist"],
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "release": "qui r --tag-prefix unocss && tsdown && pnpm publish --access public"
+  },
+  "peerDependencies": {
+    "@unocss/vite": "^66.5.10",
+    "vite": ">=5"
   },
   "dependencies": {
-    "@unocss/preset-icons": "^66.5.6",
-    "@unocss/preset-wind3": "^66.5.6",
-    "@unocss/vite": "^66.5.6"
+    "@iconify/json": "2.2.405",
+    "@unocss/preset-web-fonts": "^66.5.10",
+    "@unocss/preset-wind4": "^66.5.10",
+    "@unocss/transformer-directives": "^66.5.10",
+    "@unocss/transformer-variant-group": "^66.5.10",
+    "unocss": "^66.5.10"
   }
 }

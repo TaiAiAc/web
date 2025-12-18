@@ -53,6 +53,7 @@
   "dependencies": {
     "@quiteer/is": "workspace:*",
     "@quiteer/parser-config": "^1.0.3",
+    "@quiteer/unocss": "workspace:*",
     "@quiteer/utils": "workspace:*",
     "@quiteer/vite-plugins": "workspace:^",
     "@types/fs-extra": "^11.0.4",

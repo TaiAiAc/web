@@ -6,12 +6,10 @@ import { store } from './store'
 export function getDefaultOptions() {
   const root = store.get<string>('root')!
 
-  const src = resolve(root, 'src')
-  console.log('src :>> ', src)
   const defaultOptions = {
+    UnoCSS: false,
     plugins: {
       Vue: [{ customElement: true }],
-      UnoCSS: false,
       VueDevTools: [{}],
       VueJsx: [{}],
       Progress: [{}],

@@ -1,4 +1,4 @@
-import type { AutoImport, Components, createSvgIconsPlugin, EnvConfigPluginOptions, fileChangeLoggerPlugin, Icons, mockRouterPlugin, Progress, removeConsolePlugin, UnoCSS, VirtualHtmlOptions, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
+import type { AutoImport, Components, createSvgIconsPlugin, EnvConfigPluginOptions, fileChangeLoggerPlugin, Icons, mockRouterPlugin, Progress, removeConsolePlugin, VirtualHtmlOptions, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
 import type { UserConfig } from 'tsdown'
 import type { UserConfig as ViteUserConfig } from 'vite'
 
@@ -8,7 +8,6 @@ export type PluginOptions<T extends (...args: any) => any> = boolean | Parameter
 
 export interface QvitePlugins {
   Vue?: PluginOptions<typeof Vue>
-  UnoCSS?: PluginOptions<typeof UnoCSS>
   VueJsx?: PluginOptions<typeof VueJsx>
   Progress?: PluginOptions<typeof Progress>
   VueDevTools?: PluginOptions<typeof VueDevTools>
@@ -22,6 +21,7 @@ export interface QvitePlugins {
 }
 
 export interface QviteConfig {
+  UnoCSS?: boolean
   vite?: ViteUserConfig
   tsdown?: UserConfig | UserConfig[]
   plugins?: QvitePlugins

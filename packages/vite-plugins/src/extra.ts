@@ -1,4 +1,3 @@
-import UnoCSS from '@unocss/vite'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -12,4 +11,4 @@ export { FileSystemIconLoader } from 'unplugin-icons/loaders'
 export { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 export { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
-export { AutoImport, Components, Icons, IconsResolver, Progress, UnoCSS, Vue, VueDevTools, VueJsx }
+export { AutoImport, Components, Icons, IconsResolver, Progress, Vue, VueDevTools, VueJsx }

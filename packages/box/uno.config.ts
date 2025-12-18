@@ -1,6 +1,6 @@
 import presetIcons from '@unocss/preset-icons'
-import presetWind3 from '@unocss/preset-wind3'
-import { defineConfig } from '@unocss/vite'
+import presetWind4 from '@unocss/preset-wind4'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   content: {
@@ -9,7 +9,7 @@ export default defineConfig({
     }
   },
   presets: [
-    presetWind3({ dark: 'class' }),
+    presetWind4(),
     presetIcons({
       scale: 1,
       extraProperties: {

@@ -19,10 +19,7 @@ export default defineConfig((envConfig) => {
           media: 'screen',
           position: 'head',
           attrs: { id: 'demo-style' }
-        }],
-        tags: [
-          { tag: 'div', attrs: { style: 'width: 100px; height: 100px; background-color: red;' }, children: '测试文字', selfClosing: true, position: 'body-append' }
-        ]
+        }]
       }
     },
     env: {
@@ -33,6 +30,7 @@ export default defineConfig((envConfig) => {
         port: 8091
       }
     },
+    UnoCSS: true,
     plugins: {
       MockRouter: [{
         delay: 1000

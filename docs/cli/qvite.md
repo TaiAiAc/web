@@ -11,13 +11,49 @@
 - Vite/tsdown 联动：开发与构建阶段统一调度，前端与 Node/工具产物可在同一流程中协作
 - 开箱默认更合理：默认端口、别名与插件约定即用即配，减少重复配置
 
-## 为什么选择 @quiteer/vite
+## 为什么选择 qvite
 
 - 一体化开发/构建：统一封装 Vite 与 tsdown 的协作流程
 - 插件编排更简单：通过配置对象启用常用插件，无需重复样板代码
 - 环境变量更规范：默认支持 `QVITE_` 与 `VITE_` 前缀，按 `mode` 自动合并
 - HTML 无侵入插入：`virtualHtmlPlugin` 支持脚本、样式、任意标签的虚拟插入
 - 强类型体验：`defineConfig` 与 `ConfigEnv<T>` 带来完善的 IDE 提示
+
+## qvite 为你都做了什么
+
+- 配置归一与插件编排
+- 自动读取并解析 `qvite.config.*`，合并默认项与用户配置，生成可直接交给 Vite 的内联配置（`packages/qvite/src/transform.ts:62`）。
+- 将 `plugins` 字段中的参数数组展开为对应的 Vite 插件实例，并统一追加虚拟 HTML 与环境变量注入插件（`packages/qvite/src/transform.ts:42-60`、`packages/qvite/src/plugins.ts:3-18`）。
+
+- UnoCSS 自动注入
+- 当启用 `plugins.UnoCSS` 时，自动往虚拟 HTML 的 `head` 注入 `import 'uno.css'`，避免你在入口或模板中手动维护样式引入（`packages/qvite/src/transform.ts:13-35`）。
+- 仍可与本地的 `unocss.config.ts` 配合预设与扫描路径；若你已在入口手动导入，二者不会产生副作用。
+
+- 虚拟 HTML 能力（无模板开发）
+- 通过 `virtualHtmlPlugin` 在不需要实体 `index.html` 的情况下插入 `title`、`script`、`style` 与任意 `tags`，支持单页与多页配置（`packages/qvite/src/transform.ts:59-60`）。
+- 你只需在 `qvite.config.ts` 的 `html.config` 或 `html.pages` 中声明，qvite 会在开发与构建阶段自动生效。
+
+- 环境变量工作流（集中声明与注入）
+- 启动时按 `mode` 自动生成 `.env.local` 与 `.env.{mode}.local`，并生成类型文件 `env.d.ts`，确保 `import.meta.env` 有准确的类型提示（`packages/vite-plugins/src/shared/bootstrap-env.ts:42-58`，qvite 调用点：`packages/qvite/src/getConfig.ts:36`）。
+- 运行时按前缀合并默认与当前 `mode` 的环境（默认前缀 `QVITE_` 与 `VITE_`），注入到客户端侧代码中（`packages/qvite/src/store.ts:13`、`packages/qvite/src/getConfig.ts:37-40`、`packages/qvite/src/transform.ts:59-60`）。
+- 支持 `requiredKeys` 与 `obfuscate`（混淆）选项，避免缺失与泄露风险（默认项见 `packages/qvite/src/defaults.ts:46-49`）。
+
+- 开发体验与端口管理
+- 自动选择可用端口并打印访问地址；端口被占用时会平滑切换（`packages/qvite/src/watch.ts:37-45`、`packages/qvite/src/watch.ts:52-54`）。
+- 自动开启并打印 Vue DevTools 与 UnoCSS Inspector 的入口地址（服务启动打印）。
+- 监听 `qvite.config.*` 变更并自动重启开发服务器，具备简单防抖以避免频繁重启（`packages/qvite/src/watch.ts:65-109`）。
+
+- Vite/tsdown 联动
+- 构建与开发阶段均可按需执行 `tsdown`，适合同时管理前端与 Node/工具产物的工作流（`packages/qvite/src/watch.ts:55-63`、`packages/qvite/src/build.ts`）。
+- 提供 `defineTsdownConfig` 类型辅助，简化多产物/多平台的声明（`packages/qvite/index.ts:102-106`）。
+
+- 类型工具与强约定
+- `defineConfig`、`ConfigEnv<T>`、`defineViteConfig`、`defineTsdownConfig` 等工具，提升 IDE 下的类型提示与重构安全性（`packages/qvite/index.ts:34-44`、`packages/qvite/src/typings.ts:30-35`、`packages/qvite/index.ts:71-75`、`packages/qvite/index.ts:102-106`）。
+- 默认提供更合理的约定：端口、别名与基础插件开箱即用（`packages/qvite/src/defaults.ts:50-64`）。
+
+- 贴心的 Vue 生态扩展（默认项）
+- 内置 `AutoImport` 与 `Components` 默认配置，自动导入 Vue/Router API 与 Naive UI 常用 API，并为路由组件与本地图标提供解析器（`packages/qvite/src/defaults.ts:23-44`）。
+- 暴露图标解析相关工具以便按需使用：`IconsResolver`、`NaiveUiResolver`、`FileSystemIconLoader`（`packages/qvite/index.ts:108`）。
 
 ## 快速上手
 

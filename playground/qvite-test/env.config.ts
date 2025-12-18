@@ -15,39 +15,22 @@ export default {
     baseURL: {
       value: 'http://localhost:3000',
       obfuscate: false
-    },
-    apiURL: '/api',
-    uploadURL: '/files',
-    gisJs: '/gis',
-    gisCss: '/gis',
-    title: 'xxx'
+    }
   },
   production: {
     desc: '生产环境变量',
-    baseURL: 'https://api.example.com',
-    apiURL: '/api',
-    uploadURL: '/files',
-    title: 'prod'
+    baseURL: 'https://api.example.com'
   },
   test: {
     desc: '测试环境变量',
-    baseURL: 'https://api.test.example.com',
-    apiURL: '/api',
-    uploadURL: '/files',
-    title: 'test'
+    baseURL: 'https://api.test.example.com'
   },
   staging: {
     desc: '预发布环境变量',
-    baseURL: 'https://api.staging.example.com',
-    apiURL: '/api',
-    uploadURL: '/files',
-    title: 'staging'
+    baseURL: 'https://api.staging.example.com'
   },
   release: {
     desc: '发布环境变量',
-    baseURL: 'https://api.release.example.com',
-    apiURL: '/api',
-    uploadURL: '/files',
-    title: 'release'
+    baseURL: 'https://api.release.example.com'
   }
 } satisfies MyConfig
