@@ -1,6 +1,19 @@
 ## 变更日志
 
-### 2025-12-18 `✏️ 40+` `➕ 8+` `🗑️ 4+`
+### 2025-12-18 `✏️ 46+` `➕ 9+` `🗑️ 4+`
+- 🔧  **chore** `release`: v0.1.4
+  > **🕒  16:31** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`5bfec18`](https://github.com/QuiteerJs/web/commit/5bfec18a20287b18dc1e8126caabd91762d89482))
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/5bfec18a20287b18dc1e8126caabd91762d89482/packages/qvite/package.json)
+- ✨  **feat** `release`: 增加导出
+  > **🕒  16:30** · `➕1328` / `➖1279`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`13b59f9`](https://github.com/QuiteerJs/web/commit/13b59f9beb6aff94207a4890c39161dece633cb2))
+  - ➕ [`packages/qvite/uno.config.ts`](https://github.com/QuiteerJs/web/blob/13b59f9beb6aff94207a4890c39161dece633cb2/packages/qvite/uno.config.ts)
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/13b59f9beb6aff94207a4890c39161dece633cb2/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/13b59f9beb6aff94207a4890c39161dece633cb2/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/qvite/package.json`](https://github.com/QuiteerJs/web/blob/13b59f9beb6aff94207a4890c39161dece633cb2/packages/qvite/package.json)
+  - ✏️ [`packages/unocss/src/index.ts`](https://github.com/QuiteerJs/web/blob/13b59f9beb6aff94207a4890c39161dece633cb2/packages/unocss/src/index.ts)
+  - ✏️ [`playground/qvite-test/uno.config.ts`](https://github.com/QuiteerJs/web/blob/13b59f9beb6aff94207a4890c39161dece633cb2/playground/qvite-test/uno.config.ts)
 - 🔧  **chore** `release`: v0.0.2
   > **🕒  16:29** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`2b1ebec`](https://github.com/QuiteerJs/web/commit/2b1ebecb3c0a5aa8f4820e144b13d2a47703f7e2))
