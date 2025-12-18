@@ -17,6 +17,7 @@ dist-ssr
 *.local
 components.d.ts
 auto-imports.d.ts
+env.d.ts
 
 */.vitepress/cache
 
