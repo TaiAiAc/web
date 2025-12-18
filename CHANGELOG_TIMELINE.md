@@ -1,6 +1,15 @@
 ## 变更日志
 
-### 2025-12-18 `✏️ 60+` `➕ 25+` `🗑️ 4+`
+### 2025-12-18 `✏️ 63+` `➕ 25+` `🗑️ 4+`
+- 🔧  **chore** `release`: v0.0.4
+  > **🕒  18:45** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`39eddf9`](https://github.com/QuiteerJs/web/commit/39eddf96f270152f092f2c6bf661ce7cf4dfe6e8))
+  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/39eddf96f270152f092f2c6bf661ce7cf4dfe6e8/packages/unocss/package.json)
+- 🐛  **fix** `release`: 适配 uno 编辑器提示
+  > **🕒  18:11** · `➕63` / `➖3`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`fa75531`](https://github.com/QuiteerJs/web/commit/fa75531e0e5be7263d0797639d52d32369246bd2))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/fa75531e0e5be7263d0797639d52d32369246bd2/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/fa75531e0e5be7263d0797639d52d32369246bd2/CHANGELOG_TIMELINE.md)
 - 🔧  **chore** `release`: v0.1.6
   > **🕒  18:10** · `➕1` / `➖1`
   > `👤 Quiteer`  <p602985@yeah.net> ([`8596df4`](https://github.com/QuiteerJs/web/commit/8596df49d3fdad540473f7b38b853214539c0064))

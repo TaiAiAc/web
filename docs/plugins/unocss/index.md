@@ -90,21 +90,14 @@ export const buttonRules = [
 ]
 ```
 
-## 兼容性与要求（作者环境）
-- Node `>= 22.14.0`
-- Vite `>= 5`
-- `@unocss/vite@^66.5.10`
-
 ## 推荐用法
 - 在 Vite 插件中直接使用 `UnoPreset()`，简单稳定
-- 若需扩展，基于 `unoConfig` 自行合并：
 ```ts
 import UnoPreset, { unoConfig } from '@quiteer/unocss'
 import { defineConfig } from 'unocss'
 
 const myConfig = defineConfig({
-  ...unoConfig,
-  rules: [...(unoConfig.rules ?? []), [/^wh-(\d+)$/, ([, d]) => ({ width: `${Number(d)/4}rem`, height: `${Number(d)/4}rem` })]]
+  rules: [[/^wh-(\d+)$/, ([, d]) => ({ width: `${Number(d)/4}rem`, height: `${Number(d)/4}rem` })]]
 })
 ```
 

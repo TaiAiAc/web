@@ -1,3 +1,3 @@
-import config, { defineConfig } from '@quiteer/unocss/uno.config.ts'
+import { defineConfig, unoConfig } from '@quiteer/unocss/uno.config.ts'
 
-export default defineConfig(config)
+export default defineConfig(unoConfig)
