@@ -1,6 +1,16 @@
 ## 变更日志
 
-### 2025-12-18 `✏️ 26+` `➕ 8+` `🗑️ 4+`
+### 2025-12-18 `✏️ 30+` `➕ 8+` `🗑️ 4+`
+- 🔧  **chore** `release`: v0.0.1
+  > **🕒  15:01** · `➕1` / `➖1`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`8dc6f53`](https://github.com/QuiteerJs/web/commit/8dc6f53bcd4735b25b6f055276bb0da2a2f30111))
+  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/8dc6f53bcd4735b25b6f055276bb0da2a2f30111/packages/unocss/package.json)
+- ✨  **feat** `release`: 改变 unocss 的配置方法
+  > **🕒  15:00** · `➕1609` / `➖1466`
+  > `👤 Quiteer`  <p602985@yeah.net> ([`4891c8c`](https://github.com/QuiteerJs/web/commit/4891c8c293243b90fa5187ec1c41a5bd60883304))
+  - ✏️ [`CHANGELOG.md`](https://github.com/QuiteerJs/web/blob/4891c8c293243b90fa5187ec1c41a5bd60883304/CHANGELOG.md)
+  - ✏️ [`CHANGELOG_TIMELINE.md`](https://github.com/QuiteerJs/web/blob/4891c8c293243b90fa5187ec1c41a5bd60883304/CHANGELOG_TIMELINE.md)
+  - ✏️ [`packages/unocss/package.json`](https://github.com/QuiteerJs/web/blob/4891c8c293243b90fa5187ec1c41a5bd60883304/packages/unocss/package.json)
 - 🔧  **chore** `release`: v0.1.2
   > **🕒  14:59** · `➕0` / `➖0`
   > `👤 Quiteer`  <p602985@yeah.net> ([`395ac8e`](https://github.com/QuiteerJs/web/commit/395ac8e8efd85a346eeec33e486bf0572df9c3f5))
