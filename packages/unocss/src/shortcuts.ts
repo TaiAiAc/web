@@ -8,6 +8,7 @@ export const shortcuts = {
   'flex-col': 'flex flex-col',
   'flex-col-center': 'flex-center flex-col',
   'flex-col-stretch': 'flex-col items-stretch',
+  'flex-between': 'flex justify-between items-center',
   'i-flex-center': 'inline-flex justify-center items-center',
   'i-flex-x-center': 'inline-flex justify-center',
   'i-flex-y-center': 'inline-flex items-center',
@@ -34,9 +35,22 @@ export const shortcuts = {
   'fixed-tr': 'fixed-rt',
   'fixed-bl': 'fixed-lb',
   'fixed-br': 'fixed-rb',
-  'fixed-center': 'fixed-lt flex-center size-full',
+  'fixed-center': 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+  'abs-center': 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+  'abs-full': 'absolute inset-0',
+
+  // Dimensions
+  'wh-full': 'w-full h-full',
+  'w-screen-w': 'w-100vw',
+  'h-screen-h': 'h-100vh',
 
   // Text
   'nowrap-hidden': 'overflow-hidden whitespace-nowrap',
-  'ellipsis-text': 'nowrap-hidden text-ellipsis'
+  'ellipsis-text': 'nowrap-hidden text-ellipsis',
+  'ellipsis': 'truncate',
+  'text-ellipsis': 'truncate',
+
+  // Interaction
+  'cursor-pointer': 'cursor-pointer select-none',
+  'hover-opacity': 'hover:opacity-80 transition-opacity cursor-pointer'
 } satisfies UserShortcuts<PresetUnoTheme>

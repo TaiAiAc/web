@@ -1,12 +1,16 @@
 import type { QviteConfig } from './typings'
 import { resolve } from 'node:path'
-import { IconsResolver, NaiveUiResolver } from '@quiteer/vite-plugins'
+import { FileSystemIconLoader, IconsResolver, NaiveUiResolver } from '@quiteer/vite-plugins'
 import { store } from './store'
 
-export function getDefaultOptions() {
+export function getDefaultOptions(config: QviteConfig) {
   const root = store.get<string>('root')!
+  const minify = store.get<boolean>('minify')!
+  const localIconDir = config.localIconDir || 'src/assets/icons'
 
   const defaultOptions = {
+    minify,
+    localIconDir,
     UnoCSS: false,
     plugins: {
       Vue: [{ customElement: true }],
@@ -16,7 +20,15 @@ export function getDefaultOptions() {
       FileChangeLogger: false,
       RemoveConsole: false,
       MockRouter: false,
-      Icons: false,
+      Icons: [{
+        compiler: 'vue3',
+        customCollections: {
+          local: FileSystemIconLoader(resolve(root, localIconDir), svg =>
+            svg.replace(/^<svg\s/, '<svg width="1em" height="1em" '))
+        },
+        scale: 1,
+        defaultClass: 'inline-block'
+      }],
       SvgIcons: false,
       AutoImport: [{
         imports: [
@@ -48,6 +60,7 @@ export function getDefaultOptions() {
     vite: {
       server: {
         port: 3000,
+        host: '0.0.0.0',
         open: false,
         strictPort: false
       },
@@ -57,7 +70,7 @@ export function getDefaultOptions() {
         }
       },
       build: {
-        minify: false
+        minify
       }
     }
   } satisfies QviteConfig

@@ -33,9 +33,11 @@ export async function getConfig(filePath: string): Promise<QviteConfig> {
   const command = store.get<Command>('command')!
 
   const mode = store.get<Mode>('mode')!
-  await bootstrapEnv({ mode, includePrefixes: ['VITE_'] })
-  const modeEnv = loadEnv(mode, root, store.get<string[]>('prefixes')!)
-  const defaultEnv = loadEnv('', root, store.get<string[]>('prefixes')!)
+
+  const includePrefixes = ['QVITE_', 'VITE_']
+  await bootstrapEnv({ mode, includePrefixes })
+  const modeEnv = loadEnv(mode, root, includePrefixes)
+  const defaultEnv = loadEnv('', root, includePrefixes)
 
   const env = deepMerge({}, defaultEnv, modeEnv)
   try {

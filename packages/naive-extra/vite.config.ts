@@ -1,8 +1,6 @@
 import { resolve } from 'node:path'
-import UnoCSS from '@unocss/vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import Icons from 'unplugin-icons/vite'
+import UnoCSS from '@quiteer/unocss'
+import { Vue, VueJsx } from '@quiteer/vite-plugins'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 
@@ -14,8 +12,8 @@ import dts from 'vite-plugin-dts'
 export default defineConfig((_) => {
   return {
     plugins: [
-      vue(),
-      vueJsx(),
+      Vue(),
+      VueJsx(),
       UnoCSS(),
       dts({
         entryRoot: 'src',
@@ -33,11 +31,6 @@ export default defineConfig((_) => {
         compilerOptions: {
           skipLibCheck: true
         }
-      }),
-      Icons({
-        compiler: 'vue3',
-        scale: 1,
-        defaultClass: 'inline-block'
       })
     ],
     build: {
@@ -46,6 +39,7 @@ export default defineConfig((_) => {
       lib: {
         entry: resolve(__dirname, 'src', 'index.ts'),
         name: 'NaiveUiExtra',
+        fileName: 'index',
         formats: ['es']
       },
       minify: false,

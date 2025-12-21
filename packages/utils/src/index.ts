@@ -8,3 +8,4 @@ export * from './string'
 export * from './time'
 
 export type * from './type-utils'
+export * from './windows'

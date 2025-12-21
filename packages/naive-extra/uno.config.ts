@@ -1,21 +1,9 @@
-import presetIcons from '@unocss/preset-icons'
-import presetWind4 from '@unocss/preset-wind4'
-import { defineConfig } from 'unocss'
+import { defineConfig } from '@quiteer/unocss/uno.config.ts'
 
 export default defineConfig({
   content: {
     pipeline: {
       exclude: ['node_modules', 'dist']
     }
-  },
-  presets: [
-    presetWind4({ dark: 'class' }),
-    presetIcons({
-      scale: 1,
-      extraProperties: {
-        display: 'inline-block'
-      },
-      warn: true
-    })
-  ]
+  }
 })

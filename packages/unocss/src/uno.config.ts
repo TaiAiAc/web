@@ -7,6 +7,8 @@ import { rules } from './rule'
 import { shortcuts } from './shortcuts'
 import { theme } from './theme'
 
+export { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
+
 export { defineConfig }
 
 export const unoConfig = defineConfig({

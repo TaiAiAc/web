@@ -61,9 +61,11 @@ const tableProps = computed<DataTableProps>(() => {
   }
 })
 
+const fetchFn = ref(props.fetch)
+
 async function fetchData() {
   loading.value = true
-  const res = await props.fetch({
+  const res = await fetchFn.value({
     pageNum: pagination.page!,
     pageSize: pagination.pageSize!
   })
@@ -92,6 +94,8 @@ function handleExport() {
   tableRef.value?.downloadCsv({ fileName: 'data-table' })
 }
 
+// 移除显式接口，避免 dts 类型过深
+
 defineExpose({
   // 获取表格实例
   getTableRef: () => tableRef.value,
@@ -112,8 +116,39 @@ defineExpose({
     })
   },
   // 导出表格
-  downloadCsv: (fileName = 'data-table') => tableRef.value?.downloadCsv({ fileName })
-})
+  downloadCsv: (fileName = 'data-table') => tableRef.value?.downloadCsv({ fileName }),
+  // 设置列
+  setColumns(columns: DataTableColumn[]) {
+    settings.value.columns = columns.map((item: any) => ({
+      fixed: false,
+      ellipsis: { tooltip: true },
+      resizable: true,
+      align: 'center',
+      ...item
+    }))
+  },
+  // 获取列
+  getColumns: () => settings.value.columns,
+  // 设置尺寸
+  setSize: (size: Settings['size']) => { settings.value.size = size },
+  // 设置斑马纹
+  setStriped: (striped: boolean) => { settings.value.striped = striped },
+  // 获取分页
+  getPagination: () => ({ ...pagination }),
+  // 设置分页（部分）
+  setPagination: (patch: Partial<PaginationProps>) => { Object.assign(pagination, patch) },
+  // 获取数据
+  getData: () => list.value,
+  // 设置数据
+  setData: (rows: any[]) => { list.value = rows },
+  // 设置 fetch 函数
+  setFetch: (fn: (pageInfo: { pageNum: number, pageSize: number }) => Promise<{ list: any[], total: number }>) => {
+    fetchFn.value = fn
+  },
+  // 获取与设置设置项
+  getSettings: () => settings.value,
+  setSettings: (patch: Partial<Settings>) => { settings.value = { ...settings.value, ...patch } }
+} as any)
 </script>
 
 <template>

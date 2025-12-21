@@ -15,6 +15,8 @@ export interface Props extends FormProps {
   submitButtonOptions?: ButtonProps
   // 展开收起按钮
   showAdvancedButton?: boolean
+  // 受控的展开状态
+  expanded?: boolean
   // 确认按钮文字
   submitButtonText?: string
   // 重置按钮文字

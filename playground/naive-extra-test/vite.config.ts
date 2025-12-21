@@ -1,9 +1,8 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
+import UnoCSS from '@quiteer/unocss'
+import { Icons, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
 import { defineConfig } from 'vite'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,9 +10,11 @@ export default defineConfig({
     port: 10902
   },
   plugins: [
-    vue(),
-    vueJsx(),
-    vueDevTools()
+    Vue(),
+    VueJsx(),
+    VueDevTools(),
+    UnoCSS(),
+    Icons()
   ],
   resolve: {
     alias: {

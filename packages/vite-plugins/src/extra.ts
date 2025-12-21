@@ -9,6 +9,7 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 
 export { FileSystemIconLoader } from 'unplugin-icons/loaders'
 export { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
-export { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export { AutoImport, Components, Icons, IconsResolver, Progress, Vue, VueDevTools, VueJsx }
+
+export { createSvgIconsPlugin } from 'vite-plugin-svg-icons'

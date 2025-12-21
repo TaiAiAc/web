@@ -1,15 +1,7 @@
 import type { ComputedRef } from 'vue'
+import type { LayoutType } from './types'
 
-export type LayoutType = 'sider-left' | 'sider-right' | 'header-top' | 'mix-header-sider'
-
-export interface SiderConfig {
-  width?: number | string
-  collapsedWidth?: number
-  collapseMode?: 'transform' | 'width'
-  showTrigger?: boolean | 'bar' | 'arrow-circle'
-  inverted?: boolean
-  nativeScrollbar?: boolean
-}
+// minimal props for no-menu layout
 
 export interface HeaderConfig {
   height?: number | string
@@ -32,13 +24,11 @@ export interface FooterConfig {
 }
 
 export interface Props {
-  type?: LayoutType
+  layoutType?: LayoutType
   inverted?: boolean
-  sider?: SiderConfig
   header?: HeaderConfig
   content?: ContentConfig
   footer?: FooterConfig
-  hasSider?: boolean
 }
 
 export interface UseLayoutReturn {

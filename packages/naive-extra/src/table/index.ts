@@ -1,7 +1,8 @@
 import QuiTable from './index.vue'
 import { useColumn } from './useColumn'
+import { useTable } from './useTable'
 
-export { QuiTable, useColumn }
+export { QuiTable, useColumn, useTable }
 
 export type {
   Column as TableColumn,

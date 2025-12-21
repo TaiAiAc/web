@@ -34,7 +34,7 @@ import { normalizeConfig, toViteInlineConfig } from './transform'
  */
 export async function watch(options: QviteConfig): Promise<void> {
   const normalized = await normalizeConfig(options)
-  const port = normalized.vite?.server?.port || store.get<number>('port')!
+  const port = normalized.vite?.server?.port
 
   const p = await getPortPromise({
     port

@@ -50,6 +50,7 @@
     "fast-glob": "^3.3.3",
     "kolorist": "1.8.0",
     "unplugin-auto-import": "^20.2.0",
+    "unplugin-icons": "^22.5.0",
     "unplugin-vue-components": "^30.0.0",
     "vite-plugin-progress": "^0.0.7",
     "vite-plugin-svg-icons": "^2.0.1",

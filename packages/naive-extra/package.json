@@ -1,5 +1,6 @@
 {
   "name": "@quiteer/naive-extra",
+  "type": "module",
   "version": "0.0.0",
   "description": "",
   "author": "",
@@ -9,7 +10,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/naive-extra.mjs"
+      "import": "./dist/index.js"
     },
     "./index.css": "./dist/index.css",
     "./uno.config": "./uno.config.ts"
@@ -18,8 +19,8 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "main": "dist/naive-extra.mjs",
-  "module": "dist/naive-extra.mjs",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "style": "dist/index.css",
   "files": [
@@ -35,18 +36,11 @@
     "vue-draggable-plus": "^0.6.0"
   },
   "devDependencies": {
-    "@iconify/json": "2.2.405",
-    "@iconify/vue": "5.0.0",
-    "@unocss/preset-icons": "^66.5.10",
-    "@unocss/preset-wind4": "^66.5.10",
-    "@unocss/vite": "^66.5.10",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "@quiteer/unocss": "workspace:*",
+    "@quiteer/vite-plugins": "workspace:^",
     "lodash-es": "^4.17.21",
     "naive-ui": "2.43.1",
     "sass": "^1.94.0",
-    "unocss": "^66.5.10",
-    "unplugin-icons": "^22.5.0",
     "vite": "npm:rolldown-vite@7.2.2",
     "vite-plugin-dts": "^4.5.4",
     "vue": "^3.5.24"

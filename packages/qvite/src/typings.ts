@@ -21,6 +21,8 @@ export interface QvitePlugins {
 }
 
 export interface QviteConfig {
+  minify?: boolean
+  localIconDir?: string
   UnoCSS?: boolean
   vite?: ViteUserConfig
   tsdown?: UserConfig | UserConfig[]
