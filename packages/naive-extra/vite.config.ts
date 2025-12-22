@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
 import UnoCSS from '@quiteer/unocss'
-import { Vue, VueJsx } from '@quiteer/vite-plugins'
+import { AutoImport, Components, Icons, NaiveUiResolver, Vue, VueJsx } from '@quiteer/vite-plugins'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 
@@ -15,6 +15,20 @@ export default defineConfig((_) => {
       Vue(),
       VueJsx(),
       UnoCSS(),
+      AutoImport({
+        imports: ['vue']
+      }),
+      Components({
+        types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
+        resolvers: [
+          NaiveUiResolver()
+        ]
+      }),
+      Icons({
+        compiler: 'vue3',
+        scale: 1,
+        defaultClass: 'inline-block'
+      }),
       dts({
         entryRoot: 'src',
         outDir: 'dist',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProviderProps } from './props'
 import { dateZhCN, useDialog, useLoadingBar, useMessage, useNotification, zhCN } from 'naive-ui'
-import { createTextVNode, defineComponent } from 'vue'
+import { createTextVNode } from 'vue'
 
 defineOptions({
   name: 'QuiProvider'

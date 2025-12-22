@@ -2,7 +2,6 @@
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
 import type { Props } from './props'
 import { isArray, isString } from '@quiteer/is'
-import { computed, nextTick, ref, useAttrs, watchEffect } from 'vue'
 
 interface FileListItem {
   id: string

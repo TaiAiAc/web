@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import type { Props } from './props'
-import { useAttrs } from 'vue'
 
 defineProps<Props>()
-
-const attrs = useAttrs()
 </script>
 
 <template>
-  <NTooltip trigger="hover">
+  <NPopconfirm v-bind="popconfirmProps" negative-text="取消" positive-text="确认">
     <template #trigger>
-      <NButton v-bind="attrs" secondary>
+      <NButton v-bind="buttonProps" secondary>
         <slot />
       </NButton>
     </template>
-    {{ tip }}
-  </NTooltip>
+    {{ title }}
+  </NPopconfirm>
 </template>
 
 <style lang="scss" scoped></style>

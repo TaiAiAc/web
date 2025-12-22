@@ -1,12 +1,12 @@
 import type { DialogApi, LoadingBarApi, MessageApi, NotificationApi } from 'naive-ui'
+
+import { QuiPopconfirmButton, QuiTooltipButton } from './button'
 import { QuiForm } from './form'
 import { QuiIcon } from './icon'
 import { QuiLayout, useLayout } from './layout'
-import { QuiPopconfirmButton } from './popconfirm-button'
 import { QuiProvider } from './provider'
 import { QuiSearchBar } from './search-bar'
 import { QuiTable } from './table'
-import { QuiTooltipButton } from './tooltip-button'
 
 import { AcceptType, QuiUpload, useUploadProps } from './upload'
 import 'virtual:uno.css'
@@ -32,10 +32,10 @@ export {
   useLayout
 }
 
+export type { PopconfirmButtonProps, TooltipButtonProps } from './button'
 export { useForm } from './form'
 export type { CustomSwitchProps, FormProps, FormSchema } from './form'
 export type { LayoutProps } from './layout'
-export type { PopconfirmButtonProps } from './popconfirm-button'
 
 export { useBorderRadio, useColorScheme, useLocale, useTheme } from './provider'
 export type { ProviderProps } from './provider'
@@ -50,7 +50,6 @@ export type {
   TableSettings,
   TableSize
 } from './table'
-export type { TooltipButtonProps } from './tooltip-button'
 export type { UploadProps } from './upload'
 
 declare global {

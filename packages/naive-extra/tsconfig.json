@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "types": ["node", "naive-ui/volar", "@quiteer/is"],
+    "types": ["node", "naive-ui/volar", "unplugin-icons/types/vue"],
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
@@ -15,6 +15,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "global.d.ts"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.vue"],
   "exclude": ["node_modules", "dist"]
 }

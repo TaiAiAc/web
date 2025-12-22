@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ExportType, Settings, TableSize } from './props'
-import { computed } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useColumn } from './useColumn'
 

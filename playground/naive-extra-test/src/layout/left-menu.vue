@@ -1,8 +1,7 @@
 <!-- LeftMenuLayout.vue -->
 <script setup lang="ts">
-import type { Component } from 'vue'
+import { Icon } from '@iconify/vue'
 import {
-  NIcon,
   NLayout,
   NLayoutContent,
   NLayoutFooter,
@@ -12,23 +11,25 @@ import {
 } from 'naive-ui'
 import { computed, h, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import IconAccessibility from '~icons/carbon/accessibility'
 
 const router = useRouter()
 const route = useRoute()
 
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
+function renderIcon(icon: string) {
+  return () => h(Icon, { icon: icon ?? 'fluent:document-one-page-24-filled', width: '24px', height: '24px' })
 }
 
 const props = reactive({
   type: 'left-menu',
-  bordered: false,
+  bordered: true,
   isCollapsed: false,
   headerHeight: '56px',
   footerHeight: '50px',
   siderWidth: 240,
-  collapsedWidth: 60
+  collapsedWidth: 60,
+  valueField: 'key',
+  labelField: 'label',
+  childrenField: 'children'
 })
 
 const siderWidth = computed(() => props.isCollapsed ? `${props.collapsedWidth}` : props.siderWidth)
@@ -38,19 +39,8 @@ const menuRoutes = router.options.routes.filter(
 ).map(route => ({
   label: route.meta?.title || route.name || route.path,
   key: route.path,
-  icon: renderIcon(route.meta?.icon || IconAccessibility)
-})).concat([{
-  label: '设置',
-  key: '/setting',
-  icon: renderIcon(IconAccessibility),
-  children: [
-    { label: '个人中心', key: '/setting/profile', icon: renderIcon(IconAccessibility), children: [
-      { label: '基本信息', key: '/setting/profile/basic', icon: renderIcon(IconAccessibility) },
-      { label: '安全设置', key: '/setting/profile/security', icon: renderIcon(IconAccessibility) }
-    ] },
-    { label: '安全设置', key: '/setting/security', icon: renderIcon(IconAccessibility) }
-  ]
-}])
+  icon: renderIcon(route.meta?.icon as string)
+}))
 
 const activeKey = ref<string>('')
 
@@ -81,18 +71,22 @@ function handleMenuSelect(key: string) {
       :native-scrollbar="false"
       @update:collapsed="props.isCollapsed = $event"
     >
-      <n-flex class=" bg-zinc-100" :wrap="false" align="center" :style="{ height: props.headerHeight }" :justify="props.isCollapsed ? 'center' : 'flex-start'" :class="props.isCollapsed ? '' : 'px-5'">
-        <i class=" i-skill-icons:vuejs-dark text-3xl" />
-        <div v-if="!props.isCollapsed">
-          {{ props.isCollapsed ? '' : '明天会好的' }}
-        </div>
-      </n-flex>
-      <NMenu
-        :options="menuRoutes"
-        :collapsed-width="props.collapsedWidth"
-        :value="activeKey"
-        @update:value="handleMenuSelect"
-      />
+      <NLayout>
+        <NLayoutHeader>
+          <n-flex class=" " :wrap="false" align="center" :style="{ height: props.headerHeight }" :justify="props.isCollapsed ? 'center' : 'flex-start'" :class="props.isCollapsed ? '' : 'px-5'">
+            <i class=" i-skill-icons:vuejs-dark text-3xl" />
+            <div v-if="!props.isCollapsed">
+              {{ props.isCollapsed ? '' : '明天会好的' }}
+            </div>
+          </n-flex>
+        </NLayoutHeader>
+        <NMenu
+          :options="menuRoutes"
+          :collapsed-width="props.collapsedWidth"
+          :value="activeKey"
+          @update:value="handleMenuSelect"
+        />
+      </NLayout>
     </NLayoutSider>
 
     <!-- 右侧主区域容器 -->
@@ -102,6 +96,17 @@ function handleMenuSelect(key: string) {
         :bordered="props.bordered"
         :style="{ height: props.headerHeight }"
       >
+        <!-- <n-breadcrumb>
+          <n-breadcrumb-item>
+            北京总行
+          </n-breadcrumb-item>
+          <n-breadcrumb-item>
+            天津分行
+          </n-breadcrumb-item>
+          <n-breadcrumb-item>
+            平山道支行
+          </n-breadcrumb-item>
+        </n-breadcrumb> -->
         <n-flex align="center" class="w-4/5" :style="{ height: props.headerHeight }">
           <NMenu
             v-model:value="activeKey"

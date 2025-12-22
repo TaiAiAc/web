@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import type { Props } from './props'
-import { NButton, NPopconfirm } from 'naive-ui'
 
 defineProps<Props>()
+
+const attrs = useAttrs()
 </script>
 
 <template>
-  <NPopconfirm v-bind="popconfirmProps" negative-text="取消" positive-text="确认">
+  <NTooltip trigger="hover">
     <template #trigger>
-      <NButton v-bind="buttonProps" secondary>
+      <NButton v-bind="attrs" secondary>
         <slot />
       </NButton>
     </template>
-    {{ title }}
-  </NPopconfirm>
+    {{ tip }}
+  </NTooltip>
 </template>
 
 <style lang="scss" scoped></style>
