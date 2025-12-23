@@ -16,9 +16,11 @@ export default defineConfig((_) => {
       VueJsx(),
       UnoCSS(),
       AutoImport({
-        imports: ['vue']
+        imports: ['vue'],
+        dts: 'src/auto-imports.d.ts'
       }),
       Components({
+        dts: 'src/components.d.ts',
         types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
         resolvers: [
           NaiveUiResolver()

@@ -1,39 +1,23 @@
-import type { ComputedRef } from 'vue'
+import type { MenuOption } from 'naive-ui'
 import type { LayoutType } from './types'
 
-// minimal props for no-menu layout
-
-export interface HeaderConfig {
-  height?: number | string
-  inverted?: boolean
-  position?: 'static' | 'absolute'
-}
-
-export interface ContentConfig {
-  contentClass?: string
-  contentStyle?: string | Record<string, any>
-  position?: 'static' | 'absolute'
-  embedded?: boolean
-  nativeScrollbar?: boolean
-}
-
-export interface FooterConfig {
-  height?: number | string
-  inverted?: boolean
-  position?: 'static' | 'absolute'
-}
-
-export interface Props {
-  layoutType?: LayoutType
-  inverted?: boolean
-  header?: HeaderConfig
-  content?: ContentConfig
-  footer?: FooterConfig
-}
-
-export interface UseLayoutReturn {
-  collapsed: ComputedRef<boolean>
-  toggle: () => void
-  setCollapsed: (v: boolean) => void
-  isMobile: ComputedRef<boolean>
-}
+export type Props = Partial<{
+  /** @description 布局类型 */
+  type: LayoutType
+  /** @description 是否显示边框 */
+  bordered: boolean
+  /** @description 反色样式（Header/Sider/Footer/Menu） */
+  inverted: boolean
+  /** @description 是否折叠侧边栏 */
+  isCollapsed: boolean
+  /** @description 头部高度 */
+  headerHeight: number
+  /** @description 底部高度 */
+  footerHeight: number
+  /** @description 侧边栏宽度 */
+  siderWidth: number
+  /** @description 折叠侧边栏宽度 */
+  collapsedWidth: number
+  /** @description 菜单路由 */
+  menuOptions: MenuOption[]
+}>

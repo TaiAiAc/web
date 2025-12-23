@@ -6,6 +6,7 @@
   "packageManager": "pnpm@10.20.0",
   "scripts": {
     "dev": "turbo run dev --filter './packages/*'",
+    "dev:ui": "turbo run dev --filter './packages/naive-extra'",
     "dev:all": "turbo run build --filter './packages/*' && turbo run dev --filter './packages/*'",
     "build": "turbo run build --filter './packages/*'",
     "naive:dev": "turbo run dev --filter @quiteer/naive-extra",

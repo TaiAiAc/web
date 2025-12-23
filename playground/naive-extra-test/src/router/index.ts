@@ -1,14 +1,19 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
-// layout moved outside into App.vue
 
-const routes: RouteRecordRaw[] = [
+export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/button' },
   {
     path: '/provider',
     name: 'ProviderDemo',
     component: () => import('../pages/ProviderDemo.vue'),
     meta: { title: '主题提供组件', icon: 'pixel:themes-solid' }
+  },
+  {
+    path: '/layout-demo',
+    name: 'LayoutDemo',
+    component: () => import('../pages/LayoutDemo.vue'),
+    meta: { title: '布局示例', icon: 'streamline-plump:layout-window-4-solid' }
   },
   {
     path: '/button',

@@ -36,4 +36,55 @@ export type LayoutType
   /**
    * 无菜单布局：页面不包含任何主导航菜单，适用于登录页、引导页、全屏应用等场景
    */
-    | 'no-menu'
+    | 'blank'
+
+export interface RouteMeta {
+  /**
+   * 页面标题（用于 document.title 或 tab 标签）
+   */
+  title?: string
+
+  /**
+   * 是否需要认证（true: 需登录，false: 免登录）
+   * @default true
+   */
+  requiresAuth?: boolean
+
+  /**
+   * 所需权限（字符串数组或字符串）
+   */
+  permissions?: string | string[]
+
+  /**
+   * 所属角色（如 'admin', 'user'）
+   */
+  roles?: string[]
+
+  /**
+   * 是否在侧边栏菜单中显示
+   * @default true
+   */
+  showInMenu?: boolean
+
+  /**
+   * 菜单图标（Iconify 格式，如 'mdi:home'）
+   */
+  icon?: string
+
+  /**
+   * 使用的布局名称（如 'blank', 'main'）
+   */
+  layout?: 'blank' | 'main'
+
+  /**
+   * 是否开启 keep-alive 缓存
+   */
+  keepAlive?: boolean
+
+  /**
+   * 页面过渡动画名
+   */
+  transition?: string
+
+  // 可继续扩展...
+}

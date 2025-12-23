@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import UnoCSS from '@quiteer/unocss'
-import { Icons, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
+import { AutoImport, Components, Icons, NaiveUiResolver, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
@@ -10,11 +10,27 @@ export default defineConfig({
     port: 10902
   },
   plugins: [
-    Vue(),
-    VueJsx(),
     VueDevTools(),
     UnoCSS(),
-    Icons()
+    Vue(),
+    VueJsx(),
+    UnoCSS(),
+    AutoImport({
+      imports: ['vue'],
+      dts: 'src/auto-imports.d.ts'
+    }),
+    Components({
+      dts: 'src/components.d.ts',
+      types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
+      resolvers: [
+        NaiveUiResolver()
+      ]
+    }),
+    Icons({
+      compiler: 'vue3',
+      scale: 1,
+      defaultClass: 'inline-block'
+    })
   ],
   resolve: {
     alias: {

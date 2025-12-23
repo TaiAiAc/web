@@ -1,7 +1,10 @@
-import QuiLayoutVue from './index.vue'
+import QuiLayout from './index.vue'
 
-export const QuiLayout = QuiLayoutVue
+export type { Props as LayoutProps } from './props'
 
-export type { ContentConfig, FooterConfig, HeaderConfig, Props as LayoutProps } from './props'
+export { QuiLayout }
+export { transformRouteToMenu } from './route-to-menu'
+
 export type { LayoutType } from './types'
+
 export { useLayout } from './useLayout'
