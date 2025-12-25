@@ -2,11 +2,13 @@
 
 import type { MenuOption } from 'naive-ui'
 import type { ComputedRef, Ref } from 'vue'
-import type { RouteRecordNormalized } from 'vue-router'
-import type { LayoutType } from './types'
+import type { RouteRecordRaw } from 'vue-router'
+import type { LayoutType, RouteMeta } from './types'
 import { computed, isRef, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { DEFAULT_LAYOUT_PROPS } from './const'
 import { transformRouteToMenu } from './route-to-menu'
+import { filterRouteTree, normalizeAndRedirect, sortRouteTree, toRouteTree } from './transformRoutes'
 
 // 仅在此文件内用简化上下文类型，避免类型实例化过深
 export interface UseLayoutContext {
@@ -21,10 +23,11 @@ export interface UseLayoutContext {
   routes: RouteLike[]
   activeKey: string
   menuOptions: MenuOption[]
+  homePath?: string
+  excludePaths?: string[]
   updateIsCollapsed: (v: boolean) => void
   updateInverted: (v: boolean) => void
   updateActiveKey: (v: string) => void
-  onActive: (ctx: UseLayoutContext) => void
 }
 
 /**
@@ -78,23 +81,8 @@ export function useLayoutMenu(
 export interface RouteLike {
   path: string
   name?: string
-  meta?: Record<string, any>
+  meta?: RouteMeta
   children?: RouteLike[]
-}
-
-export function getRoutes(): RouteLike[] {
-  const router = useRouter()
-  const list = router.getRoutes() as RouteRecordNormalized[]
-  return list
-    .filter(r => r.path !== '/' && r.meta?.showInMenu !== false)
-    .map<RouteLike>(r => ({
-      path: r.path,
-      name: r.name as string,
-      meta: {
-        ...r.meta,
-        title: r.meta?.title ?? (r.name as string)
-      }
-    }))
 }
 
 /**
@@ -149,22 +137,6 @@ export function useActiveKey(initialKey = ''): {
  * @returns 返回包含状态控制、菜单选项与上下文的辅助对象
  * @throws {TypeError} 在编译期校验参数类型，不在运行时抛错
  *
- * @example
- * ```ts
- * const { collapsed, toggle, activeKey, setActiveKey, menuOptions, context } = useLayout({
- *   routes: router.options.routes,
- *   initialCollapsed: false,
- *   initialActiveKey: '',
- *   bordered: true,
- *   inverted: false,
- *   headerHeight: 56,
- *   footerHeight: 50,
- *   siderWidth: 240,
- *   collapsedWidth: 60
- * })
- * provide(LayoutContextKey, context)
- * ```
- *
  * @remarks
  * - 统一创建 ComputedRef 包裹的配置，确保在 provide/inject 下保持响应式
  * - `routes` 支持数组或 Ref，内部自动转换为响应式
@@ -177,7 +149,7 @@ export function useActiveKey(initialKey = ''): {
  */
 
 export function useLayout(option: {
-  routes?: Ref<RouteLike[]> | RouteLike[]
+  baseRoutes: Ref<RouteRecordRaw[]> | RouteRecordRaw[]
   initialCollapsed?: boolean
   initialActiveKey?: string
   type?: LayoutType
@@ -187,29 +159,40 @@ export function useLayout(option: {
   footerHeight?: number
   siderWidth?: number
   collapsedWidth?: number
+  homePath?: string
+  excludePaths?: string[]
 }) {
+  const route = useRoute()
+  const router = useRouter()
+
   // 状态管理
   const collapsed = ref(option.initialCollapsed ?? false)
-  const { activeKey, setActiveKey } = useActiveKey(option.initialActiveKey ?? '')
-  const type = ref<LayoutType>(option.type ?? 'left-menu')
+  const { activeKey, setActiveKey } = useActiveKey(option.initialActiveKey ?? option.homePath ?? '/')
+  const type = ref<LayoutType>(option.type ?? DEFAULT_LAYOUT_PROPS.type)
 
   // 配置项全部转为 ref（统一响应式）
-  const bordered = ref(option.bordered ?? true)
-  const inverted = ref(option.inverted ?? false)
-  const headerHeight = ref(option.headerHeight ?? 56)
-  const footerHeight = ref(option.footerHeight ?? 50)
-  const siderWidth = ref(option.siderWidth ?? 240)
-  const collapsedWidth = ref(option.collapsedWidth ?? 60)
+  const bordered = ref(option.bordered ?? DEFAULT_LAYOUT_PROPS.bordered)
+  const inverted = ref(option.inverted ?? DEFAULT_LAYOUT_PROPS.inverted)
+  const headerHeight = ref(option.headerHeight ?? DEFAULT_LAYOUT_PROPS.headerHeight)
+  const footerHeight = ref(option.footerHeight ?? DEFAULT_LAYOUT_PROPS.footerHeight)
+  const siderWidth = ref(option.siderWidth ?? DEFAULT_LAYOUT_PROPS.siderWidth)
+  const collapsedWidth = ref(option.collapsedWidth ?? DEFAULT_LAYOUT_PROPS.collapsedWidth)
 
-  // 路由处理
-  const routesSource = option.routes ?? getRoutes()
-  const routesRef = isRef(routesSource) ? routesSource : ref(routesSource)
-  const { menuOptions } = useLayoutMenu(routesRef) // menuOptions 是 ComputedRef
+  // 基础路由处理
+  const baseRoutes = isRef(option.baseRoutes) ? option.baseRoutes : ref(option.baseRoutes)
+  const normalizedBaseRoutes = computed(() => normalizeAndRedirect(baseRoutes.value as RouteRecordRaw[]))
+  const routesTree = computed<RouteLike[]>(() => {
+    const tree = toRouteTree(normalizedBaseRoutes.value) as any
+    const sorted = sortRouteTree(tree)
+    const filtered = filterRouteTree(sorted as any, option.excludePaths ?? [])
+    return filtered as any
+  })
+
+  const menuOptions = computed<MenuOption[]>(() => transformRouteToMenu(normalizedBaseRoutes.value as any))
 
   // ✅ 构建响应式 context：直接放 ref/computed，不要 .value！
   const context = reactive({
     type,
-
     // 响应式字段（ref 会被 reactive 自动 unwrap 使用，但保持响应链接）
     bordered,
     inverted,
@@ -218,11 +201,11 @@ export function useLayout(option: {
     footerHeight,
     siderWidth,
     collapsedWidth,
-
-    // 动态数据
-    routes: routesRef,
     activeKey,
-    menuOptions, // ← 这是 ComputedRef，保留！
+    menuOptions,
+    routes: routesTree as unknown as any,
+    homePath: option.homePath,
+    excludePaths: option.excludePaths,
 
     // 方法
     updateIsCollapsed(v: boolean) {
@@ -233,13 +216,73 @@ export function useLayout(option: {
     },
     updateActiveKey(v: string) {
       setActiveKey(v)
-      context.onActive(context)
-    },
-    onActive: (_ctx: typeof context) => {}
+      router.push(v)
+    }
   }) as unknown as UseLayoutContext
+
+  // 监听路由变化，更新激活的菜单项
+  const stop = watch(
+    () => route.path,
+    (path) => {
+      setActiveKey(path)
+    },
+    { immediate: true }
+  )
+
+  const stopSync = watch(
+    normalizedBaseRoutes,
+    (list) => {
+      for (const r of list as RouteRecordRaw[]) {
+        const name = r.name as string | undefined
+        if (name && router.hasRoute(name)) {
+          router.removeRoute(name)
+        }
+        router.addRoute(r)
+      }
+    },
+    { immediate: true, deep: true }
+  )
+
+  onUnmounted(() => stop())
+  onUnmounted(() => stopSync())
+
+  function addRoute(route: RouteRecordRaw) {
+    const existing = new Set<string>(router.getRoutes().map(r => String(r.name ?? '')))
+    const name = route.name as string | undefined
+    if (name && existing.has(name))
+      return
+    baseRoutes.value = [...(baseRoutes.value as RouteRecordRaw[]), route]
+    const [rec] = normalizeAndRedirect([route])
+    router.addRoute(rec)
+  }
+
+  function addRoutes(routes: RouteRecordRaw[]) {
+    const existing = new Set<string>(router.getRoutes().map(r => String(r.name ?? '')))
+    const toAdd = routes.filter((r) => {
+      const n = r.name as string | undefined
+      return !n || !existing.has(n)
+    })
+    if (!toAdd.length)
+      return
+    baseRoutes.value = [...(baseRoutes.value as RouteRecordRaw[]), ...toAdd]
+    const recs = normalizeAndRedirect(toAdd)
+    for (const rec of recs) router.addRoute(rec)
+  }
+
+  function removeRoute(id: string) {
+    const name = id
+    if (router.hasRoute(name)) {
+      router.removeRoute(name)
+    }
+    baseRoutes.value = (baseRoutes.value as RouteRecordRaw[]).filter(r => r.name !== id && r.path !== id)
+  }
 
   return {
     collapsed,
+    baseRoutes,
+    addRoute,
+    addRoutes,
+    removeRoute,
     toggle: () => (collapsed.value = !collapsed.value),
     setCollapsed: (v: boolean) => (collapsed.value = v),
     activeKey,

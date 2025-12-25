@@ -9,19 +9,19 @@ export type LayoutType
   = | 'left-menu'
 
   /**
-   * 左侧混合布局：左侧包含菜单及其他功能模块（如用户信息、快捷入口等）
+   * 顶部纯菜单布局：顶部为水平导航菜单，下方为主内容区（无侧边栏）
    */
-    | 'left-mixed'
+    | 'top-menu'
+
+    /**
+     * 左侧混合 + 左侧优先布局：左侧有混合内容，但左侧区域（如全局导航或搜索栏）在视觉或交互上占主导地位
+     */
+    | 'left-mixed-side-priority'
 
   /**
    * 左侧混合 + 顶部优先布局：左侧有混合内容，但顶部区域（如全局导航或搜索栏）在视觉或交互上占主导地位
    */
     | 'left-mixed-top-priority'
-
-  /**
-   * 顶部纯菜单布局：顶部为水平导航菜单，下方为主内容区（无侧边栏）
-   */
-    | 'top-menu'
 
   /**
    * 顶部混合 + 侧边优先布局：顶部含导航或操作栏，但页面主要内容由左侧/右侧侧边区域承载（如配置面板、目录树等）
@@ -74,7 +74,7 @@ export interface RouteMeta {
   /**
    * 使用的布局名称（如 'blank', 'main'）
    */
-  layout?: 'blank' | 'main'
+  layout?: LayoutType
 
   /**
    * 是否开启 keep-alive 缓存
@@ -86,5 +86,8 @@ export interface RouteMeta {
    */
   transition?: string
 
-  // 可继续扩展...
+  /**
+   * 排序
+   */
+  order?: number
 }

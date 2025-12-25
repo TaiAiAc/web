@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { NCard, NForm, NFormItem, NInputNumber, NRadioButton, NRadioGroup, NSwitch } from 'naive-ui'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useLayoutStore } from '../stores/layout'
 
 const layout = useLayoutStore()
@@ -16,10 +17,28 @@ const {
   type
 } = storeToRefs(layout)
 
+const router = useRouter()
+
 const isCollapsed = computed({
   get: () => collapsed.value,
   set: val => layout.setCollapsed(val)
 })
+function addDynamic() {
+  layout.addRoute({
+    path: '/dynamic-example',
+    name: 'DynamicExample',
+    meta: { title: '动态示例-这是一个很长很长的标题', icon: 'mdi:lightning-bolt', order: 90 },
+    component: () => import('../pages/DynamicExample.vue')
+  })
+
+  router.push('/dynamic-example')
+}
+
+function removeDynamic() {
+  const name = 'DynamicExample'
+  layout.removeRoute(name)
+  router.push('/')
+}
 </script>
 
 <template>
@@ -28,22 +47,19 @@ const isCollapsed = computed({
       <NFormItem label="布局类型">
         <NRadioGroup v-model:value="type">
           <NRadioButton value="left-menu">
-            左侧菜单
-          </NRadioButton>
-          <NRadioButton value="left-mixed">
-            左侧混合
-          </NRadioButton>
-          <NRadioButton value="left-mixed-top-priority">
-            左混合-顶优
+            左侧菜单 + 面包屑
           </NRadioButton>
           <NRadioButton value="top-menu">
-            顶部菜单
+            顶部菜单(无侧边栏)
           </NRadioButton>
           <NRadioButton value="top-mixed-side-priority">
-            顶混合-侧优
+            左顶菜单(侧边栏优先)
           </NRadioButton>
           <NRadioButton value="top-mixed-top-priority">
-            顶混合-顶优
+            左顶菜单(顶部优先)
+          </NRadioButton>
+          <NRadioButton value="left-mixed-top-priority">
+            左顶混合(顶部优先)
           </NRadioButton>
           <NRadioButton value="blank">
             无菜单
@@ -72,6 +88,14 @@ const isCollapsed = computed({
         <NInputNumber v-model:value="collapsedWidth" :min="48" :max="120" />
       </NFormItem>
     </NForm>
+  </NCard>
+  <NCard title="动态路由示例" size="small" class="mt-3">
+    <n-button type="primary" @click="addDynamic">
+      添加动态路由“动态示例”
+    </n-button>
+    <n-button class="ml-2" type="error" @click="removeDynamic">
+      删除动态路由“动态示例”
+    </n-button>
   </NCard>
 </template>
 

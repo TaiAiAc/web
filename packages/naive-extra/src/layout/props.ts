@@ -1,4 +1,5 @@
 import type { MenuOption } from 'naive-ui'
+import type { RouteRecordRaw } from 'vue-router'
 import type { LayoutType } from './types'
 
 export type Props = Partial<{
@@ -18,6 +19,11 @@ export type Props = Partial<{
   siderWidth: number
   /** @description 折叠侧边栏宽度 */
   collapsedWidth: number
+  /** @description 当前激活的路由键 */
+  activeKey: string
   /** @description 菜单路由 */
   menuOptions: MenuOption[]
-}>
+}> & {
+  /** @description 基础路由 */
+  baseRoutes: RouteRecordRaw[]
+}

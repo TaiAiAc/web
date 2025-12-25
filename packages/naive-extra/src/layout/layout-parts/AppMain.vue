@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import { injectLayoutContext } from '../context'
+import { useContext } from '../context'
 
-const ctx = injectLayoutContext()!
+const { headerHeight, footerHeight, type } = useContext()
+
+const isBlank = computed(() => unref(type) === 'blank')
 
 function getContentPositionStyle(_: void) {
   return {
-    top: `${ctx.headerHeight}px`,
-    bottom: `${ctx.footerHeight}px`
+    top: isBlank.value ? '0px' : `${unref(headerHeight)}px`,
+    bottom: isBlank.value ? '0px' : `${unref(footerHeight)}px`
   }
 }
 </script>
 
 <template>
-  <NLayoutContent
-    position="absolute"
+  <n-layout-content
+    position="absolute" embedded
     :style="getContentPositionStyle()"
     :native-scrollbar="false"
     content-style="padding: 16px;"
   >
-    <slot />
-  </NLayoutContent>
+    <RouterView />
+  </n-layout-content>
 </template>

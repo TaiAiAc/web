@@ -1,33 +1,68 @@
 <script setup lang="ts">
-import { computed, unref } from 'vue'
-import { injectLayoutContext } from '../context'
+import { useContext } from '../context'
+import AppBreadcrumb from './AppBreadcrumb.vue'
+import AppLeftLogoInfo from './AppLeftLogoInfo.vue'
 
-const ctx = injectLayoutContext()!
+const { type, bordered, inverted, headerHeight, activeKey, hasSiderLayout, isTopMain, menuOptions: options, firstLevelMenuOptions, subLevelMenuOptions, updateActiveKey } = useContext()
 
-function onMenuSelect(key: string) {
-  ctx.updateActiveKey(key)
-}
+const headerStyle = computed(() => ({
+  height: `${unref(headerHeight)}px`,
+  zIndex: 1,
+  padding: unref(hasSiderLayout) ? '0' : '0 16px'
+}))
 
-const activeKey = computed({
-  get: () => ctx.activeKey,
-  set: (key: string) => ctx.updateActiveKey(key)
+const showMenu = computed(() => ['top-menu', 'left-mixed-top-priority', 'top-mixed-top-priority', 'top-mixed-side-priority'].includes(unref(type)!))
+
+const active = ref('')
+
+const topActiveKey = computed({
+  get: () => {
+    if (unref(isTopMain)) {
+      return unref(activeKey)
+    }
+    return active.value
+  },
+  set: (val) => {
+    if (unref(isTopMain)) {
+      updateActiveKey(val!)
+    }
+    else {
+      active.value = val!
+    }
+  }
 })
 
-const inverted = computed(() => unref(ctx.inverted))
-const options = computed(() => unref(ctx.menuOptions))
+const menuOptions = computed(() => {
+  if (unref(type) === 'top-menu')
+    return unref(options)
+  return unref(isTopMain) ? unref(firstLevelMenuOptions) : unref(subLevelMenuOptions)
+})
+
+function onMenuSelect(key: string) {
+  if (unref(isTopMain)) {
+    updateActiveKey(key)
+  }
+  else {
+    active.value = key
+  }
+}
 </script>
 
 <template>
-  <NLayoutHeader position="absolute" :bordered="ctx.bordered" :inverted="inverted" :style="{ height: `${ctx.headerHeight}px`, zIndex: 1 }">
-    <n-flex align="center" class="w-4/5" :style="{ height: `${ctx.headerHeight}px` }">
+  <n-layout-header position="absolute" :bordered="bordered" :inverted="inverted" :style="headerStyle">
+    <n-flex align="center" :wrap="false" class="w-full" :style="{ height: `${headerHeight}px` }">
+      <AppLeftLogoInfo v-if="!hasSiderLayout" />
+      <AppBreadcrumb v-if="type === 'left-menu'" />
       <n-menu
-        v-model:value="activeKey"
+        v-if="showMenu"
+        v-model:value="topActiveKey"
+        class="flex-1"
         mode="horizontal"
-        :options="options"
+        :options="menuOptions"
         responsive
         :inverted="inverted"
         @update:value="onMenuSelect"
       />
     </n-flex>
-  </NLayoutHeader>
+  </n-layout-header>
 </template>

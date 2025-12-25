@@ -52,5 +52,42 @@ export const shortcuts = {
 
   // Interaction
   'cursor-pointer': 'cursor-pointer select-none',
-  'hover-opacity': 'hover:opacity-80 transition-opacity cursor-pointer'
+  'hover-opacity': 'hover:opacity-80 transition-opacity cursor-pointer',
+
+  // ============ 进场/退场动画 shortcuts ============
+
+  // 1. 淡入淡出
+  'anim-fade': 'transition-opacity duration-250 ease-in-out',
+  'anim-fade-enter': 'opacity-0',
+  'anim-fade-leave': 'opacity-0',
+
+  // 2. 从右侧滑入/滑出（适合抽屉、右侧面板）
+  'anim-slide-right': 'transition-transform duration-300 ease-layout',
+  'anim-slide-right-enter': 'translate-x-full',
+  'anim-slide-right-leave': 'translate-x-full',
+
+  // 3. 从左侧滑入/滑出（适合左侧菜单）
+  'anim-slide-left': 'transition-transform duration-300 ease-layout',
+  'anim-slide-left-enter': '-translate-x-full',
+  'anim-slide-left-leave': '-translate-x-full',
+
+  // 4. 缩放淡入（适合弹窗、卡片）
+  'anim-scale-fade': 'transition-[transform,opacity] duration-250 ease-in-out',
+  'anim-scale-fade-enter': 'scale-95 opacity-0',
+  'anim-scale-fade-leave': 'scale-90 opacity-0',
+
+  // 5. ✅ 宽度塌陷动画（核心！用于侧边栏展开/收起）
+  'anim-width-collapse': 'overflow-hidden transition-width duration-300 ease-layout',
+  'anim-width-collapse-enter': 'w-0!',
+  'anim-width-collapse-leave': 'w-0!',
+
+  // 6. 高度塌陷（适合折叠面板）
+  'anim-height-collapse': 'overflow-hidden transition-height duration-300 ease',
+  'anim-height-collapse-enter': 'h-0!',
+  'anim-height-collapse-leave': 'h-0!',
+
+  // ============ 辅助类 ============
+  // 强制内联样式优先级（用于动画结束状态）
+  'w-0!': 'w-0 !important',
+  'h-0!': 'h-0 !important'
 } satisfies UserShortcuts<PresetUnoTheme>

@@ -1,41 +1,71 @@
 <script setup lang="ts">
-import { computed, unref } from 'vue'
-import { injectLayoutContext } from '../context'
+import { computed, ref, unref, watch } from 'vue'
+import { useContext } from '../context'
 import AppLeftLogoInfo from './AppLeftLogoInfo.vue'
 
-const ctx = injectLayoutContext()!
-const width = computed(() => (unref(ctx.isCollapsed) ? unref(ctx.collapsedWidth) : unref(ctx.siderWidth)))
-const option = computed(() => unref(ctx.menuOptions))
-const inverted = computed(() => unref(ctx.inverted))
+const { isCollapsed, collapsedWidth, siderWidth, headerHeight, bordered, inverted, isLeftMain, activeKey, type, menuOptions: options, firstLevelMenuOptions, subLevelMenuOptions, isLeftMixed, updateActiveKey, updateIsCollapsed } = useContext()
+
+const width = computed(() => (unref(isCollapsed) || unref(isLeftMixed) ? unref(collapsedWidth) : unref(siderWidth)))
 
 function handleUpdateValue(key: string) {
-  ctx.updateActiveKey(key)
+  updateActiveKey(key)
+}
+
+function handleUpdateCollapsed(v: boolean) {
+  updateIsCollapsed(v)
+}
+
+const menuOptions = computed(() => {
+  if (unref(type) === 'left-menu')
+    return unref(options)
+  return unref(isLeftMain) ? unref(firstLevelMenuOptions) : unref(subLevelMenuOptions)
+})
+
+const expandedKeys = ref<string[]>([])
+function computeExpandedKeys(path: string) {
+  const parts = String(path ?? '').split('/').filter(Boolean)
+  const keys: string[] = []
+  for (let i = 0; i < parts.length - 1; i++) {
+    keys.push(`/${parts.slice(0, i + 1).join('/')}`)
+  }
+  return keys
+}
+
+watch(activeKey, (p) => {
+  expandedKeys.value = computeExpandedKeys(p as string)
+}, { immediate: true })
+
+function handleUpdateExpandedKeys(keys: string[]) {
+  expandedKeys.value = keys
 }
 </script>
 
 <template>
-  <NLayoutSider
+  <n-layout-sider
     position="absolute"
     collapse-mode="width"
-    show-trigger="bar"
+    :show-trigger="isLeftMixed ? false : 'bar'"
     :width="width"
-    :collapsed-width="ctx.collapsedWidth"
-    :bordered="ctx.bordered"
+    :collapsed-width="collapsedWidth"
+    :bordered="bordered"
     :inverted="inverted"
+    :collapsed="isLeftMixed ? true : isCollapsed"
     :native-scrollbar="false"
-    @update:collapsed="(v) => ctx.updateIsCollapsed(v)"
+    @update:collapsed="handleUpdateCollapsed"
   >
-    <NLayoutHeader :inverted="inverted">
+    <n-layout-header :inverted="inverted">
       <slot name="header">
-        <AppLeftLogoInfo :header-height="ctx.headerHeight" :is-collapsed="ctx.isCollapsed" />
+        <AppLeftLogoInfo :header-height="headerHeight" :is-collapsed="isCollapsed" />
       </slot>
-    </NLayoutHeader>
-    <NMenu
-      :options="option"
-      :collapsed-width="ctx.collapsedWidth"
+    </n-layout-header>
+    <n-menu
+      :value="activeKey"
+      :options="menuOptions"
+      :expanded-keys="expandedKeys"
+      :collapsed-width="collapsedWidth"
       :inverted="inverted"
-      :value="ctx.activeKey"
       @update:value="handleUpdateValue"
+      @update:expanded-keys="handleUpdateExpandedKeys"
     />
-  </NLayoutSider>
+  </n-layout-sider>
 </template>

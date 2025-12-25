@@ -35,7 +35,7 @@ export {
 export type { PopconfirmButtonProps, TooltipButtonProps } from './button'
 export { useForm } from './form'
 export type { CustomSwitchProps, FormProps, FormSchema } from './form'
-export type { LayoutProps, LayoutType } from './layout'
+export type { LayoutProps, LayoutType, RouteMeta } from './layout'
 
 export { useBorderRadio, useColorScheme, useLocale, useTheme } from './provider'
 export type { ProviderProps } from './provider'

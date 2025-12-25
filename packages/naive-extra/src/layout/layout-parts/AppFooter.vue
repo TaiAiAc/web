@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { injectLayoutContext } from '../context'
+import { useContext } from '../context'
 
-const ctx = injectLayoutContext()!
+const { bordered, inverted, footerHeight } = useContext()!
 </script>
 
 <template>
-  <NLayoutFooter position="absolute" :bordered="ctx.bordered" :inverted="ctx.inverted" :style="{ height: `${ctx.footerHeight}px`, zIndex: 1 }">
+  <n-layout-footer position="absolute" :bordered="bordered" :inverted="inverted" :style="{ height: `${footerHeight}px`, zIndex: 1 }">
     <slot />
-  </NLayoutFooter>
+  </n-layout-footer>
 </template>
