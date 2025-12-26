@@ -92,15 +92,15 @@ const {
 
 `QuiLayout` 支持多种布局模式，通过 `type` 属性进行切换。
 
-| 类型 | 描述 |
-| --- | --- |
-| `side-menu` | **左侧菜单模式**：经典的侧边栏菜单布局。 |
-| `top-menu` | **顶部菜单模式**：菜单显示在顶部导航栏。 |
-| `side-menu/2` | **左侧优先双菜单**：左侧为主导航，顶部可展示辅助菜单（视具体实现而定）。 |
-| `top-menu/2` | **顶部优先双菜单**：顶部为主导航，左侧为子菜单。 |
-| `side-mixed-menu/2` | **左侧混合双菜单**：左侧混合模式，配合双菜单显示。 |
-| `top-mixed-menu/2` | **顶部混合双菜单**：顶部混合模式，配合双菜单显示。 |
-| `blank` | **空白模式**：无菜单、无侧边栏，适用于全屏页面或登录页。 |
+| 类型 | 名称 | 描述 |
+| --- | --- | --- |
+| `side-menu` | 左侧菜单布局 | 左侧菜单布局，左侧为垂直导航菜单，右侧为主内容区 |
+| `side-menu/2` | 左侧-顶部菜单布局 | 左侧为垂直导航菜单，顶部为水平导航菜单，下方为主内容区 |
+| `side-mixed-menu/2` | 左侧混合-顶部菜单布局 | 左侧为垂直导航菜单，顶部为水平导航菜单，下方为主内容区 |
+| `top-menu` | 顶部菜单布局 | 无侧边栏，顶部为水平导航菜单，下方为主内容区 |
+| `top-menu/2` | 顶部-左侧菜单布局 | 顶部菜单为主，顶部为水平导航菜单，左侧为垂直导航菜单，下方为主内容区 |
+| `top-mixed-menu/2` | 顶部-左侧混合菜单布局 | 顶部菜单为主，顶部为水平导航菜单，左侧为垂直导航菜单，下方为主内容区 |
+| `blank` | 无菜单布局 | 无菜单布局，页面不包含任何主导航菜单，适用于登录页、引导页、全屏应用等场景 |
 
 > 注意：带 `/2` 后缀的混合模式支持双菜单联动（Main Menu & Sub Menu），组件内部会自动处理 `activeKey` 的同步与解析，实现一级菜单与二级菜单的分离展示与联动。
 
@@ -113,14 +113,14 @@ const {
 | `type` | `LayoutType` | `'side-menu'` | 布局类型 |
 | `baseRoutes` | `RouteRecordRaw[]` | `[]` | 基础路由表，用于生成菜单 |
 | `menuOptions` | `MenuOption[]` | `[]` | 菜单选项数据 |
-| `activeKey` | `string` | `''` | 当前激活的菜单 Key (v-model) |
+| `activeKey` | `string` | `'/'` | 当前激活的菜单 Key (v-model) |
 | `isCollapsed` | `boolean` | `false` | 侧边栏是否折叠 (v-model) |
 | `inverted` | `boolean` | `false` | 是否反色主题 (v-model) |
-| `bordered` | `boolean` | `false` | 是否显示边框 |
-| `headerHeight` | `number` | `60` | 头部高度 |
-| `footerHeight` | `number` | `60` | 底部高度 |
-| `siderWidth` | `number` | `220` | 侧边栏宽度 |
-| `collapsedWidth` | `number` | `64` | 侧边栏折叠后宽度 |
+| `bordered` | `boolean` | `true` | 是否显示边框 |
+| `headerHeight` | `number` | `48` | 头部高度 |
+| `footerHeight` | `number` | `48` | 底部高度 |
+| `siderWidth` | `number` | `240` | 侧边栏宽度 |
+| `collapsedWidth` | `number` | `60` | 侧边栏折叠后宽度 |
 
 ### useLayout 返回值
 
