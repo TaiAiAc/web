@@ -23,7 +23,6 @@ export type Props = Partial<{
   activeKey: string
   /** @description 菜单路由 */
   menuOptions: MenuOption[]
-}> & {
   /** @description 基础路由 */
   baseRoutes: RouteRecordRaw[]
-}
+}>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { NCard, NForm, NFormItem, NInputNumber, NRadioButton, NRadioGroup, NSwitch } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import { DEFAULT_LAYOUT_TYPE, QuiTooltipButton } from '../../../../packages/naive-extra/src'
 import { useLayoutStore } from '../stores/layout'
 
 const layout = useLayoutStore()
@@ -45,26 +45,11 @@ function removeDynamic() {
   <NCard title="布局参数" size="small">
     <NForm label-placement="left" label-width="100">
       <NFormItem label="布局类型">
-        <NRadioGroup v-model:value="type">
-          <NRadioButton value="left-menu">
-            左侧菜单 + 面包屑
-          </NRadioButton>
-          <NRadioButton value="top-menu">
-            顶部菜单(无侧边栏)
-          </NRadioButton>
-          <NRadioButton value="top-mixed-side-priority">
-            左顶菜单(侧边栏优先)
-          </NRadioButton>
-          <NRadioButton value="top-mixed-top-priority">
-            左顶菜单(顶部优先)
-          </NRadioButton>
-          <NRadioButton value="left-mixed-top-priority">
-            左顶混合(顶部优先)
-          </NRadioButton>
-          <NRadioButton value="blank">
-            无菜单
-          </NRadioButton>
-        </NRadioGroup>
+        <n-flex>
+          <QuiTooltipButton v-for="item in DEFAULT_LAYOUT_TYPE" :key="item.name" :tip="item.desc" @click="type = item.type">
+            {{ item.name }}
+          </QuiTooltipButton>
+        </n-flex>
       </NFormItem>
       <NFormItem label="显示边框">
         <NSwitch v-model:value="bordered" />

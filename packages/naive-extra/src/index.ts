@@ -3,7 +3,7 @@ import type { DialogApi, LoadingBarApi, MessageApi, NotificationApi } from 'naiv
 import { QuiPopconfirmButton, QuiTooltipButton } from './button'
 import { QuiForm } from './form'
 import { QuiIcon } from './icon'
-import { QuiLayout, useLayout } from './layout'
+import { DEFAULT_LAYOUT_TYPE, QuiLayout, useLayout } from './layout'
 import { QuiProvider } from './provider'
 import { QuiSearchBar } from './search-bar'
 import { QuiTable } from './table'
@@ -31,6 +31,8 @@ export {
 export {
   useLayout
 }
+
+export { DEFAULT_LAYOUT_TYPE }
 
 export type { PopconfirmButtonProps, TooltipButtonProps } from './button'
 export { useForm } from './form'

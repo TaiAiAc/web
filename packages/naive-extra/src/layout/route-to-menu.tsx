@@ -1,5 +1,4 @@
 import type { MenuOption } from 'naive-ui'
-// utils/route-to-menu.ts
 import type { RouteRecordRaw } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
@@ -63,6 +62,5 @@ export function transformRouteToMenu(
 
     menuOptions.push(menuItem)
   }
-
   return menuOptions
 }

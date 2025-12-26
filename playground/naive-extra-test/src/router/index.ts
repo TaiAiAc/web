@@ -84,6 +84,46 @@ export const routes: RouteRecordRaw[] = [
         ]
       }
     ]
+  },
+  {
+    path: '/test1',
+    redirect: '/test1/page-1',
+    name: 'TestGroup1',
+    meta: { title: '测试充数', icon: 'mdi:test-tube', order: 101 },
+    children: [
+      {
+        path: 'page-1',
+        name: 'TestPage11',
+        component: () => import('../pages/test/text-page-1.vue'),
+        meta: { title: '测试页面 1', icon: 'mdi:numeric-1-circle', order: 1 }
+      },
+      {
+        path: 'page-2',
+        name: 'TestPage21',
+        component: () => import('../pages/test/test-page-2/test-page-2.vue'),
+        meta: { title: '测试页面 2', icon: 'mdi:numeric-2-circle', order: 2 }
+      },
+      {
+        path: 'page-3',
+        name: 'TestPage31',
+        component: () => import('../pages/test/test-page-3/test-page-3.vue'),
+        meta: { title: '测试页面 3', icon: 'mdi:numeric-3-circle', order: 3 },
+        children: [
+          {
+            path: 'page-4',
+            name: 'TestPage41',
+            component: () => import('../pages/test/test-page-3/test-page-4/test-page-4.vue'),
+            meta: { title: '测试页面 4', icon: 'mdi:numeric-4-circle', order: 1 }
+          },
+          {
+            path: 'page-5',
+            name: 'TestPage51',
+            component: () => import('../pages/test/test-page-3/test-page-4/test-page-5.vue'),
+            meta: { title: '测试页面 5', icon: 'mdi:numeric-5-circle', order: 2 }
+          }
+        ]
+      }
+    ]
   }
 ]
 

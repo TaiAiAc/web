@@ -3,7 +3,7 @@ import type { LayoutType } from './types'
 
 export const DEFAULT_LAYOUT_PROPS: Required<Omit<Props, 'baseRoutes'>> = {
   /** @description 布局类型 */
-  type: 'left-menu',
+  type: 'side-menu',
   /** @description 是否显示边框 */
   bordered: true,
   /** @description 反色样式（Header/Sider/Footer/Menu） */
@@ -19,34 +19,45 @@ export const DEFAULT_LAYOUT_PROPS: Required<Omit<Props, 'baseRoutes'>> = {
   /** @description 折叠侧边栏宽度 */
   collapsedWidth: 60,
   /** @description 当前激活的路由键 */
-  activeKey: '',
+  activeKey: '/',
   /** @description 菜单路由 */
   menuOptions: []
 }
 
-export const DEFAULT_LAYOUT_TYPE: { type: LayoutType, name: string }[] = [
+export const DEFAULT_LAYOUT_TYPE: { type: LayoutType, name: string, desc: string }[] = [
   {
-    type: 'left-menu',
-    name: '左侧菜单布局'
+    type: 'side-menu',
+    name: '左侧菜单布局',
+    desc: '左侧菜单布局，左侧为垂直导航菜单，右侧为主内容区'
   },
   {
-    type: 'left-mixed-top-priority',
-    name: '左混合-顶部优先'
+    type: 'side-menu/2',
+    name: '左侧-顶部菜单布局',
+    desc: '左侧为垂直导航菜单，顶部为水平导航菜单，下方为主内容区'
+  },
+  {
+    type: 'side-mixed-menu/2',
+    name: '左侧混合-顶部菜单布局',
+    desc: '左侧为垂直导航菜单，顶部为水平导航菜单，下方为主内容区'
   },
   {
     type: 'top-menu',
-    name: '顶部菜单布局'
+    name: '顶部菜单布局',
+    desc: '无侧边栏，顶部为水平导航菜单，下方为主内容区'
   },
   {
-    type: 'top-mixed-side-priority',
-    name: '顶部混合-侧边优先'
+    type: 'top-menu/2',
+    name: '顶部-左侧菜单布局',
+    desc: '顶部菜单为主，顶部为水平导航菜单，左侧为垂直导航菜单，下方为主内容区'
   },
   {
-    type: 'top-mixed-top-priority',
-    name: '顶部混合-顶部优先'
+    type: 'top-mixed-menu/2',
+    name: '顶部-左侧混合菜单布局',
+    desc: '顶部菜单为主，顶部为水平导航菜单，左侧为垂直导航菜单，下方为主内容区'
   },
   {
     type: 'blank',
-    name: '无菜单布局'
+    name: '无菜单布局',
+    desc: '无菜单布局，页面不包含任何主导航菜单，适用于登录页、引导页、全屏应用等场景'
   }
 ]

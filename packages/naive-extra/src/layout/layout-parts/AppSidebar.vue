@@ -1,24 +1,59 @@
 <script setup lang="ts">
 import { computed, ref, unref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useContext } from '../context'
+import { resolveLeafKeyFromMenu, resolveTopParentKeyFromMenu } from '../utils'
 import AppLeftLogoInfo from './AppLeftLogoInfo.vue'
 
-const { isCollapsed, collapsedWidth, siderWidth, headerHeight, bordered, inverted, isLeftMain, activeKey, type, menuOptions: options, firstLevelMenuOptions, subLevelMenuOptions, isLeftMixed, updateActiveKey, updateIsCollapsed } = useContext()
+const { isCollapsed, collapsedWidth, siderWidth, headerHeight, bordered, inverted, isLeftMain, isTopMain, activeKey, mainActiveKey, subActiveKey, type, menuOptions: options, mainMenuOptions, subMenuOptions, isLeftMixed, updateActiveKey, updateIsCollapsed } = useContext()
 
 const width = computed(() => (unref(isCollapsed) || unref(isLeftMixed) ? unref(collapsedWidth) : unref(siderWidth)))
-
-function handleUpdateValue(key: string) {
-  updateActiveKey(key)
-}
 
 function handleUpdateCollapsed(v: boolean) {
   updateIsCollapsed(v)
 }
 
+const isSideMenu = computed(() => unref(type) === 'side-menu')
+
+const active = ref('')
+
+function getKey(key: string) {
+  const opts = (unref(options) as any[]) || []
+  const topKey = resolveTopParentKeyFromMenu(opts as any, key)
+  const leafKey = resolveLeafKeyFromMenu(opts as any, key)
+  mainActiveKey.value = topKey
+  subActiveKey.value = leafKey
+  return { topKey, leafKey }
+}
+
+watchEffect(() => {
+  if (!isSideMenu.value) {
+    if (unref(isLeftMain)) {
+      const { topKey } = getKey(unref(activeKey)!)
+      active.value = topKey
+    }
+
+    if (unref(isTopMain)) {
+      const { leafKey } = getKey(unref(activeKey)!)
+      active.value = leafKey
+    }
+  }
+})
+
+const router = useRouter()
+function handleUpdateValue(key: string) {
+  updateActiveKey(key)
+  active.value = key
+  if (unref(isLeftMain) && !isSideMenu.value) {
+    const { leafKey } = getKey(key)
+    router.push(leafKey)
+  }
+}
+
 const menuOptions = computed(() => {
-  if (unref(type) === 'left-menu')
+  if (unref(isSideMenu))
     return unref(options)
-  return unref(isLeftMain) ? unref(firstLevelMenuOptions) : unref(subLevelMenuOptions)
+  return unref(isLeftMain) ? unref(mainMenuOptions) : unref(subMenuOptions)
 })
 
 const expandedKeys = ref<string[]>([])
@@ -31,7 +66,7 @@ function computeExpandedKeys(path: string) {
   return keys
 }
 
-watch(activeKey, (p) => {
+watch(active, (p) => {
   expandedKeys.value = computeExpandedKeys(p as string)
 }, { immediate: true })
 
@@ -59,7 +94,7 @@ function handleUpdateExpandedKeys(keys: string[]) {
       </slot>
     </n-layout-header>
     <n-menu
-      :value="activeKey"
+      :value="active"
       :options="menuOptions"
       :expanded-keys="expandedKeys"
       :collapsed-width="collapsedWidth"

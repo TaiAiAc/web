@@ -1,7 +1,7 @@
 /** 提供给用户的布局上下文以及一些协助使用的函数 */
 
 import type { MenuOption } from 'naive-ui'
-import type { ComputedRef, Ref } from 'vue'
+import type { Ref } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import type { LayoutType, RouteMeta } from './types'
 import { computed, isRef, reactive, ref } from 'vue'
@@ -31,41 +31,6 @@ export interface UseLayoutContext {
 }
 
 /**
- * 使用路由生成菜单选项（响应式）
- *
- * 将 Vue Router 的 routes 转换为 Naive UI 的菜单配置，并保持响应式。
- * 支持传入 `Ref<RouteRecordRaw[]>` 或普通数组，内部统一为 ref 处理。
- *
- * @param routes - 路由数组或其响应式引用
- * @returns 返回包含 `menuOptions` 的对象（ComputedRef<MenuOption[]>）
- *
- * @throws {TypeError} 当传入的 routes 不是数组或不符合 RouteRecordRaw 时（仅在 TS 编译期提示）
- *
- * @example
- * ```ts
- * const routes = ref<RouteRecordRaw[]>(router.options.routes)
- * const { menuOptions } = useLayoutMenu(routes)
- * ```
- *
- * @remarks
- * - 内部使用 `transformRouteToMenu` 做路由到菜单的递归转换
- * - `routes` 变更时，`menuOptions` 会自动更新
- *
- * @security
- * - 不执行任何有副作用的操作；仅做数据映射
- *
- * @performance
- * - 递归转换的时间复杂度与路由数量相关，通常可接受
- */
-export function useLayoutMenu(
-  routes: Ref<RouteLike[]> | RouteLike[]
-): { menuOptions: ComputedRef<MenuOption[]> } {
-  const routesRef = isRef(routes) ? routes : ref(routes)
-  const menuOptions = computed<MenuOption[]>(() => transformRouteToMenu(routesRef.value as any))
-  return { menuOptions }
-}
-
-/**
  * 获取扁平路由列表（基于 Vue Router）
  *
  * 读取 `useRouter().getRoutes()` 并转换为简化的 `RouteRecordRaw[]`（扁平结构）。
@@ -85,29 +50,6 @@ export interface RouteLike {
   children?: RouteLike[]
 }
 
-/**
- * 管理布局的活跃菜单键（响应式）
- *
- * 提供响应式的 `activeKey` 与设置函数，便于在上下文中统一状态。
- *
- * @param initialKey - 初始激活键，默认空字符串
- * @returns `activeKey` 与 `setActiveKey` 函数
- *
- * @example
- * ```ts
- * const { activeKey, setActiveKey } = useActiveKey()
- * setActiveKey('/dashboard')
- * ```
- *
- * @remarks
- * - 简化上下文中对当前选中菜单项的管理
- *
- * @security
- * - 无副作用，安全
- *
- * @performance
- * - 常量时间操作
- */
 export function useActiveKey(initialKey = ''): {
   activeKey: Ref<string>
   setActiveKey: (key: string) => void
