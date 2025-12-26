@@ -1,6 +1,8 @@
-import type { Reactive } from 'vue'
+import type { ComputedRef, Reactive, Ref } from 'vue'
+import type { RouteRecordRaw } from 'vue-router'
 import type { Props } from './props'
-import { inject, provide } from 'vue'
+import type { LayoutType } from './types'
+import { computed, inject, provide, reactive, ref, toRef, unref } from 'vue'
 import { normalizeAndRedirect } from './transformRoutes'
 
 export interface LayoutEmits {
@@ -61,23 +63,46 @@ export function provideLayoutContext(props: Required<Props>) {
   provide(HasSiderLayoutKey, hasSiderLayout)
 }
 
-export function useContext() {
+export interface UseContextReturn extends LayoutEmits {
+  ctx: Reactive<LayoutContextState>
+  type: ComputedRef<LayoutType>
+  bordered: ComputedRef<boolean>
+  inverted: ComputedRef<boolean>
+  isCollapsed: ComputedRef<boolean>
+  headerHeight: ComputedRef<number>
+  footerHeight: ComputedRef<number>
+  siderWidth: ComputedRef<number>
+  collapsedWidth: ComputedRef<number>
+  activeKey: ComputedRef<string>
+  subActiveKey: Ref<string>
+  mainActiveKey: Ref<string>
+  menuOptions: ComputedRef<any[]>
+  baseRoutes: ComputedRef<any[]>
+  hasSiderLayout: Ref<boolean>
+  mainMenuOptions: ComputedRef<any[]>
+  subMenuOptions: ComputedRef<any[]>
+  isLeftMain: ComputedRef<boolean>
+  isTopMain: ComputedRef<boolean>
+  isLeftMixed: ComputedRef<boolean>
+}
+
+export function useContext(): UseContextReturn {
   const context = inject<Reactive<LayoutContextState>>(LayoutContextKey)!
   const layoutEmit = inject<Reactive<LayoutEmits>>(LayoutEmitsKey)!
-  const hasSiderLayout = inject<Reactive<boolean>>(HasSiderLayoutKey)!
+  const hasSiderLayout = inject<Ref<boolean>>(HasSiderLayoutKey)!
 
-  const type = computed(() => unref(context.type))
-  const bordered = computed(() => unref(context.bordered))
-  const inverted = computed(() => unref(context.inverted))
-  const isCollapsed = computed(() => unref(context.isCollapsed))
-  const headerHeight = computed(() => unref(context.headerHeight))
-  const footerHeight = computed(() => unref(context.footerHeight))
-  const siderWidth = computed(() => unref(context.siderWidth))
-  const collapsedWidth = computed(() => unref(context.collapsedWidth))
-  const baseRoutes = computed(() => unref((context as any).baseRoutes) ?? [])
+  const type = computed(() => unref(context.type)!)
+  const bordered = computed(() => unref(context.bordered)!)
+  const inverted = computed(() => unref(context.inverted)!)
+  const isCollapsed = computed(() => unref(context.isCollapsed)!)
+  const headerHeight = computed(() => unref(context.headerHeight)!)
+  const footerHeight = computed(() => unref(context.footerHeight)!)
+  const siderWidth = computed(() => unref(context.siderWidth)!)
+  const collapsedWidth = computed(() => unref(context.collapsedWidth)!)
+  const baseRoutes = computed(() => unref((context as any).baseRoutes) ?? []) as ComputedRef<RouteRecordRaw[]>
 
-  const activeKey = computed(() => unref(context.activeKey))
-  const menuOptions = computed(() => unref(context.menuOptions))
+  const activeKey = computed(() => unref(context.activeKey)!)
+  const menuOptions = computed(() => unref(context.menuOptions)!)
 
   const mainActiveKey = toRef(context, 'mainActiveKey')
   const subActiveKey = toRef(context, 'subActiveKey')
