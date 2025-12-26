@@ -1,3 +1,4 @@
+import type { MenuOption } from 'naive-ui'
 import type { ComputedRef, Reactive, Ref } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import type { Props } from './props'
@@ -76,11 +77,11 @@ export interface UseContextReturn extends LayoutEmits {
   activeKey: ComputedRef<string>
   subActiveKey: Ref<string>
   mainActiveKey: Ref<string>
-  menuOptions: ComputedRef<any[]>
-  baseRoutes: ComputedRef<any[]>
+  menuOptions: ComputedRef<MenuOption[]>
+  baseRoutes: ComputedRef<RouteRecordRaw[]>
   hasSiderLayout: Ref<boolean>
-  mainMenuOptions: ComputedRef<any[]>
-  subMenuOptions: ComputedRef<any[]>
+  mainMenuOptions: ComputedRef<MenuOption[]>
+  subMenuOptions: ComputedRef<MenuOption[]>
   isLeftMain: ComputedRef<boolean>
   isTopMain: ComputedRef<boolean>
   isLeftMixed: ComputedRef<boolean>
@@ -148,5 +149,5 @@ export function useContext(): UseContextReturn {
     isTopMain,
     isLeftMixed,
     ...layoutEmit
-  }
+  } as UseContextReturn
 }
