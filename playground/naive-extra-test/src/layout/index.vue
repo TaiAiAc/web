@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { QuiLayout } from 'naive-extra'
 import { storeToRefs } from 'pinia'
-import { QuiLayout } from '../../../../packages/naive-extra/src'
 import { useLayoutStore } from '../stores/layout'
 
 const {

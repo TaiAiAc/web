@@ -1,4 +1,4 @@
-import type { QuiTable } from '@quiteer/naive-extra'
+import type { QuiTable } from 'naive-extra'
 import type { DataTableColumns } from 'naive-ui'
 import { NImage } from 'naive-ui'
 import { ref } from 'vue'

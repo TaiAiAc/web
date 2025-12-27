@@ -3,7 +3,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { useAppStore } from './stores/app'
-import '@quiteer/naive-extra/index.css'
 import '@unocss/reset/tailwind-v4.css'
 import 'virtual:uno.css'
 

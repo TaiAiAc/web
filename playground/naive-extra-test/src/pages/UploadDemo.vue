@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QuiUpload, useUploadProps } from '@quiteer/naive-extra'
+import { QuiUpload, useUploadProps } from 'naive-extra'
 import { ref } from 'vue'
 
 const { getUploadProps, getImageUploadProps, getAudioUploadProps, getVedioUploadProps } = useUploadProps({

@@ -4,6 +4,8 @@ import UnoCSS from '@quiteer/unocss'
 import { AutoImport, Components, Icons, NaiveUiResolver, Vue, VueDevTools, VueJsx } from '@quiteer/vite-plugins'
 import { defineConfig } from 'vite'
 
+const naiveExtraPath = fileURLToPath(new URL('../../packages/naive-extra/src', import.meta.url))
+
 // https://vite.dev/config/
 export default defineConfig({
   server: {
@@ -34,7 +36,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'naive-extra': naiveExtraPath
     }
   }
 })

@@ -1,7 +1,7 @@
 <script setup lang="tsx">
-import type { TableFetchFn } from '@quiteer/naive-extra'
+import type { TableFetchFn } from 'naive-extra'
 import type { DataTableColumns } from 'naive-ui'
-import { QuiTable, useTable } from '@quiteer/naive-extra'
+import { QuiTable, useTable } from 'naive-extra'
 import { NButton, NImage } from 'naive-ui'
 // no ref needed
 

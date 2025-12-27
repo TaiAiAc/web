@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QuiLayout } from '../../../../../../packages/naive-extra/src'
+import { QuiLayout } from 'naive-extra'
 </script>
 
 <template>

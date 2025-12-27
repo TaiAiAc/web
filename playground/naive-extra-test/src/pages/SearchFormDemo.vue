@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { FormSchema } from '@quiteer/naive-extra'
+import type { FormSchema } from 'naive-extra'
 import type { CascaderProps, SelectProps } from 'naive-ui'
-import { QuiSearchBar, useForm } from '@quiteer/naive-extra'
+import { QuiSearchBar, useForm } from 'naive-extra'
 import { reactive, ref } from 'vue'
 
 const schemas: FormSchema<any>[] = reactive([

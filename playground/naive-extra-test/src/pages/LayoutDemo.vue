@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { DEFAULT_LAYOUT_TYPE, QuiTooltipButton } from 'naive-extra'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { DEFAULT_LAYOUT_TYPE, QuiTooltipButton } from '../../../../packages/naive-extra/src'
 import { useLayoutStore } from '../stores/layout'
 
 const layout = useLayoutStore()

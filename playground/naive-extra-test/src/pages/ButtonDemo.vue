@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QuiPopconfirmButton, QuiTooltipButton } from '@quiteer/naive-extra'
+import { QuiPopconfirmButton, QuiTooltipButton } from 'naive-extra'
 </script>
 
 <template>

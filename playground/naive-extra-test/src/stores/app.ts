@@ -1,4 +1,4 @@
-import { useColorScheme, useLocale, useTheme } from '@quiteer/naive-extra'
+import { useColorScheme, useLocale, useTheme } from 'naive-extra'
 import { defineStore } from 'pinia'
 
 const DEFAULT_COLORS = {

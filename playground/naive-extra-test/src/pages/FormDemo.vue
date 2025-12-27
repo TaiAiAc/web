@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { FormSchema, UploadProps } from '@quiteer/naive-extra'
+import type { FormSchema, UploadProps } from 'naive-extra'
 import type { CascaderOption, CascaderProps, DatePickerProps, InputNumberProps, InputProps, SelectProps, TimePickerProps } from 'naive-ui'
-import { QuiForm, useForm } from '@quiteer/naive-extra'
+import { QuiForm, useForm } from 'naive-extra'
 import { reactive, ref } from 'vue'
 
 function getOptions(depth = 3, iterator = 1, prefix = '') {

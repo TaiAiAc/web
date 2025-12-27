@@ -1,4 +1,4 @@
-import type { FormSchema, QuiSearchBar } from '@quiteer/naive-extra'
+import type { FormSchema, QuiSearchBar } from 'naive-extra'
 import type { CascaderProps, SelectProps } from 'naive-ui'
 import { reactive, ref } from 'vue'
 

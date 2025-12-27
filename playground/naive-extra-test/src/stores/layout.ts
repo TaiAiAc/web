@@ -1,7 +1,7 @@
-import type { LayoutType } from '../../../../packages/naive-extra/src'
+import type { LayoutType } from 'naive-extra'
+import { useLayout } from 'naive-extra'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
-import { useLayout } from '../../../../packages/naive-extra/src'
 import { routes } from '../router'
 
 export const useLayoutStore = defineStore('layout', () => {
