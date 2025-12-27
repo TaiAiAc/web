@@ -2,7 +2,7 @@
 import { useBorderRadio } from 'naive-extra'
 import { NAlert, NAvatar, NButton, NCard, NColorPicker, NConfigProvider, NDatePicker, NFlex, NInput, NInputNumber, NPagination, NSelect, NSlider, NTag } from 'naive-ui'
 import { computed, ref } from 'vue'
-import { useAppStore } from '../stores/app'
+import { useAppStore } from '@/stores/app'
 
 const store = useAppStore()
 

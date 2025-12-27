@@ -34,14 +34,19 @@ function getKey(key: string) {
 }
 
 watchEffect(() => {
-  if (unref(isTopMain)) {
-    const { topKey } = getKey(unref(activeKey)!)
-    active.value = topKey
+  if (isTopMenu.value) {
+    active.value = unref(activeKey)!
   }
+  else {
+    if (unref(isTopMain)) {
+      const { topKey } = getKey(unref(activeKey)!)
+      active.value = topKey
+    }
 
-  if (unref(isLeftMain)) {
-    const { leafKey } = getKey(unref(activeKey)!)
-    active.value = leafKey
+    if (unref(isLeftMain)) {
+      const { leafKey } = getKey(unref(activeKey)!)
+      active.value = leafKey
+    }
   }
 })
 

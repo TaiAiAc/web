@@ -33,12 +33,14 @@
   },
   "dependencies": {
     "@quiteer/is": "workspace:*",
+    "@vueuse/core": "^14.1.0",
     "vue-draggable-plus": "^0.6.0",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@quiteer/unocss": "workspace:*",
     "@quiteer/vite-plugins": "workspace:^",
+    "csstype": "^3.2.3",
     "lodash-es": "^4.17.21",
     "naive-ui": "2.43.1",
     "sass": "^1.94.0",

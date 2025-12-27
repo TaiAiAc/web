@@ -241,8 +241,8 @@ defineExpose({
       <template v-if="showAdvancedButton" #header-extra>
         <NFlex align="center" :gap="0" class="text-purple-8">
           {{ expandedNames.length ? '关闭' : '展开' }}
-          <icon-mdi-arrow-up-down-bold v-if="!expandedNames.length" />
-          <icon-mdi-arrow-collapse-vertical v-else />
+          <i v-if="!expandedNames.length" class="i-mdi-arrow-up-down-bold" />
+          <i v-else class="i-mdi-arrow-collapse-vertical" />
         </NFlex>
       </template>
       <NCollapseItem :title="title" name="search">

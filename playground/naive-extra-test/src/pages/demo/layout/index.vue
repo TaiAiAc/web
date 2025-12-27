@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { DEFAULT_LAYOUT_TYPE, QuiTooltipButton } from 'naive-extra'
+import { DEFAULT_LAYOUT_TYPE, QuiBaseButton } from 'naive-extra'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { useLayoutStore } from '../stores/layout'
+import { useLayoutStore } from '@/stores/layout'
 
 const layout = useLayoutStore()
 
@@ -28,7 +28,7 @@ function addDynamic() {
     path: '/dynamic-example',
     name: 'DynamicExample',
     meta: { title: '动态示例-这是一个很长很长的标题', icon: 'mdi:lightning-bolt', order: 90 },
-    component: () => import('../pages/DynamicExample.vue')
+    component: () => import('@/pages/DynamicExample.vue')
   })
 
   router.push('/dynamic-example')
@@ -46,9 +46,9 @@ function removeDynamic() {
     <NForm label-placement="left" label-width="100">
       <NFormItem label="布局类型">
         <n-flex>
-          <QuiTooltipButton v-for="item in DEFAULT_LAYOUT_TYPE" :key="item.name" :tip="item.desc" @click="type = item.type">
+          <QuiBaseButton v-for="item in DEFAULT_LAYOUT_TYPE" :key="item.name" :tooltip="item.desc" @click="type = item.type">
             {{ item.name }}
-          </QuiTooltipButton>
+          </QuiBaseButton>
         </n-flex>
       </NFormItem>
       <NFormItem label="显示边框">

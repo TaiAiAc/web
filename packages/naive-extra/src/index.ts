@@ -1,8 +1,8 @@
 import type { DialogApi, LoadingBarApi, MessageApi, NotificationApi } from 'naive-ui'
 
-import { QuiPopconfirmButton, QuiTooltipButton } from './components/button'
+import { QuiActionButton, QuiBaseButton } from './components/button'
 import { QuiForm } from './components/form'
-import { QuiIcon } from './components/icon'
+import { QuiIcon, QuiIconPicker } from './components/icon'
 import { DEFAULT_LAYOUT_TYPE, QuiLayout, useLayout } from './components/layout'
 import { QuiProvider } from './components/provider'
 import { QuiSearchBar } from './components/search-bar'
@@ -12,14 +12,15 @@ import { AcceptType, QuiUpload, useUploadProps } from './components/upload'
 import 'virtual:uno.css'
 
 export {
+  QuiActionButton,
+  QuiBaseButton,
   QuiForm,
   QuiIcon,
+  QuiIconPicker,
   QuiLayout,
-  QuiPopconfirmButton,
   QuiProvider,
   QuiSearchBar,
   QuiTable,
-  QuiTooltipButton,
   QuiUpload
 }
 
@@ -34,7 +35,7 @@ export {
 
 export { DEFAULT_LAYOUT_TYPE }
 
-export type { PopconfirmButtonProps, TooltipButtonProps } from './components/button'
+export type { ActionItem, BaseButtonProps } from './components/button'
 export { useForm } from './components/form'
 export type { CustomSwitchProps, FormProps, FormSchema } from './components/form'
 export type { LayoutProps, LayoutType, RouteMeta } from './components/layout'

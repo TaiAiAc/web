@@ -27,7 +27,10 @@ function getKey(key: string) {
 }
 
 watchEffect(() => {
-  if (!isSideMenu.value) {
+  if (isSideMenu.value) {
+    active.value = unref(activeKey)!
+  }
+  else {
     if (unref(isLeftMain)) {
       const { topKey } = getKey(unref(activeKey)!)
       active.value = topKey

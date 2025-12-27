@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import { Icon } from '@iconify/vue'
+
+defineProps<{
+  /**
+   * Iconify 图标名称，格式：`collection:name`
+   * 例如：'mdi:home', 'carbon:user', 'tabler:settings'
+   */
+  icon?: string
+  size?: string | number
+  color?: string
+}>()
 </script>
 
 <template>
-  <div class="i-devicon:vuejs" />
-  <div class="i-ri:vuejs-fill" />
-  <div class="icon" />
-  <div class="icon" />
-  <div class="icon" />
+  <Icon
+    v-if="icon"
+    :icon="icon"
+    :width="size"
+    :height="size"
+    :color="color"
+  />
 </template>
-
-<style lang="scss" scoped></style>

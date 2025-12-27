@@ -170,6 +170,8 @@ function introduceSidebar() {
             { text: '使用说明', link: '/plugins/naive-extra/' },
             { text: 'QuiProvider', link: '/plugins/naive-extra/QuiProvider' },
             { text: 'QuiLayout', link: '/plugins/naive-extra/QuiLayout' },
+            { text: 'QuiIcon', link: '/plugins/naive-extra/QuiIcon' },
+            { text: 'QuiButton', link: '/plugins/naive-extra/QuiButton' },
             { text: 'QuiForm', link: '/plugins/naive-extra/QuiForm' },
             { text: 'QuiTable', link: '/plugins/naive-extra/QuiTable' },
             { text: 'QuiUpload', link: '/plugins/naive-extra/QuiUpload' }

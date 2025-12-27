@@ -4,7 +4,7 @@ import { h } from 'vue'
 
 import { useContext } from '../context'
 
-const { baseRoutes, activeKey, updateActiveKey } = useContext()
+const { menuOptions, activeKey, updateActiveKey } = useContext()
 
 /**
  * 生成面包屑项（基于 baseRoutes），叶子页面可点击
@@ -19,53 +19,81 @@ function joinPath(parent: string, p: string) {
 
 function buildIndex(list: any[], parent = '', index = new Map<string, any>(), children = new Map<string, string[]>()) {
   for (const r of (list || [])) {
-    const full = joinPath(parent, r.path)
+    const full = joinPath(parent, r.key || r.path)
     index.set(full, { ...r, path: full })
     const childList = r.children ? (r.children as any[]) : []
-    children.set(full, childList.map(c => joinPath(full, c.path)))
+    children.set(full, childList.map(c => joinPath(full, c.key || c.path)))
     if (childList.length)
       buildIndex(childList, full, index, children)
   }
   return { index, children }
 }
 
+const routeIndex = computed(() => {
+  return buildIndex(unref(menuOptions) as any[] || [])
+})
+
 const crumbs = computed(() => {
   const path = String(unref(activeKey) ?? '')
   const parts = path.split('/').filter(Boolean)
-  const { index, children } = buildIndex(unref(baseRoutes) as any[] || [])
-  const items: { label: string, path: string, icon?: any, clickable: boolean, children: { label: string, key: string, icon?: any }[] }[] = []
+  const { index, children } = routeIndex.value
+  const items: { label: string | (() => any), path: string, icon?: any, clickable: boolean, children: { label: string | (() => any), key: string, icon?: any }[] }[] = []
   for (let i = 0; i < parts.length; i++) {
     const p = `/${parts.slice(0, i + 1).join('/')}`
     const rec = index.get(p)
-    const label = rec?.meta?.title ?? (rec?.name as string) ?? p.split('/').filter(Boolean).pop() ?? ''
-    const iconStr = rec?.meta?.icon as string | undefined
-    const icon = iconStr ? () => h(Icon, { icon: iconStr, width: '18px', height: '18px' }) : undefined
+    const label = rec?.label || rec?.meta?.title || (rec?.name as string) || p.split('/').filter(Boolean).pop() || ''
+
+    let icon = rec?.icon
+    if (!icon && rec?.meta?.icon) {
+      icon = () => h(Icon, { icon: rec.meta.icon, width: '18px', height: '18px' })
+    }
+
     const directChildren = (children.get(p) || [])
     const childOptions = directChildren.map((cp) => {
       const cRec = index.get(cp)
-      const lbl = cRec?.meta?.title ?? (cRec?.name as string) ?? cp.split('/').filter(Boolean).pop() ?? ''
-      const ic = cRec?.meta?.icon as string | undefined
+      const lbl = cRec?.label || cRec?.meta?.title || (cRec?.name as string) || cp.split('/').filter(Boolean).pop() || ''
+
+      let ic = cRec?.icon
+      if (!ic && cRec?.meta?.icon) {
+        ic = () => h(Icon, { icon: cRec.meta.icon, width: '18px', height: '18px' })
+      }
+
       const hasChildren = (children.get(cp) || []).length > 0
       const target = hasChildren ? (cRec?.redirect as string | undefined) ?? cp : cp
       return {
-        label: String(lbl),
+        label: lbl,
         key: target,
-        icon: ic ? () => h(Icon, { icon: ic, width: '18px', height: '18px' }) : undefined
+        icon: ic
       }
     })
-    const isLeaf = directChildren.length === 0
-    items.push({ label: String(label), icon, path: p, clickable: isLeaf, children: childOptions })
+    items.push({ label, icon, path: p, clickable: true, children: childOptions })
   }
 
   return items
 })
 
-function onCrumbClick(to: string) {
-  updateActiveKey(to)
+function findLeaf(path: string): string {
+  const { index, children } = routeIndex.value
+  let current = path
+
+  for (let i = 0; i < 100; i++) { // Prevent infinite loops
+    const rec = index.get(current)
+    if (rec?.redirect) {
+      current = rec.redirect
+      continue
+    }
+
+    const kids = children.get(current)
+    if (!kids || kids.length === 0) {
+      return current
+    }
+    current = kids[0]
+  }
+  return current
 }
 
 function onSelectChild(key: string) {
-  updateActiveKey(key)
+  updateActiveKey(findLeaf(key))
 }
 </script>
 
@@ -80,16 +108,22 @@ function onSelectChild(key: string) {
           trigger="hover"
           @select="onSelectChild"
         >
-          <span
+          <n-flex
+            align="center"
             :class="item.clickable ? 'cursor-pointer' : 'cursor-default opacity-80'"
-            @click="item.clickable ? onCrumbClick(item.path) : undefined"
-          >{{ item.label }}</span>
+          >
+            <component :is="item.label" v-if="typeof item.label === 'function'" />
+            <span v-else>{{ item.label }}</span>
+          </n-flex>
         </n-dropdown>
-        <span
+        <n-flex
           v-else
+          align="center"
           :class="item.clickable ? 'cursor-pointer' : 'cursor-default opacity-80'"
-          @click="item.clickable ? onCrumbClick(item.path) : undefined"
-        >{{ item.label }}</span>
+        >
+          <component :is="item.label" v-if="typeof item.label === 'function'" />
+          <span v-else>{{ item.label }}</span>
+        </n-flex>
       </n-flex>
     </n-breadcrumb-item>
   </n-breadcrumb>

@@ -1,2 +1,2 @@
-export type { PopconfirmButtonProps } from './popconfirm'
-export type { TooltipButtonProps } from './tooltip'
+export type { ActionButtonMode, ActionItem } from './action'
+export type { BaseButtonProps } from './base'

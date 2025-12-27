@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "types": ["node", "naive-ui/volar", "unplugin-icons/types/vue"],
+    "types": ["node", "naive-ui/volar", "unplugin-icons/types/vue", "csstype"],
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
